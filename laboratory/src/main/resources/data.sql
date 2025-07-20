@@ -23,3 +23,65 @@ VALUES
     (nextval('test_item_seq'),'Фактор свёртывания крови VIII (Factor VIII)',880.0),
     (nextval('test_item_seq'),'Антитромбин III (Antithrombin III)',410.0)
 ;
+
+INSERT INTO test_tube_item (id, name)
+VALUES
+    (nextval('test_tube_item_seq'),'Пробирка 2 мл с фиолетовой крышкой'),
+    (nextval('test_tube_item_seq'),'Пробирка 4 мл с красной крышкой'),
+    (nextval('test_tube_item_seq'),'Пробирка 3.5 мл с голубой крышкой'),
+    (nextval('test_tube_item_seq'),'Пробирка 2 мл с серой крышкой'),
+    (nextval('test_tube_item_seq'),'Пробирка 1.5 мл с черной крышкой')
+;
+
+INSERT INTO test_item_test_tube_item_link (test_item_id, tube_item_id)
+VALUES (1, 1),
+        (2, 5),
+        (3, 2),
+        (4, 4);
+
+INSERT INTO test_item_test_tube_item_link (test_item_id, tube_item_id)
+SELECT id, 3
+FROM test_item
+WHERE id BETWEEN 15 AND 22;
+
+INSERT INTO test_item_test_tube_item_link (test_item_id, tube_item_id)
+SELECT id, 2
+FROM test_item
+WHERE id BETWEEN 5 AND 14;
+
+-------------------------------
+INSERT INTO order_status
+VALUES
+    (1, 'Создан'),
+    (2, 'В работе'),
+    (3, 'Завершен'),
+    (4, 'Отменен');
+
+INSERT INTO test_status
+VALUES
+    (1, 'Создан'),
+    (2, 'В работе'),
+    (3, 'Готово'),
+    (4, 'Отменен');
+
+ -------------------------------
+INSERT INTO test_tube_error(id, error_text, need_notify_patient)
+VALUES
+    (nextval('test_tube_error_seq'), 'Тара разбита', 1),
+    (nextval('test_tube_error_seq'), 'Биоматериал испорчен', 1),
+    (nextval('test_tube_error_seq'), 'Биоматериала недостаточно', 1),
+    (nextval('test_tube_error_seq'), 'Реагент закончился', 0),
+    (nextval('test_tube_error_seq'), 'Реагент просрочен', 0),
+    (nextval('test_tube_error_seq'), 'Результаты некорректные', 0)
+;
+
+INSERT INTO test_tube_status
+VALUES
+    (1, 'Подразделение'),
+    (2, 'Транспортировка'),
+    (3, 'В лаборатории'),
+    (4, 'В работе'),
+    (5, 'Архив'),
+    (6, 'Утилизировано'),
+    (7, 'Ошибка')
+;
