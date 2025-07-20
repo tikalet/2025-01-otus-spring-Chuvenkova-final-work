@@ -25,7 +25,7 @@ public class PatientServiceTest {
     @Autowired
     private PatientServiceImpl patientService;
 
-    @DisplayName("должен загрузить пациента по имени")
+    @DisplayName("должен отдать пациента по имени")
     @Test
     void shouldReturnCorrectPatientById() {
         assertThatCode(() -> patientService.findByName(any())).doesNotThrowAnyExceptionExcept();

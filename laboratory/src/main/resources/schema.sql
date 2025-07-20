@@ -8,7 +8,14 @@ CREATE TABLE patient(
     email varchar,
     search_pattern varchar
 );
-
 ALTER TABLE patient ADD PRIMARY KEY (id);
-
 CREATE SEQUENCE patient_seq START WITH 100;
+
+CREATE TABLE test_item(
+    id bigint,
+    name varchar,
+    price int
+);
+
+ALTER TABLE test_item ADD PRIMARY KEY (id);
+CREATE SEQUENCE test_item_seq;

@@ -1,0 +1,25 @@
+INSERT INTO test_item (id, name, price)
+VALUES
+    (nextval('test_item_seq'),'Общий анализ венозной крови [24 показателя]',320.0),
+    (nextval('test_item_seq'),'Скорость оседания эритроцитов (СОЭ) (ESR) венозной крови',170.0),
+    (nextval('test_item_seq'),'Группа крови и резус-фактор (Blood Type + Rh factor) [система AB0]',450.0),
+    (nextval('test_item_seq'),'Глюкоза (Glucose)',145.0),
+    (nextval('test_item_seq'),'Билирубин (Bilirubin) фракции',350.0),
+    (nextval('test_item_seq'),'Креатинин (Creatinine)',170.0),
+    (nextval('test_item_seq'),'Мочевина (Urea)',160.0),
+    (nextval('test_item_seq'),'Мочевая кислота (Uric acid)',160.0),
+    (nextval('test_item_seq'),'Белок общий (Protein total)',160.0),
+    (nextval('test_item_seq'),'Альбумин (Albumin)',160.0),
+    (nextval('test_item_seq'),'Триглицериды (Triglycerides)',160.0),
+    (nextval('test_item_seq'),'Холестерин общий (Cholesterol total)',160.0),
+    (nextval('test_item_seq'),'Аполипопротеины А1 и В (Apolipoproteines А1 & В)',600.0),
+    (nextval('test_item_seq'),'Липопротеин (a) (Lipoprotein (a))',650.0),
+    (nextval('test_item_seq'),'Активированное частичное тромбопластиновое время (АЧТВ) (APTT)',240.0),
+    (nextval('test_item_seq'),'Протромбин (Prothrombin)',260.0),
+    (nextval('test_item_seq'),'Тромбиновое время (Thrombin time)',260.0),
+    (nextval('test_item_seq'),'Фибриноген (Fibrinogen)',260.0),
+    (nextval('test_item_seq'),'Волчаночный антикоагулянт (Lupus anticoagulant)',380.0),
+    (nextval('test_item_seq'),'D-димер (D-dimer)',990.0),
+    (nextval('test_item_seq'),'Фактор свёртывания крови VIII (Factor VIII)',880.0),
+    (nextval('test_item_seq'),'Антитромбин III (Antithrombin III)',410.0)
+;
