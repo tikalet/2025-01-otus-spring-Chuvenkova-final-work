@@ -4,20 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestItem {
+public class TestResult {
 
     private long id;
 
-    private String name;
-
     private int price;
 
-    private Long testTubeId;
+    private long orderResultId;
 
-    private List<LongWrap> measurementItemList;
+    private TestItem testItem;
 }

@@ -5,21 +5,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.laboratory.dto.TestItemDto;
-import ru.otus.laboratory.service.TestItemService;
+import ru.otus.laboratory.dto.TestTubeItemDto;
+import ru.otus.laboratory.service.TestTubeService;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class TestItemControllerRest {
+public class TestTubeControllerRest {
 
-    private final TestItemService testItemService;
+    private final TestTubeService testTubeService;
 
-    @GetMapping("/api/testItem")
-    public ResponseEntity<List<TestItemDto>> getTestItem() {
-        return new ResponseEntity<>(testItemService.findAll(), HttpStatus.OK);
+    @GetMapping("/api/testTubeItem")
+    public ResponseEntity<List<TestTubeItemDto>> getTestItem() {
+        return new ResponseEntity<>(testTubeService.findAll(), HttpStatus.OK);
     }
-
-  
 }

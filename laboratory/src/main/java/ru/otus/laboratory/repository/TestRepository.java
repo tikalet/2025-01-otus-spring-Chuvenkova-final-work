@@ -6,7 +6,9 @@ import ru.otus.laboratory.model.TestItem;
 import java.util.List;
 
 @Mapper
-public interface TestItemRepository {
+public interface TestRepository {
 
     List<TestItem> findAll();
+
+    List<TestItem> findByIds(List<Long> idList);
 }

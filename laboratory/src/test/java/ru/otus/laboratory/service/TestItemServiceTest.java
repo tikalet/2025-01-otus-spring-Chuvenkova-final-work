@@ -8,19 +8,19 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.laboratory.mapper.TestItemMapper;
+import ru.otus.laboratory.mapper.TestIMapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 @DisplayName("Сервис тестов должен")
 @MybatisTest
-@Import({TestItemServiceImpl.class, TestItemMapper.class})
+@Import({TestServiceImpl.class, TestIMapper.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional(propagation = Propagation.NEVER)
 public class TestItemServiceTest {
 
     @Autowired
-    private TestItemServiceImpl testItemService;
+    private TestServiceImpl testItemService;
 
     @DisplayName("отдать список тестов")
     @Test

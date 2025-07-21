@@ -5,7 +5,7 @@ import ru.otus.laboratory.dto.TestItemDto;
 import ru.otus.laboratory.model.TestItem;
 
 @Component
-public class TestItemMapper {
+public class TestIMapper {
 
     public TestItemDto fromModel(TestItem testItem) {
         TestItemDto testItemDto = new TestItemDto();

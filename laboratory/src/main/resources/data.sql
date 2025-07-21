@@ -85,3 +85,19 @@ VALUES
     (6, 'Утилизировано'),
     (7, 'Ошибка')
 ;
+
+INSERT INTO staff_position(id, name)
+VALUES
+    (1, 'Консультант'),
+    (2, 'Лаборант'),
+    (3, 'Врач КЛД'),
+    (4, 'Главный врач лаборатории');
+
+INSERT INTO staff (id, first_name, mid_name, last_name, position_id)
+VALUES
+    (nextval('staff_seq'), 'Аркадий', 'Петрович', 'Жариков', 2),
+    (nextval('staff_seq'), 'Алла', 'Николаевна', 'Сорокина', 1),
+    (nextval('staff_seq'), 'Борис', 'Давидович', 'Пирогов', 4),
+    (nextval('staff_seq'), 'Савелий', 'Николаевич', 'Гоголь', 3)
+;
+

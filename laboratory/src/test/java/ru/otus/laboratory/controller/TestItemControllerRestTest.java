@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.laboratory.dto.TestItemDto;
-import ru.otus.laboratory.service.TestItemService;
+import ru.otus.laboratory.service.TestService;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("REST Контроллер для тестов")
-@WebMvcTest(TestItemControllerRest.class)
+@WebMvcTest(TestIControllerRest.class)
 public class TestItemControllerRestTest {
 
     @Autowired
@@ -29,14 +29,14 @@ public class TestItemControllerRestTest {
     private ObjectMapper mapper;
 
     @MockitoBean
-    private TestItemService testItemService;
+    private TestService testService;
 
     @DisplayName("должен отдать список тестов")
     @Test
     public void shouldReturnPatientByName() throws Exception {
         List<TestItemDto> returnedList = createReturnedTestItemList();
 
-        when(testItemService.findAll()).thenReturn(returnedList);
+        when(testService.findAll()).thenReturn(returnedList);
 
         mvc.perform(get("/api/testItem"))
                 .andExpect(status().isOk())

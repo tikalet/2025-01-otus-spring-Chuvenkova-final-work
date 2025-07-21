@@ -9,15 +9,19 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestItem {
+public class OrderResult {
 
     private long id;
 
-    private String name;
+    private Integer price;
 
-    private int price;
+    private int statusId;
 
-    private Long testTubeId;
+    private String paymentTime;
 
-    private List<LongWrap> measurementItemList;
+    private Long staffId;
+
+    private Long patientId;
+
+    private List<TestResult> testResultList;
 }

@@ -14,11 +14,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 public class TestItemRepositoryTest {
 
     @Autowired
-    private TestItemRepository testItemRepository;
+    private TestRepository testRepository;
 
     @DisplayName("проверить синтаксис findAll")
     @Test
     void shouldCheckAllPatient() {
-        assertThatCode(() -> testItemRepository.findAll()).doesNotThrowAnyException();
+        assertThatCode(() -> testRepository.findAll()).doesNotThrowAnyException();
     }
 }
