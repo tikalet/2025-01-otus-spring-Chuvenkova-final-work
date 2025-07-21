@@ -14,6 +14,15 @@
         <result property="testTubeId" column="test_tube_id"/>
     </resultMap>
 
+    <resultMap id="TestResultMap" type="ru.otus.laboratory.model.TestResult">
+        <id property="id" column="ID"/>
+        <result property="price" column="price"/>
+        <result property="testTubeId" column="test_tube_id"/>
+        <result property="orderResultId" column="order_result_id"/>
+        <result property="staffId" column="staff_id"/>
+        <result property="statusId" column="status_Id"/>
+    </resultMap>
+
     <select id="findAll" resultMap="TestItemMap">
         SELECT id, name, price
         FROM test_item
@@ -31,9 +40,12 @@
             #{id}
         </foreach>
     </select>
+
+    <insert id="createResult" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.TestResult">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('test_result_seq')
+        </selectKey>
+        INSERT INTO public.test_result (id, price, test_item_id, order_result_id, status_id, staff_id)
+        VALUES(#{id}, #{price}, #{testItemId}, #{orderResultId}, #{statusId}, #{staffId})
+    </insert>
 </mapper>
-
-
-        <!--<collection property="testTubeList" resultMap="LongWrapMap"
-                    ofType="ru.otus.laboratory.model.LongWrap" columnPrefix="tube_"/>   -->
-        <!--<association property="formulaItemBean" resultMap="MeasurementFormulaItemDictMap"  columnPrefix="forml_" notNullColumn="ID"/>-->

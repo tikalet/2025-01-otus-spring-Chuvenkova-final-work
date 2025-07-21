@@ -15,5 +15,9 @@ public class TestResult {
 
     private long orderResultId;
 
-    private TestItem testItem;
+    private long testItemId;
+
+    private long staffId;
+
+    private int statusId;
 }

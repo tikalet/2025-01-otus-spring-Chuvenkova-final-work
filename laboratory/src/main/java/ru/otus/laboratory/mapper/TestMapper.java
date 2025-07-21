@@ -2,10 +2,12 @@ package ru.otus.laboratory.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.otus.laboratory.dto.TestItemDto;
+import ru.otus.laboratory.dto.TestResultDto;
 import ru.otus.laboratory.model.TestItem;
+import ru.otus.laboratory.model.TestResult;
 
 @Component
-public class TestIMapper {
+public class TestMapper {
 
     public TestItemDto fromModel(TestItem testItem) {
         TestItemDto testItemDto = new TestItemDto();
@@ -21,5 +23,17 @@ public class TestIMapper {
         testItem.setName(testItemDto.getName());
         testItem.setPrice(testItemDto.getPrice());
         return testItem;
+    }
+
+
+    public TestResultDto fromModel(TestResult testResult) {
+        TestResultDto testResultDto = new TestResultDto();
+        testResultDto.setId(testResult.getId());
+        testResultDto.setPrice(testResult.getPrice());
+        testResultDto.setTestItemId(testResult.getTestItemId());
+        testResultDto.setOrderResultId(testResult.getOrderResultId());
+        testResultDto.setStatusId(testResult.getStatusId());
+        testResultDto.setStaffId(testResult.getStaffId());
+        return testResultDto;
     }
 }

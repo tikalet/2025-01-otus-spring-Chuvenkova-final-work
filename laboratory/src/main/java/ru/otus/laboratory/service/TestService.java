@@ -10,7 +10,7 @@ public interface TestService {
 
     List<TestItemDto> findAll();
 
-    List<TestResultDto> create(Long orderId, List<TestItem> testItemList);
+    List<TestResultDto> create(Long orderId, Long staffId, List<TestItem> testItemList);
 
     List<TestItem> findByIds(List<Long> idList);
 }

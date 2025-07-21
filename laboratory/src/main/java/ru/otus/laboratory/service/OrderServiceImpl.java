@@ -2,6 +2,7 @@ package ru.otus.laboratory.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.dto.OrderResultCreateDto;
 import ru.otus.laboratory.dto.OrderResultDto;
@@ -33,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final TestTubeService testTubeService;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public OrderResultDto create(OrderResultCreateDto orderResultCreateDto) {
         PatientDto patientDto = patientService.findById(orderResultCreateDto.getPatientId());
@@ -46,10 +47,12 @@ public class OrderServiceImpl implements OrderService {
         orderResult.setPaymentTime(dateTimeUtil.now());
         orderRepository.create(orderResult);
 
-        var testResultDtoList = testService.create(orderResult.getId(), testItemList);
+        var testResultDtoList = testService.create(orderResult.getId(), orderResult.getStaffId(), testItemList);
         var testTubeResultDtoList = testTubeService.create(orderResult.getId(), testItemList, testResultDtoList);
 
-        return orderMapper.fromModel(orderResult, patientDto, staffDto);
+        OrderResultDto orderResultDto = orderMapper.fromModel(orderResult, patientDto, staffDto);
+        orderResultDto.setTestResultList(testResultDtoList);
+        return orderResultDto;
     }
 
     private Integer calcTotalSum(List<TestItem> testItemList) {
