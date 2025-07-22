@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
+import ru.otus.laboratory.dto.TestTubeResultNurseDto;
 import ru.otus.laboratory.model.TestTubeItem;
 import ru.otus.laboratory.model.TestTubeResult;
 
@@ -35,5 +36,13 @@ public class TestTubeMapper {
         testTubeResultDto.setBarcode(testTubeResult.getBarcode());
         testTubeResultDto.setTestTubeError(testTubeErrorDto);
         return testTubeResultDto;
+    }
+
+    public TestTubeResultNurseDto fromModel(TestTubeResult testTubeResult, String testTubeName) {
+        TestTubeResultNurseDto testTubeResultNurseDto = new TestTubeResultNurseDto();
+        testTubeResultNurseDto.setTestTubeName(testTubeName);
+        testTubeResultNurseDto.setId(testTubeResult.getId());
+        testTubeResultNurseDto.setBarcode(testTubeResult.getBarcode());
+        return testTubeResultNurseDto;
     }
 }

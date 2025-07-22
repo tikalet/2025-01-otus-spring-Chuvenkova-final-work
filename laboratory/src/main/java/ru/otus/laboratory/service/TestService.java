@@ -11,8 +11,12 @@ public interface TestService {
 
     List<TestItemDto> findAll();
 
+    List<TestItem> findByIds(List<Long> idList);
+
+
     List<TestResultDto> create(Long orderId, Long staffId, List<TestItem> testItemList,
                                List<TestTubeResultDto> testTubeResultDtoList);
 
-    List<TestItem> findByIds(List<Long> idList);
+    void updateStatus(long orderId, int statusId);
+    
 }

@@ -1,12 +1,14 @@
 package ru.otus.laboratory.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.otus.laboratory.dto.OrderResultCreateDto;
 import ru.otus.laboratory.dto.OrderResultDto;
+import ru.otus.laboratory.dto.OrderResultNurseDto;
 import ru.otus.laboratory.dto.PatientDto;
 import ru.otus.laboratory.dto.StaffDto;
+import ru.otus.laboratory.dto.TestTubeResultNurseDto;
 import ru.otus.laboratory.model.OrderResult;
-import ru.otus.laboratory.model.OrderStatus;
+
+import java.util.List;
 
 @Component
 public class OrderMapper {
@@ -22,17 +24,16 @@ public class OrderMapper {
         return orderResultDto;
     }
 
-    public OrderResult toModel(OrderResultDto orderResultDto) {
-        OrderResult orderResult = new OrderResult();
-        return orderResult;
+    public OrderResultNurseDto fromModel(OrderResult orderResult,
+                                         List<TestTubeResultNurseDto> testTubeResultNurseDtoList) {
+        OrderResultNurseDto orderResultDto = new OrderResultNurseDto();
+        orderResultDto.setId(orderResult.getId());
+        orderResultDto.setPatientName(orderResult.getPatient().getLastName()
+                + " " + orderResult.getPatient().getFirstName()
+                + " " + orderResult.getPatient().getMiddleName());
+        orderResultDto.setTestTubeResultList(testTubeResultNurseDtoList);
+        return orderResultDto;
     }
 
-    public OrderResult toModel(OrderResultCreateDto orderResultCreateDto) {
-        OrderResult orderResult = new OrderResult();
-        orderResult.setStatusId(OrderStatus.CREATE);
-        orderResult.setPatientId(orderResultCreateDto.getPatientId());
-        orderResult.setStaffId(orderResultCreateDto.getStaffId());
-        return orderResult;
-    }
 
 }

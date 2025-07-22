@@ -11,6 +11,8 @@ public class TestTubeResult {
 
     private long id;
 
+    private long orderResultId;
+
     private int statusId;
 
     private String barcode;

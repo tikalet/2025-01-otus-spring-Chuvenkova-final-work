@@ -61,6 +61,12 @@ public class TestServiceImpl implements TestService {
         return testResultList;
     }
 
+    @Transactional
+    @Override
+    public void updateStatus(long orderId, int statusId) {
+        testResultRepository.updateStatus(orderId, statusId);
+    }
+
     @Override
     public List<TestItem> findByIds(List<Long> idList) {
         return testItemRepository.findByIds(idList);

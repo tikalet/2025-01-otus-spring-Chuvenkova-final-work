@@ -21,7 +21,7 @@ public class OrderResult {
 
     private Long staffId;
 
-    private Long patientId;
+    private Patient patient;
 
     private List<TestResult> testResultList;
 }

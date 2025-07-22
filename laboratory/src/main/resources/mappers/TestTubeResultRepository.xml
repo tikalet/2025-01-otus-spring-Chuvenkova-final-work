@@ -9,14 +9,32 @@
         <result property="statusId" column="status_Id"/>
         <result property="testTubeItemId" column="test_tube_item_id"/>
         <result property="testTubeErrorId" column="test_tube_error_id"/>
+        <result property="orderResultId" column="order_result_id"/>
     </resultMap>
 
     <insert id="create" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.TestTubeResult">
         <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
             SELECT nextval('test_tube_result_seq')
         </selectKey>
-        INSERT INTO test_tube_result (id, barcode, test_tube_item_id, status_id, test_tube_error_id)
-        VALUES(#{id}, #{barcode}, #{testTubeItemId}, #{statusId}, #{testTubeErrorId})
+        INSERT INTO test_tube_result (id, order_result_id, barcode, test_tube_item_id, status_id, test_tube_error_id)
+        VALUES(#{id}, #{orderResultId}, #{barcode}, #{testTubeItemId}, #{statusId}, #{testTubeErrorId})
     </insert>
+
+    <select id="findByOrderId" resultMap="TestTubeResultMap">
+        select ttr.id,
+        ttr.barcode,
+        ttr.test_tube_item_id,
+        ttr.status_id,
+        ttr.test_tube_error_id
+        from test_tube_result ttr
+        WHERE ttr.order_result_id = #{orderId}
+        ORDER BY ttr.barcode
+    </select>
+
+    <update id="updateStatus">
+        UPDATE test_tube_result
+        SET status_id = #{statusId}
+        WHERE order_result_id = #{orderId}
+    </update>
 
 </mapper>

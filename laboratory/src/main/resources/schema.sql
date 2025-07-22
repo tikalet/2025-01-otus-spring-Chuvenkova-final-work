@@ -96,6 +96,7 @@ ALTER TABLE test_tube_status ADD PRIMARY KEY (id);
 
 CREATE TABLE test_tube_result(
     id bigint,
+    order_result_id bigint,
     barcode varchar,
     test_tube_item_id bigint,
     status_id int,
@@ -107,6 +108,7 @@ CREATE SEQUENCE test_tube_result_seq;
 ALTER TABLE test_tube_result ADD CONSTRAINT test_tube_result_to_item_fk FOREIGN KEY (test_tube_item_id) REFERENCES test_tube_item (id);
 ALTER TABLE test_tube_result ADD CONSTRAINT test_tube_result_to_status_fk FOREIGN KEY (status_id) REFERENCES test_tube_status (id);
 ALTER TABLE test_tube_result ADD CONSTRAINT test_tube_result_to_error_fk FOREIGN KEY (test_tube_error_id) REFERENCES test_tube_error (id);
+ALTER TABLE test_tube_result ADD CONSTRAINT test_tube_result_to_order_result_fk FOREIGN KEY (order_result_id) REFERENCES order_result(id);
 
 CREATE TABLE test_tube_track(
     id bigint,
