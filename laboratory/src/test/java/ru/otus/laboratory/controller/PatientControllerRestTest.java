@@ -47,7 +47,10 @@ public class PatientControllerRestTest {
                 Arguments.of("NAME"),
                 Arguments.of("nameE"),
                 Arguments.of(" name"),
-                Arguments.of("nam e")
+                Arguments.of("nam e"),
+                Arguments.of("ИМЯ"),
+                Arguments.of("имя"),
+                Arguments.of("и Мя")
         );
     }
 

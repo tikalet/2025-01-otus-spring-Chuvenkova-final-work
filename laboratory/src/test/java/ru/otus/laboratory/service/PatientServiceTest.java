@@ -34,16 +34,17 @@ public class PatientServiceTest {
     @DisplayName("должен сохранить пациента")
     @Test
     void shouldCreatePatient() {
-        PatientCreateDto createDto = new PatientCreateDto("F", "M", "L",
+        PatientCreateDto createDto = new PatientCreateDto("Service", "Service", "Service",
                 "1979-02-20", "+7(900)458-85-85", null);
+
         assertThatCode(() -> patientService.create(createDto)).doesNotThrowAnyExceptionExcept();
     }
 
     @DisplayName("должен обновить пациента")
     @Test
     void shouldCUpdatePatient() {
-        PatientUpdateDto updateDto = new PatientUpdateDto(1L, "F", "M", "L",
-                "1979-02-20", "+7(900)458-85-85", null);
+        PatientUpdateDto updateDto = new PatientUpdateDto(1L, "Test", "Test", "Test",
+                "2020-20-20", "+7(900)-999-99-99", null);
         assertThatCode(() -> patientService.update(updateDto)).doesNotThrowAnyExceptionExcept();
     }
 

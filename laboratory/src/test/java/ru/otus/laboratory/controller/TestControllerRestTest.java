@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("REST Контроллер для тестов")
 @WebMvcTest(TestIControllerRest.class)
-public class TestItemControllerRestTest {
+public class TestControllerRestTest {
 
     @Autowired
     private MockMvc mvc;
