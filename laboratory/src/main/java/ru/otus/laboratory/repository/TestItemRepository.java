@@ -2,16 +2,15 @@ package ru.otus.laboratory.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 import ru.otus.laboratory.model.TestItem;
-import ru.otus.laboratory.model.TestResult;
 
 import java.util.List;
 
 @Mapper
-public interface TestRepository {
+public interface TestItemRepository {
 
     List<TestItem> findAll();
 
     List<TestItem> findByIds(List<Long> idList);
 
-    void createResult(TestResult testResult);
+
 }

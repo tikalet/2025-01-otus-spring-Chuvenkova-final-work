@@ -15,9 +15,11 @@ public class TestResultDto {
 
     private long orderResultId;
 
-    private long testItemId;
-
     private long staffId;
 
     private int statusId;
+
+    private TestItemDto testItem;
+
+    private TestTubeResultDto testTubeResult;
 }

@@ -16,7 +16,7 @@
         <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
             SELECT nextval('order_result_seq')
         </selectKey>
-        INSERT INTO public.order_result (id, total_price, status_id, payment_time, staff_id, patient_id)
+        INSERT INTO order_result (id, total_price, status_id, payment_time, staff_id, patient_id)
         VALUES(#{id}, #{price}, #{statusId}, #{paymentTime}, #{staffId}, #{patientId})
     </insert>
 

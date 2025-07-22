@@ -1,4 +1,4 @@
-package ru.otus.laboratory.model;
+package ru.otus.laboratory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,14 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestItem {
+public class TestTubeErrorDto {
 
-    private long id;
+    private int id;
 
     private String name;
-
-    private int price;
-
-    private Long testTubeId;
 
 }

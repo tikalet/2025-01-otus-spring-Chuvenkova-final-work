@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="ru.otus.laboratory.repository.TestTubeRepository">
+<mapper namespace="ru.otus.laboratory.repository.TestTubeItemRepository">
 
     <resultMap id="TestTubeItemMap" type="ru.otus.laboratory.model.TestTubeItem">
         <id property="id" column="ID"/>
@@ -11,5 +11,15 @@
     <select id="findAll" resultMap="TestTubeItemMap">
         SELECT id, name
         FROM test_tube_item
+    </select>
+
+    <select id="findByIds" resultMap="TestTubeItemMap">
+        SELECT ti.id,
+        ti.name
+        FROM test_tube_item ti
+        WHERE ti.id IN
+        <foreach collection="idList" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
     </select>
 </mapper>

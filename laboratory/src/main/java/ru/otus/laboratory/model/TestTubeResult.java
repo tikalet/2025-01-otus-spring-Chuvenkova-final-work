@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,13 +11,11 @@ public class TestTubeResult {
 
     private long id;
 
-    private long orderResultId;
-
     private int statusId;
 
     private String barcode;
 
-    private TestTubeItem testTubeItem;
+    private long testTubeItemId;
 
-    private List<TestResult> testResultList;
+    private Long testTubeErrorId;
 }

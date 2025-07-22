@@ -15,6 +15,7 @@ import ru.otus.laboratory.repository.OrderRepository;
 import ru.otus.laboratory.util.DateTimeUtil;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -47,9 +48,10 @@ public class OrderServiceImpl implements OrderService {
         orderResult.setPaymentTime(dateTimeUtil.now());
         orderRepository.create(orderResult);
 
-        var testResultDtoList = testService.create(orderResult.getId(), orderResult.getStaffId(), testItemList);
-        var testTubeResultDtoList = testTubeService.create(orderResult.getId(), testItemList, testResultDtoList);
-
+        var testTubeResultDtoList = testTubeService.create(calcTestTubeItemIdList(testItemList));
+        var testResultDtoList = testService.create(orderResult.getId(), orderResult.getStaffId(), testItemList,
+                testTubeResultDtoList);
+        
         OrderResultDto orderResultDto = orderMapper.fromModel(orderResult, patientDto, staffDto);
         orderResultDto.setTestResultList(testResultDtoList);
         return orderResultDto;
@@ -57,5 +59,9 @@ public class OrderServiceImpl implements OrderService {
 
     private Integer calcTotalSum(List<TestItem> testItemList) {
         return testItemList.stream().mapToInt(TestItem::getPrice).sum();
+    }
+
+    private List<Long> calcTestTubeItemIdList(List<TestItem> testItemList) {
+        return testItemList.stream().map(TestItem::getTestTubeId).collect(Collectors.toList());
     }
 }

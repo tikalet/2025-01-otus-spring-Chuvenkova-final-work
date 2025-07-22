@@ -7,14 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestItem {
+public class TestTubeError {
 
-    private long id;
+    private int id;
 
     private String name;
 
-    private int price;
-
-    private Long testTubeId;
-
+    private boolean needNotifyPatient;
 }

@@ -12,12 +12,14 @@ public class TestResult {
     private long id;
 
     private int price;
-
-    private long orderResultId;
-
+    
     private long testItemId;
 
     private long staffId;
 
     private int statusId;
+
+    private long orderResultId;
+
+    private long testTubeResultId;
 }
