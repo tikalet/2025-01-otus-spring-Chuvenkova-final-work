@@ -3,13 +3,19 @@ package ru.otus.laboratory.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.laboratory.converter.TestTubeConverter;
+import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
+import ru.otus.laboratory.dto.TestTubeResultOrderDto;
+import ru.otus.laboratory.exceptions.BadSearchParamException;
+import ru.otus.laboratory.exceptions.NotFoundException;
 import ru.otus.laboratory.mapper.TestTubeMapper;
 import ru.otus.laboratory.model.TestTubeItem;
 import ru.otus.laboratory.model.TestTubeResult;
 import ru.otus.laboratory.model.TestTubeStatus;
+import ru.otus.laboratory.model.search.TestTubeResultSearch;
 import ru.otus.laboratory.repository.TestTubeItemRepository;
 import ru.otus.laboratory.repository.TestTubeResultRepository;
 import ru.otus.laboratory.util.DateTimeUtil;
@@ -35,6 +41,8 @@ public class TestTubeServiceImpl implements TestTubeService {
 
     private final DateTimeUtil dateTimeUtil;
 
+    private final TestTubeConverter testTubeConverter;
+
     @Override
     public List<TestTubeItemDto> findAll() {
         return testTubeItemRepository.findAll().stream().map(testTubeMapper::fromModel).toList();
@@ -42,8 +50,8 @@ public class TestTubeServiceImpl implements TestTubeService {
 
     @Transactional
     @Override
-    public List<TestTubeResultDto> create(Long orderResultId, List<Long> testTubeItemIdList) {
-        List<TestTubeResultDto> testTubeResultDtoList = new ArrayList<>();
+    public List<TestTubeResultOrderDto> create(Long orderResultId, List<Long> testTubeItemIdList) {
+        List<TestTubeResultOrderDto> testTubeResultOrderDtoList = new ArrayList<>();
 
         List<TestTubeItem> testTubeItemList = testTubeItemRepository.findByIds(testTubeItemIdList);
 
@@ -59,16 +67,19 @@ public class TestTubeServiceImpl implements TestTubeService {
             testTubeResultRepository.create(testTubeResult);
 
             TestTubeItemDto testTubeItemDto = testTubeMapper.fromModel(tubeItem);
-            TestTubeResultDto testTubeResultDto = testTubeMapper.fromModel(testTubeResult, testTubeItemDto, null);
-            testTubeResultDtoList.add(testTubeResultDto);
+            TestTubeResultOrderDto testTubeResultOrderDto = testTubeMapper.fromModel(testTubeResult, testTubeItemDto, null);
+            testTubeResultOrderDtoList.add(testTubeResultOrderDto);
         }
 
-        return testTubeResultDtoList;
+        return testTubeResultOrderDtoList;
     }
 
     @Override
     public List<TestTubeResultNurseDto> findByOrderId(Long orderId) {
-        List<TestTubeResult> testTubeResultList = testTubeResultRepository.findByOrderId(orderId);
+        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
+        testTubeResultSearch.setOrderId(orderId);
+
+        List<TestTubeResult> testTubeResultList = findTestTubeResultByParam(testTubeResultSearch);
         List<TestTubeItem> testTubeItemList = testTubeItemRepository.findByIds(convertToItemIdList(testTubeResultList));
         Map<Long, String> testTubeItemMap = convertItemNameToMap(testTubeItemList);
 
@@ -85,7 +96,26 @@ public class TestTubeServiceImpl implements TestTubeService {
     @Transactional
     @Override
     public void updateStatus(long orderId, int statusId) {
-        testTubeResultRepository.updateStatus(orderId, statusId);
+        testTubeResultRepository.updateStatusByOrder(orderId, statusId);
+    }
+
+    @Override
+    public TestTubeResultDto findById(Long id) {
+        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
+        testTubeResultSearch.setId(id);
+
+        List<TestTubeResult> testTubeResultList = findTestTubeResultByParam(testTubeResultSearch);
+        TestTubeResult testTubeResult = testTubeResultList.get(0);
+
+        return testTubeMapper.fromModel(testTubeResult, new TestTubeItemDto(), new TestTubeErrorDto(), "");
+    }
+
+    @Transactional
+    @Override
+    public void recordArrivalTestTubeAtLaboratory(String barcode) {
+        testTubeResultRepository.updateStatusByBarcode(barcode, TestTubeStatus.LABORATORY);
+        // create measurement
+        // send message to analyzer
     }
 
     private List<Long> convertToItemIdList(List<TestTubeResult> testTubeResultList) {
@@ -99,4 +129,28 @@ public class TestTubeServiceImpl implements TestTubeService {
         ));
     }
 
+    private List<TestTubeResult> findTestTubeResultByParam(TestTubeResultSearch testTubeResultSearch) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (testTubeResultSearch.getId() != null) {
+            stringBuilder.append(" AND id= #{search.id}");
+        }
+
+        if (testTubeResultSearch.getOrderId() != null) {
+            stringBuilder.append(" AND order_result_id= #{search.orderId}");
+        }
+
+        if (stringBuilder.isEmpty()) {
+            throw new BadSearchParamException("Incorrect test tube search data");
+        }
+
+        var testTubeResultList = testTubeResultRepository.findByParam(testTubeResultSearch, stringBuilder.toString());
+
+        if (testTubeResultList == null || testTubeResultList.isEmpty()) {
+            throw new NotFoundException("Test tube not found by param %s"
+                    .formatted(testTubeConverter.testTubeResultSearchToString(testTubeResultSearch)));
+        }
+
+        return testTubeResultList;
+    }
 }

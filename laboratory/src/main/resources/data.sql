@@ -86,3 +86,5 @@ VALUES
     (nextval('staff_seq'), 'Ирина', 'Петровна', 'Буравчик', 5)
 ;
 
+INSERT INTO analyzer(id, name) VALUES (1, 'Sysmex XT-4000i');
+

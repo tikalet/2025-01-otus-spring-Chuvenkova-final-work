@@ -7,19 +7,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestResultDto {
+public class TestTubeResultOrderDto {
 
     private long id;
 
-    private int price;
-
-    private long orderResultId;
-
-    private long staffId;
-
     private int statusId;
 
-    private TestItemDto testItem;
+    private String barcode;
 
-    private TestTubeResultOrderDto testTubeResult;
+    private TestTubeItemDto testTubeItem;
+
+    private TestTubeErrorDto testTubeError;
 }

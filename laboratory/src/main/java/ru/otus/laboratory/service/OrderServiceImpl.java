@@ -49,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
         PatientDto patientDto = patientService.findById(orderResultCreateDto.getPatientId());
         StaffDto staffDto = staffService.findById(orderResultCreateDto.getStaffId());
 
+        // TODO get from cache
         var testItemList = testService.findByIds(orderResultCreateDto.getTestItemIdList());
 
         OrderResult orderResult = new OrderResult();

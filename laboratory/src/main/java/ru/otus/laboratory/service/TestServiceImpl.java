@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.dto.TestItemDto;
 import ru.otus.laboratory.dto.TestResultDto;
-import ru.otus.laboratory.dto.TestTubeResultDto;
+import ru.otus.laboratory.dto.TestTubeResultOrderDto;
 import ru.otus.laboratory.mapper.TestMapper;
 import ru.otus.laboratory.model.TestItem;
 import ru.otus.laboratory.model.TestResult;
@@ -36,13 +36,13 @@ public class TestServiceImpl implements TestService {
     @Transactional
     @Override
     public List<TestResultDto> create(Long orderId, Long staffId, List<TestItem> testItemList,
-                                      List<TestTubeResultDto> testTubeResultDtoList) {
+                                      List<TestTubeResultOrderDto> testTubeResultOrderDtoList) {
         List<TestResultDto> testResultList = new ArrayList<>();
 
-        Map<Long, TestTubeResultDto> testTubeResultDtoMap = convertTestTubeResultToMap(testTubeResultDtoList);
+        Map<Long, TestTubeResultOrderDto> testTubeResultDtoMap = convertTestTubeResultToMap(testTubeResultOrderDtoList);
 
         for (TestItem testItem : testItemList) {
-            TestTubeResultDto testTubeResultDto = testTubeResultDtoMap.get(testItem.getTestTubeId());
+            TestTubeResultOrderDto testTubeResultOrderDto = testTubeResultDtoMap.get(testItem.getTestTubeId());
 
             TestResult testResult = new TestResult();
             testResult.setStatusId(TestStatus.CREATE);
@@ -50,12 +50,12 @@ public class TestServiceImpl implements TestService {
             testResult.setOrderResultId(orderId);
             testResult.setPrice(testItem.getPrice());
             testResult.setStaffId(staffId);
-            testResult.setTestTubeResultId(testTubeResultDto.getId());
+            testResult.setTestTubeResultId(testTubeResultOrderDto.getId());
 
             testResultRepository.create(testResult);
 
             TestItemDto testItemDto = testMapper.fromModel(testItem);
-            testResultList.add(testMapper.fromModel(testResult, testItemDto, testTubeResultDto));
+            testResultList.add(testMapper.fromModel(testResult, testItemDto, testTubeResultOrderDto));
         }
 
         return testResultList;
@@ -72,8 +72,8 @@ public class TestServiceImpl implements TestService {
         return testItemRepository.findByIds(idList);
     }
 
-    private Map<Long, TestTubeResultDto> convertTestTubeResultToMap(List<TestTubeResultDto> testTubeResultDtoList) {
-        return testTubeResultDtoList.stream().
+    private Map<Long, TestTubeResultOrderDto> convertTestTubeResultToMap(List<TestTubeResultOrderDto> testTubeResultOrderDtoList) {
+        return testTubeResultOrderDtoList.stream().
                 collect(Collectors.toMap(
                         dto -> dto.getTestTubeItem().getId(),
                         dto -> dto));

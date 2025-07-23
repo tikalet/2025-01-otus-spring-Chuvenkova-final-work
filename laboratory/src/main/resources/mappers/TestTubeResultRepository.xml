@@ -24,21 +24,30 @@
         #{takeTestTime}, #{disposalTime})
     </insert>
 
-    <select id="findByOrderId" resultMap="TestTubeResultMap">
-        select ttr.id,
-        ttr.barcode,
-        ttr.test_tube_item_id,
-        ttr.status_id,
-        ttr.test_tube_error_id
-        from test_tube_result ttr
-        WHERE ttr.order_result_id = #{orderId}
-        ORDER BY ttr.barcode
+    <select id="findByParam" resultMap="TestTubeResultMap">
+        select id,
+        order_result_id,
+        barcode,
+        test_tube_item_id,
+        status_id,
+        test_tube_error_id,
+        take_test_time,
+        disposal_time
+        from test_tube_result
+        WHERE 1=1 ${searchCondition}
+        ORDER BY barcode
     </select>
 
-    <update id="updateStatus">
+    <update id="updateStatusByOrder">
         UPDATE test_tube_result
         SET status_id = #{statusId}
         WHERE order_result_id = #{orderId}
+    </update>
+
+    <update id="updateStatusByBarcode">
+        UPDATE test_tube_result
+        SET status_id = #{statusId}
+        WHERE barcode = #{barcode}
     </update>
 
 </mapper>

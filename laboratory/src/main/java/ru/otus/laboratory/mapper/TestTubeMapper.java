@@ -5,6 +5,7 @@ import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
+import ru.otus.laboratory.dto.TestTubeResultOrderDto;
 import ru.otus.laboratory.model.TestTubeItem;
 import ru.otus.laboratory.model.TestTubeResult;
 
@@ -25,17 +26,17 @@ public class TestTubeMapper {
         return testTubeItem;
     }
 
-    public TestTubeResultDto fromModel(TestTubeResult testTubeResult,
-                                       TestTubeItemDto testTubeItemDto,
-                                       TestTubeErrorDto testTubeErrorDto) {
+    public TestTubeResultOrderDto fromModel(TestTubeResult testTubeResult,
+                                            TestTubeItemDto testTubeItemDto,
+                                            TestTubeErrorDto testTubeErrorDto) {
 
-        TestTubeResultDto testTubeResultDto = new TestTubeResultDto();
-        testTubeResultDto.setTestTubeItem(testTubeItemDto);
-        testTubeResultDto.setId(testTubeResult.getId());
-        testTubeResultDto.setStatusId(testTubeResult.getStatusId());
-        testTubeResultDto.setBarcode(testTubeResult.getBarcode());
-        testTubeResultDto.setTestTubeError(testTubeErrorDto);
-        return testTubeResultDto;
+        TestTubeResultOrderDto testTubeResultOrderDto = new TestTubeResultOrderDto();
+        testTubeResultOrderDto.setTestTubeItem(testTubeItemDto);
+        testTubeResultOrderDto.setId(testTubeResult.getId());
+        testTubeResultOrderDto.setStatusId(testTubeResult.getStatusId());
+        testTubeResultOrderDto.setBarcode(testTubeResult.getBarcode());
+        testTubeResultOrderDto.setTestTubeError(testTubeErrorDto);
+        return testTubeResultOrderDto;
     }
 
     public TestTubeResultNurseDto fromModel(TestTubeResult testTubeResult, String testTubeName) {
@@ -44,5 +45,22 @@ public class TestTubeMapper {
         testTubeResultNurseDto.setId(testTubeResult.getId());
         testTubeResultNurseDto.setBarcode(testTubeResult.getBarcode());
         return testTubeResultNurseDto;
+    }
+
+    // TODO add status name and track
+    public TestTubeResultDto fromModel(TestTubeResult testTubeResult,
+                                       TestTubeItemDto testTubeItemDto,
+                                       TestTubeErrorDto testTubeErrorDto,
+                                       String track) {
+
+        TestTubeResultDto testTubeResultDto = new TestTubeResultDto();
+        testTubeResultDto.setTestTubeItem(testTubeItemDto);
+        testTubeResultDto.setId(testTubeResult.getId());
+//        testTubeResultDto.setStatusId(testTubeResult.getStatusId());
+        testTubeResultDto.setBarcode(testTubeResult.getBarcode());
+        testTubeResultDto.setTestTubeError(testTubeErrorDto.getName());
+        testTubeResultDto.setTakeTestTime(testTubeResult.getTakeTestTime());
+        testTubeResultDto.setDisposalTime(testTubeResult.getDisposalTime());
+        return testTubeResultDto;
     }
 }

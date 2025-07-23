@@ -11,11 +11,17 @@ public class TestTubeResultDto {
 
     private long id;
 
-    private int statusId;
+    private long orderResultId;
+
+    private String status;
 
     private String barcode;
 
     private TestTubeItemDto testTubeItem;
 
-    private TestTubeErrorDto testTubeError;
+    private String testTubeError;
+
+    private String takeTestTime;
+
+    private String disposalTime;
 }
