@@ -10,14 +10,18 @@
         <result property="testTubeItemId" column="test_tube_item_id"/>
         <result property="testTubeErrorId" column="test_tube_error_id"/>
         <result property="orderResultId" column="order_result_id"/>
+        <result property="takeTestTime" column="take_test_time"/>
+        <result property="disposalTime" column="disposal_time"/>
     </resultMap>
 
     <insert id="create" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.TestTubeResult">
         <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
             SELECT nextval('test_tube_result_seq')
         </selectKey>
-        INSERT INTO test_tube_result (id, order_result_id, barcode, test_tube_item_id, status_id, test_tube_error_id)
-        VALUES(#{id}, #{orderResultId}, #{barcode}, #{testTubeItemId}, #{statusId}, #{testTubeErrorId})
+        INSERT INTO test_tube_result (id, order_result_id, barcode, test_tube_item_id, status_id, test_tube_error_id,
+        take_test_time, disposal_time)
+        VALUES(#{id}, #{orderResultId}, #{barcode}, #{testTubeItemId}, #{statusId}, #{testTubeErrorId},
+        #{takeTestTime}, #{disposalTime})
     </insert>
 
     <select id="findByOrderId" resultMap="TestTubeResultMap">

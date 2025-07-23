@@ -23,4 +23,11 @@ public class DateTimeUtil {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE);
         return dateTimeFormatter.format(zonedDateTime);
     }
+
+    public String plusDay(String sourceTime, int days) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(ISO);
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(sourceTime, dateTimeFormatter);
+        zonedDateTime = zonedDateTime.plusDays(days);
+        return dateTimeFormatter.format(zonedDateTime);
+    }
 }

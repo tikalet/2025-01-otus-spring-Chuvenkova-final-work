@@ -3,7 +3,6 @@ package ru.otus.laboratory.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
@@ -13,6 +12,7 @@ import ru.otus.laboratory.model.TestTubeResult;
 import ru.otus.laboratory.model.TestTubeStatus;
 import ru.otus.laboratory.repository.TestTubeItemRepository;
 import ru.otus.laboratory.repository.TestTubeResultRepository;
+import ru.otus.laboratory.util.DateTimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 @Service
 public class TestTubeServiceImpl implements TestTubeService {
 
+    private static final int DEFAULT_DISPOSAL_DAY = 7;
+
     private final TestTubeItemRepository testTubeItemRepository;
 
     private final TestTubeResultRepository testTubeResultRepository;
@@ -31,6 +33,7 @@ public class TestTubeServiceImpl implements TestTubeService {
 
     private final BarcodeService barcodeService;
 
+    private final DateTimeUtil dateTimeUtil;
 
     @Override
     public List<TestTubeItemDto> findAll() {
@@ -50,13 +53,13 @@ public class TestTubeServiceImpl implements TestTubeService {
             testTubeResult.setStatusId(TestTubeStatus.DIVISION);
             testTubeResult.setBarcode(barcodeService.generateBarcode());
             testTubeResult.setOrderResultId(orderResultId);
+            testTubeResult.setTakeTestTime(dateTimeUtil.now());
+            testTubeResult.setDisposalTime(dateTimeUtil.plusDay(testTubeResult.getTakeTestTime(), DEFAULT_DISPOSAL_DAY));
 
             testTubeResultRepository.create(testTubeResult);
 
             TestTubeItemDto testTubeItemDto = testTubeMapper.fromModel(tubeItem);
-            TestTubeErrorDto testTubeErrorDto = new TestTubeErrorDto();
-            TestTubeResultDto testTubeResultDto = testTubeMapper.fromModel(testTubeResult, testTubeItemDto,
-                    testTubeErrorDto);
+            TestTubeResultDto testTubeResultDto = testTubeMapper.fromModel(testTubeResult, testTubeItemDto, null);
             testTubeResultDtoList.add(testTubeResultDto);
         }
 
