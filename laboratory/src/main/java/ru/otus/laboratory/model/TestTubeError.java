@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class TestTubeError {
 
-    private int id;
+    private Integer id;
 
-    private String name;
+    private String text;
 
     private boolean needNotifyPatient;
 }

@@ -36,16 +36,4 @@
         WHERE id = #{id}
     </select>
 
-    <resultMap id="TestTubeErrorMap" type="ru.otus.laboratory.model.TestTubeError">
-        <id property="id" column="ID"/>
-        <result property="name" column="name"/>
-        <result property="needNotifyPatient" column="need_notify_patient"/>
-    </resultMap>
-
-    <select id="findTestTubeErrorById" resultMap="TestTubeErrorMap">
-        SELECT id, error_text, need_notify_patient
-        FROM test_tube_error
-        WHERE id = #{id}
-    </select>
-
 </mapper>

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.converter.TestTubeConverter;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
+import ru.otus.laboratory.dto.TestTubeResultErrorUpdateDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
 import ru.otus.laboratory.dto.TestTubeResultOrderDto;
 import ru.otus.laboratory.exceptions.BadSearchParamException;
@@ -13,7 +14,6 @@ import ru.otus.laboratory.exceptions.InvalidStatusException;
 import ru.otus.laboratory.exceptions.NotFoundException;
 import ru.otus.laboratory.mapper.TestTubeMapper;
 import ru.otus.laboratory.model.TestTubeError;
-import ru.otus.laboratory.model.TestTubeItem;
 import ru.otus.laboratory.model.TestTubeResult;
 import ru.otus.laboratory.model.TestTubeStatus;
 import ru.otus.laboratory.model.search.TestTubeResultSearch;
@@ -22,8 +22,6 @@ import ru.otus.laboratory.util.DateTimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -128,16 +126,31 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         // send message to analyzer
     }
 
-    private List<Long> convertToItemIdList(List<TestTubeResult> testTubeResultList) {
-        return testTubeResultList.stream().map(TestTubeResult::getTestTubeItemId).collect(Collectors.toList());
+    @Override
+    public TestTubeResultDto updateErrorInfo(TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto) {
+        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
+        testTubeResultSearch.setId(testTubeResultErrorUpdateDto.getId());
+
+        List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
+        TestTubeResult testTubeResult = testTubeResultList.get(0);
+
+        TestTubeError testTubeError = dictService.findTestTubeErrorById(testTubeResultErrorUpdateDto.getErrorId());
+
+        if (testTubeResultErrorUpdateDto.getErrorId() != null && testTubeError == null) {
+            throw new NotFoundException("Test tube error with id %d not found"
+                    .formatted(testTubeResultErrorUpdateDto.getErrorId()));
+        }
+
+        testTubeResult.setTestTubeErrorId(testTubeResultErrorUpdateDto.getErrorId());
+        testTubeResultRepository.update(testTubeResult);
+
+        return testTubeMapper.fromModel(testTubeResult,
+                testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
+                dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
+                testTubeError != null ? testTubeError.getText() : null,
+                "");
     }
 
-    private Map<Long, String> convertItemNameToMap(List<TestTubeItem> testTubeItemList) {
-        return testTubeItemList.stream().collect(Collectors.toMap(
-                TestTubeItem::getId,
-                TestTubeItem::getName
-        ));
-    }
 
     private List<TestTubeResult> findTestTubeResultsByParam(TestTubeResultSearch testTubeResultSearch) {
         StringBuilder stringBuilder = createSearchConditionFroTestTubeResult(testTubeResultSearch);
@@ -161,7 +174,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         return testTubeMapper.fromModel(testTubeResult,
                 testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
                 dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
-                testTubeError != null ? testTubeError.getName() : null,
+                testTubeError != null ? testTubeError.getText() : null,
                 "");
     }
 

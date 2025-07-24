@@ -1,10 +1,12 @@
 package ru.otus.laboratory.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
 import ru.otus.laboratory.dto.TestTubeResultOrderDto;
+import ru.otus.laboratory.model.TestTubeError;
 import ru.otus.laboratory.model.TestTubeItem;
 import ru.otus.laboratory.model.TestTubeResult;
 
@@ -16,13 +18,6 @@ public class TestTubeMapper {
         testTubeItemDto.setId(testTubeItem.getId());
         testTubeItemDto.setName(testTubeItem.getName());
         return testTubeItemDto;
-    }
-
-    public TestTubeItem toModel(TestTubeItemDto testTubeItemDto) {
-        TestTubeItem testTubeItem = new TestTubeItem();
-        testTubeItem.setId(testTubeItemDto.getId());
-        testTubeItem.setName(testTubeItemDto.getName());
-        return testTubeItem;
     }
 
     public TestTubeResultOrderDto fromModel(TestTubeResult testTubeResult,
@@ -63,5 +58,12 @@ public class TestTubeMapper {
         testTubeResultDto.setDisposalTime(testTubeResult.getDisposalTime());
         testTubeResultDto.setOrderResultId(testTubeResult.getOrderResultId());
         return testTubeResultDto;
+    }
+
+    public TestTubeErrorDto fromModel(TestTubeError testTubeError) {
+        TestTubeErrorDto testTubeErrorDto = new TestTubeErrorDto();
+        testTubeErrorDto.setId(testTubeError.getId());
+        testTubeErrorDto.setText(testTubeError.getText());
+        return testTubeErrorDto;
     }
 }

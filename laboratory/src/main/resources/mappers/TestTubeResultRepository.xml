@@ -50,4 +50,15 @@
         WHERE id = #{id}
     </update>
 
+    <update id="update">
+        UPDATE test_tube_result
+        SET order_result_id=#{orderResultId},
+        barcode=#{barcode},
+        test_tube_item_id=#{testTubeItemId},
+        status_id=#{statusId},
+        test_tube_error_id=#{testTubeErrorId},
+        take_test_time=#{takeTestTime},
+        disposal_time= #{disposalTime}
+        WHERE id=#{id}
+    </update>
 </mapper>

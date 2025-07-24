@@ -1,6 +1,7 @@
 package ru.otus.laboratory.service;
 
 import ru.otus.laboratory.dto.TestTubeResultDto;
+import ru.otus.laboratory.dto.TestTubeResultErrorUpdateDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
 import ru.otus.laboratory.dto.TestTubeResultOrderDto;
 
@@ -19,4 +20,6 @@ public interface TestTubeResultService {
     TestTubeResultDto findByBarcode(String barcode);
 
     void recordArrivalTestTubeAtLaboratory(String barcode);
+
+    TestTubeResultDto updateErrorInfo(TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto);
 }

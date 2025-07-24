@@ -8,12 +8,15 @@ import ru.otus.laboratory.model.TestStatus;
 import ru.otus.laboratory.model.TestTubeError;
 import ru.otus.laboratory.model.TestTubeStatus;
 import ru.otus.laboratory.repository.DictRepository;
+import ru.otus.laboratory.repository.TestTubeErrorRepository;
 
 @RequiredArgsConstructor
 @Service
 public class DictServiceImpl implements DictService {
 
     private final DictRepository dictRepository;
+
+    private final TestTubeErrorRepository testTubeErrorRepository;
 
     @Cacheable(cacheNames = "orderStatus", key = "#id")
     @Override
@@ -36,6 +39,6 @@ public class DictServiceImpl implements DictService {
     @Cacheable(cacheNames = "testTubeError", key = "#id", condition = "#id != null")
     @Override
     public TestTubeError findTestTubeErrorById(Integer id) {
-        return dictRepository.findTestTubeErrorById(id);
+        return testTubeErrorRepository.findById(id);
     }
 }
