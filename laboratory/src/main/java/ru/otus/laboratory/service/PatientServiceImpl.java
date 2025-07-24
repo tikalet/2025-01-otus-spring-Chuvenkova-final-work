@@ -23,6 +23,12 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public List<PatientDto> findByName(String searchPattern) {
+        List<Patient> patientList = patientRepository.findByName(searchPattern);
+
+        if (patientList == null || patientList.isEmpty()) {
+            throw new NotFoundException("Patients with name %s not found".formatted(searchPattern));
+        }
+
         return patientRepository.findByName(searchPattern).stream().map(patientMapper::fromModel).toList();
     }
 

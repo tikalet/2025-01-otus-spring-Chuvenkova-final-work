@@ -4,10 +4,11 @@ import org.apache.ibatis.annotations.Mapper;
 import ru.otus.laboratory.model.TestTubeItem;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface TestTubeItemRepository {
     List<TestTubeItem> findAll();
 
-    List<TestTubeItem> findByIds(List<Long> idList);
+    Optional<TestTubeItem> findById(long idList);
 }

@@ -32,7 +32,7 @@
 
     <select id="findTestTubeStatusById" resultMap="TestTubeStatusMap">
         SELECT id, name
-        FROM test_status
+        FROM test_tube_status
         WHERE id = #{id}
     </select>
 

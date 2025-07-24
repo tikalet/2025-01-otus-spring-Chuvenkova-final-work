@@ -22,7 +22,7 @@
     <select id="findByName" resultMap="PatientMap">
         SELECT id, first_name, mid_name, last_name, birthday, phone, email, search_pattern
         FROM patient
-        WHERE search_pattern = #{searchPattern}
+        WHERE search_pattern like '%' || upper(#{searchPattern}) || '%'
     </select>
 
     <select id="findById" resultMap="PatientMap">

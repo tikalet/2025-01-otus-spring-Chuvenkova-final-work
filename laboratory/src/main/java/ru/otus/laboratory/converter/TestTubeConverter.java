@@ -17,6 +17,10 @@ public class TestTubeConverter {
             stringBuilder.append(" orderId= ").append(testTubeResultSearch.getOrderId());
         }
 
+        if (testTubeResultSearch.getBarcode() != null && !testTubeResultSearch.getBarcode().isEmpty()) {
+            stringBuilder.append(" barcode= ").append(testTubeResultSearch.getBarcode());
+        }
+
         return stringBuilder.toString();
     }
 }

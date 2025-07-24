@@ -10,6 +10,8 @@ import ru.otus.laboratory.dto.OrderResultNurseDto;
 import ru.otus.laboratory.dto.PatientDto;
 import ru.otus.laboratory.dto.StaffDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
+import ru.otus.laboratory.exceptions.InvalidStatusException;
+import ru.otus.laboratory.exceptions.NotFoundException;
 import ru.otus.laboratory.mapper.OrderMapper;
 import ru.otus.laboratory.mapper.PatientMapper;
 import ru.otus.laboratory.model.OrderResult;
@@ -41,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final StaffService staffService;
 
-    private final TestTubeService testTubeService;
+    private final TestTubeResultService testTubeResultService;
 
     private final DictService dictService;
 
@@ -61,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         orderResult.setPaymentTime(dateTimeUtil.now());
         orderRepository.create(orderResult);
 
-        var testTubeResultDtoList = testTubeService.create(orderResult.getId(), calcTestTubeItemIdList(testItemList));
+        var testTubeResultDtoList = testTubeResultService.create(orderResult.getId(), calcTestTubeItemIdList(testItemList));
         var testResultDtoList = testService.create(orderResult.getId(), orderResult.getStaffId(), testItemList,
                 testTubeResultDtoList);
 
@@ -82,17 +84,28 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResultNurseDto findOrderForNurseById(Long id) {
-        OrderResult orderResult = orderRepository.findById(id);
-        List<TestTubeResultNurseDto> testTubeResultNurseDtoList = testTubeService.findByOrderId(id);
+        OrderResult orderResult = findOrderById(id);
+
+        if (orderResult.getStatusId() > OrderStatus.CREATE) {
+            throw new InvalidStatusException("Order with id %d cannot be reopened".formatted(id));
+        }
+
+        List<TestTubeResultNurseDto> testTubeResultNurseDtoList = testTubeResultService.findByOrderId(id);
         return orderMapper.fromModel(orderResult, testTubeResultNurseDtoList);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void updateOrderForNurse(Long id) {
+        OrderResult orderResult = findOrderById(id);
+
+        if (orderResult.getStatusId() > OrderStatus.CREATE) {
+            throw new InvalidStatusException("To pick up the biomaterial for the order with %d".formatted(id));
+        }
+
         orderRepository.updateStatus(id, OrderStatus.IN_WORK);
         testService.updateStatus(id, TestStatus.IN_WORK);
-        testTubeService.updateStatus(id, TestTubeStatus.TRANSPORTATION);
+        testTubeResultService.updateStatus(id, TestTubeStatus.TRANSPORTATION);
     }
 
     private Integer calcTotalSum(List<TestItem> testItemList) {
@@ -101,5 +114,10 @@ public class OrderServiceImpl implements OrderService {
 
     private List<Long> calcTestTubeItemIdList(List<TestItem> testItemList) {
         return testItemList.stream().map(TestItem::getTestTubeId).collect(Collectors.toList());
+    }
+
+    private OrderResult findOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order with id %d not found".formatted(id)));
     }
 }

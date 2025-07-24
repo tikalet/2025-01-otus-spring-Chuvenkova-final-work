@@ -17,5 +17,5 @@ public interface TestTubeResultRepository {
 
     void updateStatusByOrder(@Param("orderId") long orderId, @Param("statusId") int statusId);
 
-    void updateStatusByBarcode(@Param("barcode") String barcode, @Param("statusId") int statusId);
+    void updateStatus(@Param("id") long id, @Param("statusId") int statusId);
 }

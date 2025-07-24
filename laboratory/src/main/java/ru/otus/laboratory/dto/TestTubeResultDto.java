@@ -17,7 +17,7 @@ public class TestTubeResultDto {
 
     private String barcode;
 
-    private TestTubeItemDto testTubeItem;
+    private String testTubeItem;
 
     private String error;
 

@@ -46,6 +46,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidStatusException.class)
+    public ResponseEntity<ErrorDto> handeInvalidStatusException(InvalidStatusException ex) {
+        log.error(ex.getMessage());
+
+        ErrorDto errorDto = new ErrorDto(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDto> handeInternalError(Exception ex) {
         log.error("", ex);

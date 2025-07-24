@@ -18,7 +18,7 @@ public class TestItemRepositoryTest {
 
     @DisplayName("проверить синтаксис findAll")
     @Test
-    void shouldCheckAllPatient() {
+    void shouldCheckAllTestItem() {
         assertThatCode(() -> testItemRepository.findAll()).doesNotThrowAnyException();
     }
 }

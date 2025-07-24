@@ -18,7 +18,8 @@ public class CacheConfig {
                         new ConcurrentMapCache("orderStatus"),
                         new ConcurrentMapCache("testStatus"),
                         new ConcurrentMapCache("testTubeStatus"),
-                        new ConcurrentMapCache("testTubeError")
+                        new ConcurrentMapCache("testTubeError"),
+                        new ConcurrentMapCache("testTubeItem")
                 )
         );
         return cacheManager;

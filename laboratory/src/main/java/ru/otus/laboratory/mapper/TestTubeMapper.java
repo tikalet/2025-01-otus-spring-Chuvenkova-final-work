@@ -48,19 +48,20 @@ public class TestTubeMapper {
 
     // TODO add track
     public TestTubeResultDto fromModel(TestTubeResult testTubeResult,
-                                       TestTubeItemDto testTubeItemDto,
+                                       String testTubeItem,
                                        String status,
                                        String error,
                                        String track) {
 
         TestTubeResultDto testTubeResultDto = new TestTubeResultDto();
-        testTubeResultDto.setTestTubeItem(testTubeItemDto);
+        testTubeResultDto.setTestTubeItem(testTubeItem);
         testTubeResultDto.setId(testTubeResult.getId());
         testTubeResultDto.setStatus(status);
         testTubeResultDto.setBarcode(testTubeResult.getBarcode());
         testTubeResultDto.setError(error);
         testTubeResultDto.setTakeTestTime(testTubeResult.getTakeTestTime());
         testTubeResultDto.setDisposalTime(testTubeResult.getDisposalTime());
+        testTubeResultDto.setOrderResultId(testTubeResult.getOrderResultId());
         return testTubeResultDto;
     }
 }

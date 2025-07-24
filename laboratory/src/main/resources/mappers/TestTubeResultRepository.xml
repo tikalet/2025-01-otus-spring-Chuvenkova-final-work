@@ -44,10 +44,10 @@
         WHERE order_result_id = #{orderId}
     </update>
 
-    <update id="updateStatusByBarcode">
+    <update id="updateStatus">
         UPDATE test_tube_result
         SET status_id = #{statusId}
-        WHERE barcode = #{barcode}
+        WHERE id = #{id}
     </update>
 
 </mapper>

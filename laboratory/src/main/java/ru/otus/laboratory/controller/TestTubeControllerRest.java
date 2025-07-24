@@ -8,22 +8,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.laboratory.dto.TestTubeResultDto;
-import ru.otus.laboratory.service.TestTubeService;
+import ru.otus.laboratory.service.TestTubeResultService;
 
 @RequiredArgsConstructor
 @RestController
 public class TestTubeControllerRest {
 
-    private final TestTubeService testTubeService;
+    private final TestTubeResultService testTubeResultService;
 
-    @GetMapping("/api/testTubeResult/{id}")
+
+    @GetMapping("/api/testTubeResult/id/{id}")
     public ResponseEntity<TestTubeResultDto> getTestTubeResultById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(testTubeService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(testTubeResultService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/testTubeResult/barcode/{barcode}")
+    public ResponseEntity<TestTubeResultDto> getTestTubeResultByBarcode(@PathVariable("barcode") String barcode) {
+        return new ResponseEntity<>(testTubeResultService.findByBarcode(barcode), HttpStatus.OK);
     }
 
     @PutMapping("/api/labAss/testTubeResult/{barcode}")
     public ResponseEntity<Void> recordArrivalTestTubeAtLaboratory(@PathVariable("barcode") String barcode) {
-        testTubeService.recordArrivalTestTubeAtLaboratory(barcode);
+        testTubeResultService.recordArrivalTestTubeAtLaboratory(barcode);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }
