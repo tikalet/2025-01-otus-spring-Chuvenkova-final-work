@@ -17,7 +17,7 @@ public class TestResultDto {
 
     private long staffId;
 
-    private int statusId;
+    private String status;
 
     private TestItemDto testItem;
 

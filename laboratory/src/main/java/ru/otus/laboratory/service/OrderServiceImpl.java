@@ -43,13 +43,14 @@ public class OrderServiceImpl implements OrderService {
 
     private final TestTubeService testTubeService;
 
+    private final DictService dictService;
+
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public OrderResultDto create(OrderResultCreateDto orderResultCreateDto) {
         PatientDto patientDto = patientService.findById(orderResultCreateDto.getPatientId());
         StaffDto staffDto = staffService.findById(orderResultCreateDto.getStaffId());
 
-        // TODO get from cache
         var testItemList = testService.findByIds(orderResultCreateDto.getTestItemIdList());
 
         OrderResult orderResult = new OrderResult();
@@ -64,7 +65,8 @@ public class OrderServiceImpl implements OrderService {
         var testResultDtoList = testService.create(orderResult.getId(), orderResult.getStaffId(), testItemList,
                 testTubeResultDtoList);
 
-        OrderResultDto orderResultDto = orderMapper.fromModel(orderResult, patientDto, staffDto);
+        OrderResultDto orderResultDto = orderMapper.fromModel(orderResult, patientDto, staffDto,
+                dictService.findOrderStatusById(orderResult.getStatusId()).getName());
         orderResultDto.setTestResultList(testResultDtoList);
         return orderResultDto;
     }

@@ -1,5 +1,8 @@
 package ru.otus.laboratory.model;
 
+import lombok.Data;
+
+@Data
 public class TestTubeStatus {
 
     public static final int DIVISION = 1;

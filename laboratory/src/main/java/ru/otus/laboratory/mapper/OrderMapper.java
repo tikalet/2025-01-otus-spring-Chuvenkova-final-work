@@ -13,12 +13,13 @@ import java.util.List;
 @Component
 public class OrderMapper {
 
-    public OrderResultDto fromModel(OrderResult orderResult, PatientDto patientDto, StaffDto staffDto) {
+    public OrderResultDto fromModel(OrderResult orderResult, PatientDto patientDto, StaffDto staffDto,
+                                    String orderStatus) {
         OrderResultDto orderResultDto = new OrderResultDto();
         orderResultDto.setId(orderResult.getId());
         orderResultDto.setPrice(orderResult.getPrice());
         orderResultDto.setPaymentTime(orderResult.getPaymentTime());
-        orderResultDto.setStatusId(orderResult.getStatusId());
+        orderResultDto.setStatus(orderStatus);
         orderResultDto.setStaff(staffDto);
         orderResultDto.setPatient(patientDto);
         return orderResultDto;

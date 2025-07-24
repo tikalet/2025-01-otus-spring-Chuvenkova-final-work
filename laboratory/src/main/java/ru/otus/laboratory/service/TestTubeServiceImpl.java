@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.converter.TestTubeConverter;
-import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
@@ -12,6 +11,7 @@ import ru.otus.laboratory.dto.TestTubeResultOrderDto;
 import ru.otus.laboratory.exceptions.BadSearchParamException;
 import ru.otus.laboratory.exceptions.NotFoundException;
 import ru.otus.laboratory.mapper.TestTubeMapper;
+import ru.otus.laboratory.model.TestTubeError;
 import ru.otus.laboratory.model.TestTubeItem;
 import ru.otus.laboratory.model.TestTubeResult;
 import ru.otus.laboratory.model.TestTubeStatus;
@@ -43,6 +43,8 @@ public class TestTubeServiceImpl implements TestTubeService {
 
     private final TestTubeConverter testTubeConverter;
 
+    private final DictService dictService;
+
     @Override
     public List<TestTubeItemDto> findAll() {
         return testTubeItemRepository.findAll().stream().map(testTubeMapper::fromModel).toList();
@@ -67,7 +69,9 @@ public class TestTubeServiceImpl implements TestTubeService {
             testTubeResultRepository.create(testTubeResult);
 
             TestTubeItemDto testTubeItemDto = testTubeMapper.fromModel(tubeItem);
-            TestTubeResultOrderDto testTubeResultOrderDto = testTubeMapper.fromModel(testTubeResult, testTubeItemDto, null);
+            TestTubeResultOrderDto testTubeResultOrderDto = testTubeMapper.fromModel(testTubeResult, testTubeItemDto,
+                    dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
+                    null);
             testTubeResultOrderDtoList.add(testTubeResultOrderDto);
         }
 
@@ -107,7 +111,12 @@ public class TestTubeServiceImpl implements TestTubeService {
         List<TestTubeResult> testTubeResultList = findTestTubeResultByParam(testTubeResultSearch);
         TestTubeResult testTubeResult = testTubeResultList.get(0);
 
-        return testTubeMapper.fromModel(testTubeResult, new TestTubeItemDto(), new TestTubeErrorDto(), "");
+        TestTubeError testTubeError = dictService.findTestTubeErrorById(testTubeResult.getTestTubeErrorId());
+        
+        return testTubeMapper.fromModel(testTubeResult, new TestTubeItemDto(),
+                dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
+                testTubeError != null ? testTubeError.getName() : null,
+                "");
     }
 
     @Transactional

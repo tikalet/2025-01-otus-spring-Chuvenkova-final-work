@@ -1,7 +1,6 @@
 package ru.otus.laboratory.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
@@ -28,14 +27,14 @@ public class TestTubeMapper {
 
     public TestTubeResultOrderDto fromModel(TestTubeResult testTubeResult,
                                             TestTubeItemDto testTubeItemDto,
-                                            TestTubeErrorDto testTubeErrorDto) {
+                                            String status, String error) {
 
         TestTubeResultOrderDto testTubeResultOrderDto = new TestTubeResultOrderDto();
         testTubeResultOrderDto.setTestTubeItem(testTubeItemDto);
         testTubeResultOrderDto.setId(testTubeResult.getId());
-        testTubeResultOrderDto.setStatusId(testTubeResult.getStatusId());
+        testTubeResultOrderDto.setStatus(status);
         testTubeResultOrderDto.setBarcode(testTubeResult.getBarcode());
-        testTubeResultOrderDto.setTestTubeError(testTubeErrorDto);
+        testTubeResultOrderDto.setError(error);
         return testTubeResultOrderDto;
     }
 
@@ -47,18 +46,19 @@ public class TestTubeMapper {
         return testTubeResultNurseDto;
     }
 
-    // TODO add status name and track
+    // TODO add track
     public TestTubeResultDto fromModel(TestTubeResult testTubeResult,
                                        TestTubeItemDto testTubeItemDto,
-                                       TestTubeErrorDto testTubeErrorDto,
+                                       String status,
+                                       String error,
                                        String track) {
 
         TestTubeResultDto testTubeResultDto = new TestTubeResultDto();
         testTubeResultDto.setTestTubeItem(testTubeItemDto);
         testTubeResultDto.setId(testTubeResult.getId());
-//        testTubeResultDto.setStatusId(testTubeResult.getStatusId());
+        testTubeResultDto.setStatus(status);
         testTubeResultDto.setBarcode(testTubeResult.getBarcode());
-        testTubeResultDto.setTestTubeError(testTubeErrorDto.getName());
+        testTubeResultDto.setError(error);
         testTubeResultDto.setTakeTestTime(testTubeResult.getTakeTestTime());
         testTubeResultDto.setDisposalTime(testTubeResult.getDisposalTime());
         return testTubeResultDto;

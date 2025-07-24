@@ -27,13 +27,15 @@ public class TestMapper {
     }
 
 
-    public TestResultDto fromModel(TestResult testResult, TestItemDto testItemDto, TestTubeResultOrderDto testTubeResultOrderDto) {
+    public TestResultDto fromModel(TestResult testResult, TestItemDto testItemDto,
+                                   TestTubeResultOrderDto testTubeResultOrderDto,
+                                   String status) {
         TestResultDto testResultDto = new TestResultDto();
         testResultDto.setId(testResult.getId());
         testResultDto.setPrice(testResult.getPrice());
         testResultDto.setTestItem(testItemDto);
         testResultDto.setOrderResultId(testResult.getOrderResultId());
-        testResultDto.setStatusId(testResult.getStatusId());
+        testResultDto.setStatus(status);
         testResultDto.setStaffId(testResult.getStaffId());
         testResultDto.setTestTubeResult(testTubeResultOrderDto);
         return testResultDto;

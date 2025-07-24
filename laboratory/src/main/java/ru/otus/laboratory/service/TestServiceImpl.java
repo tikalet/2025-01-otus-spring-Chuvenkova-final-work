@@ -28,6 +28,8 @@ public class TestServiceImpl implements TestService {
 
     private final TestResultRepository testResultRepository;
 
+    private final DictService dictService;
+
     @Override
     public List<TestItemDto> findAll() {
         return testItemRepository.findAll().stream().map(testMapper::fromModel).toList();
@@ -55,7 +57,8 @@ public class TestServiceImpl implements TestService {
             testResultRepository.create(testResult);
 
             TestItemDto testItemDto = testMapper.fromModel(testItem);
-            testResultList.add(testMapper.fromModel(testResult, testItemDto, testTubeResultOrderDto));
+            testResultList.add(testMapper.fromModel(testResult, testItemDto, testTubeResultOrderDto,
+                    dictService.findTestStatusById(testResult.getStatusId()).getName()));
         }
 
         return testResultList;

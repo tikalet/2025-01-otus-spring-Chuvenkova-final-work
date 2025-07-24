@@ -19,7 +19,7 @@ public class TestTubeResult {
 
     private long testTubeItemId;
 
-    private Long testTubeErrorId;
+    private Integer testTubeErrorId;
 
     private String takeTestTime;
 

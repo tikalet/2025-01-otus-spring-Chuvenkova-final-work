@@ -15,7 +15,7 @@ public class OrderResultDto {
 
     private Integer price;
 
-    private int statusId;
+    private String status;
 
     private String paymentTime;
 

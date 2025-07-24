@@ -19,7 +19,7 @@ public class TestTubeResultDto {
 
     private TestTubeItemDto testTubeItem;
 
-    private String testTubeError;
+    private String error;
 
     private String takeTestTime;
 
