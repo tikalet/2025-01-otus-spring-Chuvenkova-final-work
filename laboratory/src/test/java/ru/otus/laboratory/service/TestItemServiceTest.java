@@ -6,25 +6,22 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.mapper.TestMapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 @DisplayName("Сервис тестов должен")
 @MybatisTest
-@Import({TestServiceImpl.class, TestMapper.class})
+@Import({TestItemServiceImpl.class, TestMapper.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Transactional(propagation = Propagation.NEVER)
 public class TestItemServiceTest {
 
     @Autowired
-    private TestServiceImpl testItemService;
+    private TestItemServiceImpl testItemService;
 
     @DisplayName("отдать список тестов")
     @Test
-    void shouldReturnCorrectPatientById() {
+    void shouldReturnAllTest() {
         assertThatCode(() -> testItemService.findAll()).doesNotThrowAnyExceptionExcept();
     }
 }

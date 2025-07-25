@@ -3,6 +3,7 @@ package ru.otus.laboratory.mapper;
 import org.springframework.stereotype.Component;
 import ru.otus.laboratory.dto.TestItemDto;
 import ru.otus.laboratory.dto.TestResultDto;
+import ru.otus.laboratory.dto.TestResultOrderDto;
 import ru.otus.laboratory.dto.TestTubeResultOrderDto;
 import ru.otus.laboratory.model.TestItem;
 import ru.otus.laboratory.model.TestResult;
@@ -15,6 +16,7 @@ public class TestMapper {
         testItemDto.setId(testItem.getId());
         testItemDto.setName(testItem.getName());
         testItemDto.setPrice(testItem.getPrice());
+        testItemDto.setTestTubeId(testItem.getTestTubeId());
         return testItemDto;
     }
 
@@ -26,18 +28,26 @@ public class TestMapper {
         return testItem;
     }
 
+    public TestResultOrderDto fromModel(TestResult testResult, TestItemDto testItemDto,
+                                        TestTubeResultOrderDto testTubeResultOrderDto,
+                                        String status) {
+        TestResultOrderDto testResultOrderDto = new TestResultOrderDto();
+        testResultOrderDto.setId(testResult.getId());
+        testResultOrderDto.setPrice(testResult.getPrice());
+        testResultOrderDto.setTestItem(testItemDto);
+        testResultOrderDto.setOrderResultId(testResult.getOrderResultId());
+        testResultOrderDto.setStatus(status);
+        testResultOrderDto.setStaffId(testResult.getStaffId());
+        testResultOrderDto.setTestTubeResult(testTubeResultOrderDto);
+        return testResultOrderDto;
+    }
 
-    public TestResultDto fromModel(TestResult testResult, TestItemDto testItemDto,
-                                   TestTubeResultOrderDto testTubeResultOrderDto,
-                                   String status) {
-        TestResultDto testResultDto = new TestResultDto();
-        testResultDto.setId(testResult.getId());
-        testResultDto.setPrice(testResult.getPrice());
-        testResultDto.setTestItem(testItemDto);
-        testResultDto.setOrderResultId(testResult.getOrderResultId());
-        testResultDto.setStatus(status);
-        testResultDto.setStaffId(testResult.getStaffId());
-        testResultDto.setTestTubeResult(testTubeResultOrderDto);
-        return testResultDto;
+    public TestResultDto fromModel(TestResult testResult, String testItemName, String status) {
+        TestResultDto testResultOrderDto = new TestResultDto();
+        testResultOrderDto.setId(testResult.getId());
+        testResultOrderDto.setTestItem(testItemName);
+        testResultOrderDto.setOrderResultId(testResult.getOrderResultId());
+        testResultOrderDto.setStatus(status);
+        return testResultOrderDto;
     }
 }

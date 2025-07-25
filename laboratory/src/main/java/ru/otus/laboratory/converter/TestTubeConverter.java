@@ -21,6 +21,14 @@ public class TestTubeConverter {
             stringBuilder.append(" barcode= ").append(testTubeResultSearch.getBarcode());
         }
 
+        if (testTubeResultSearch.getTime() != null && !testTubeResultSearch.getTime().isEmpty()) {
+            stringBuilder.append(" time= ").append(testTubeResultSearch.getTime());
+        }
+
+        if (testTubeResultSearch.getStatusId() != null) {
+            stringBuilder.append(" statusId= ").append(testTubeResultSearch.getStatusId());
+        }
+
         return stringBuilder.toString();
     }
 }

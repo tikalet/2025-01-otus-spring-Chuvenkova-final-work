@@ -6,20 +6,16 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.dto.PatientCreateDto;
 import ru.otus.laboratory.dto.PatientUpdateDto;
 import ru.otus.laboratory.mapper.PatientMapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
-import static org.mockito.ArgumentMatchers.any;
 
 @DisplayName("Сервис пациентов должен")
 @MybatisTest
 @Import({PatientServiceImpl.class, PatientMapper.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Transactional(propagation = Propagation.NEVER)
 public class PatientServiceTest {
 
     @Autowired
@@ -28,7 +24,7 @@ public class PatientServiceTest {
     @DisplayName("должен отдать пациента по имени")
     @Test
     void shouldReturnCorrectPatientById() {
-        assertThatCode(() -> patientService.findByName(any())).doesNotThrowAnyExceptionExcept();
+        assertThatCode(() -> patientService.findByName("TEST")).doesNotThrowAnyExceptionExcept();
     }
 
     @DisplayName("должен сохранить пациента")

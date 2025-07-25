@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.laboratory.dto.TestItemDto;
-import ru.otus.laboratory.service.TestService;
+import ru.otus.laboratory.service.TestItemService;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ import java.util.List;
 @RestController
 public class TestIControllerRest {
 
-    private final TestService testService;
+    private final TestItemService testItemService;
 
     @GetMapping("/api/testItem")
     public ResponseEntity<List<TestItemDto>> getTestItem() {
-        return new ResponseEntity<>(testService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(testItemService.findAll(), HttpStatus.OK);
     }
 
 

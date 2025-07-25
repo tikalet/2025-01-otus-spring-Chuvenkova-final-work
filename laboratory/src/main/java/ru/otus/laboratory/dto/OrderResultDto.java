@@ -23,6 +23,6 @@ public class OrderResultDto {
 
     private StaffDto staff;
 
-    private List<TestResultDto> testResultList;
+    private List<TestResultOrderDto> testResultList;
 
 }

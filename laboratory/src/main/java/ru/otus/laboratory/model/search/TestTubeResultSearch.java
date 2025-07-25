@@ -12,4 +12,8 @@ public class TestTubeResultSearch {
     private Long orderId;
 
     private String barcode;
+
+    private String time;
+    
+    private Long statusId;
 }

@@ -1,12 +1,15 @@
 package ru.otus.laboratory.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import ru.otus.laboratory.dto.ErrorDto;
 
 import java.util.List;
@@ -33,6 +36,23 @@ public class GlobalExceptionHandler {
         String errorMessage = allErrors.stream()
                 .map(ObjectError::getDefaultMessage)
                 .collect(Collectors.joining("." + System.lineSeparator()));
+
+        ErrorDto errorDto = new ErrorDto(HttpStatus.BAD_REQUEST.value(), errorMessage);
+        return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<ErrorDto> handeHandlerMethodValidationException(HandlerMethodValidationException ex) {
+        log.error("", ex);
+
+        List<ParameterValidationResult> parameterValidationResults = ex.getParameterValidationResults();
+
+        String errorMessage = parameterValidationResults.stream()
+                .flatMap(parameterValidationResult -> parameterValidationResult
+                        .getResolvableErrors().stream()
+                        .map(MessageSourceResolvable::getDefaultMessage))
+                .collect(Collectors.joining("." + System.lineSeparator()));
+
 
         ErrorDto errorDto = new ErrorDto(HttpStatus.BAD_REQUEST.value(), errorMessage);
         return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.BAD_REQUEST);

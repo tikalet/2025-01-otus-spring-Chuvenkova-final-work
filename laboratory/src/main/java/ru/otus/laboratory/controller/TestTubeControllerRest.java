@@ -1,6 +1,7 @@
 package ru.otus.laboratory.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,16 @@ public class TestTubeControllerRest {
     @GetMapping("/api/testTubeResult/barcode/{barcode}")
     public ResponseEntity<TestTubeResultDto> getTestTubeResultByBarcode(@PathVariable("barcode") String barcode) {
         return new ResponseEntity<>(testTubeResultService.findByBarcode(barcode), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/testTubeResult/time/{time}/status/{status}")
+    public ResponseEntity<List<TestTubeResultDto>> getTestTubeResultByTimeAndStatus(
+            @Valid @PathVariable("time")
+            @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Time parameter must be in format yyyy-MM-dd")
+            String time,
+            @PathVariable("status") Long statusId) {
+        return new ResponseEntity<>(testTubeResultService.findTestTubeResultByTimeAndStatus(time, statusId),
+                HttpStatus.OK);
     }
 
     @PutMapping("/api/testTubeResult/error")

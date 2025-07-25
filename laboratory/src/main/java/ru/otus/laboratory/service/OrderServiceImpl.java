@@ -9,6 +9,7 @@ import ru.otus.laboratory.dto.OrderResultDto;
 import ru.otus.laboratory.dto.OrderResultNurseDto;
 import ru.otus.laboratory.dto.PatientDto;
 import ru.otus.laboratory.dto.StaffDto;
+import ru.otus.laboratory.dto.TestItemDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
 import ru.otus.laboratory.exceptions.InvalidStatusException;
 import ru.otus.laboratory.exceptions.NotFoundException;
@@ -16,12 +17,12 @@ import ru.otus.laboratory.mapper.OrderMapper;
 import ru.otus.laboratory.mapper.PatientMapper;
 import ru.otus.laboratory.model.OrderResult;
 import ru.otus.laboratory.model.OrderStatus;
-import ru.otus.laboratory.model.TestItem;
 import ru.otus.laboratory.model.TestStatus;
 import ru.otus.laboratory.model.TestTubeStatus;
 import ru.otus.laboratory.repository.OrderRepository;
 import ru.otus.laboratory.util.DateTimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,9 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final TestService testService;
+    private final TestResultService testResultService;
+
+    private final TestItemService testItemService;
 
     private final PatientService patientService;
 
@@ -53,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
         PatientDto patientDto = patientService.findById(orderResultCreateDto.getPatientId());
         StaffDto staffDto = staffService.findById(orderResultCreateDto.getStaffId());
 
-        var testItemList = testService.findByIds(orderResultCreateDto.getTestItemIdList());
+        var testItemList = fillTestItemForOrder(orderResultCreateDto.getTestItemIdList());
 
         OrderResult orderResult = new OrderResult();
         orderResult.setStatusId(OrderStatus.CREATE);
@@ -63,8 +66,9 @@ public class OrderServiceImpl implements OrderService {
         orderResult.setPaymentTime(dateTimeUtil.now());
         orderRepository.create(orderResult);
 
-        var testTubeResultDtoList = testTubeResultService.create(orderResult.getId(), calcTestTubeItemIdList(testItemList));
-        var testResultDtoList = testService.create(orderResult.getId(), orderResult.getStaffId(), testItemList,
+        var testTubeResultDtoList = testTubeResultService.create(orderResult.getId(),
+                calcTestTubeItemIdList(testItemList));
+        var testResultDtoList = testResultService.create(orderResult.getId(), orderResult.getStaffId(), testItemList,
                 testTubeResultDtoList);
 
         OrderResultDto orderResultDto = orderMapper.fromModel(orderResult, patientDto, staffDto,
@@ -104,20 +108,30 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderRepository.updateStatus(id, OrderStatus.IN_WORK);
-        testService.updateStatus(id, TestStatus.IN_WORK);
+        testResultService.updateStatus(id, TestStatus.IN_WORK);
         testTubeResultService.updateStatus(id, TestTubeStatus.TRANSPORTATION);
     }
 
-    private Integer calcTotalSum(List<TestItem> testItemList) {
-        return testItemList.stream().mapToInt(TestItem::getPrice).sum();
+    private Integer calcTotalSum(List<TestItemDto> testItemList) {
+        return testItemList.stream().mapToInt(TestItemDto::getPrice).sum();
     }
 
-    private List<Long> calcTestTubeItemIdList(List<TestItem> testItemList) {
-        return testItemList.stream().map(TestItem::getTestTubeId).collect(Collectors.toList());
+    private List<Long> calcTestTubeItemIdList(List<TestItemDto> testItemList) {
+        return testItemList.stream().map(TestItemDto::getTestTubeId).collect(Collectors.toList());
     }
 
     private OrderResult findOrderById(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Order with id %d not found".formatted(id)));
+    }
+
+    private List<TestItemDto> fillTestItemForOrder(List<Long> testItemIdList) {
+        List<TestItemDto> testItemDtoList = new ArrayList<>();
+
+        for (Long id : testItemIdList) {
+            testItemDtoList.add(testItemService.findById(id));
+        }
+
+        return testItemDtoList;
     }
 }

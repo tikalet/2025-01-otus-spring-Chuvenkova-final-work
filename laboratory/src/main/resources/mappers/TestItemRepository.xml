@@ -15,16 +15,13 @@
         FROM test_item
     </select>
 
-    <select id="findByIds" resultMap="TestItemMap">
+    <select id="findById" resultMap="TestItemMap">
         SELECT ti.id,
         ti.name,
         ti.price,
         ti.test_tube_item_id
         FROM test_item ti
-        WHERE ti.id IN
-        <foreach collection="idList" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
+        WHERE id = #{id}
     </select>
 
 </mapper>

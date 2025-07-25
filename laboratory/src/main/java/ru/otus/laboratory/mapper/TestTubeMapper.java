@@ -1,6 +1,8 @@
 package ru.otus.laboratory.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.otus.laboratory.dto.TestResultDto;
 import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
@@ -10,6 +12,9 @@ import ru.otus.laboratory.model.TestTubeError;
 import ru.otus.laboratory.model.TestTubeItem;
 import ru.otus.laboratory.model.TestTubeResult;
 
+import java.util.List;
+
+@RequiredArgsConstructor
 @Component
 public class TestTubeMapper {
 
@@ -46,6 +51,7 @@ public class TestTubeMapper {
                                        String testTubeItem,
                                        String status,
                                        String error,
+                                       List<TestResultDto> testResultList,
                                        String track) {
 
         TestTubeResultDto testTubeResultDto = new TestTubeResultDto();
@@ -57,6 +63,7 @@ public class TestTubeMapper {
         testTubeResultDto.setTakeTestTime(testTubeResult.getTakeTestTime());
         testTubeResultDto.setDisposalTime(testTubeResult.getDisposalTime());
         testTubeResultDto.setOrderResultId(testTubeResult.getOrderResultId());
+        testTubeResultDto.setTestResultList(testResultList);
         return testTubeResultDto;
     }
 

@@ -5,12 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.dto.TestItemDto;
 import ru.otus.laboratory.dto.TestResultDto;
+import ru.otus.laboratory.dto.TestResultOrderDto;
 import ru.otus.laboratory.dto.TestTubeResultOrderDto;
 import ru.otus.laboratory.mapper.TestMapper;
-import ru.otus.laboratory.model.TestItem;
 import ru.otus.laboratory.model.TestResult;
 import ru.otus.laboratory.model.TestStatus;
-import ru.otus.laboratory.repository.TestItemRepository;
 import ru.otus.laboratory.repository.TestResultRepository;
 
 import java.util.ArrayList;
@@ -20,30 +19,25 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class TestServiceImpl implements TestService {
+public class TestResultServiceImpl implements TestResultService {
 
     private final TestMapper testMapper;
 
-    private final TestItemRepository testItemRepository;
-
     private final TestResultRepository testResultRepository;
+
+    private final TestItemService testItemService;
 
     private final DictService dictService;
 
-    @Override
-    public List<TestItemDto> findAll() {
-        return testItemRepository.findAll().stream().map(testMapper::fromModel).toList();
-    }
-
     @Transactional
     @Override
-    public List<TestResultDto> create(Long orderId, Long staffId, List<TestItem> testItemList,
-                                      List<TestTubeResultOrderDto> testTubeResultOrderDtoList) {
-        List<TestResultDto> testResultList = new ArrayList<>();
+    public List<TestResultOrderDto> create(Long orderId, Long staffId, List<TestItemDto> testItemList,
+                                           List<TestTubeResultOrderDto> testTubeResultOrderDtoList) {
+        List<TestResultOrderDto> testResultList = new ArrayList<>();
 
         Map<Long, TestTubeResultOrderDto> testTubeResultDtoMap = convertTestTubeResultToMap(testTubeResultOrderDtoList);
 
-        for (TestItem testItem : testItemList) {
+        for (TestItemDto testItem : testItemList) {
             TestTubeResultOrderDto testTubeResultOrderDto = testTubeResultDtoMap.get(testItem.getTestTubeId());
 
             TestResult testResult = new TestResult();
@@ -56,8 +50,7 @@ public class TestServiceImpl implements TestService {
 
             testResultRepository.create(testResult);
 
-            TestItemDto testItemDto = testMapper.fromModel(testItem);
-            testResultList.add(testMapper.fromModel(testResult, testItemDto, testTubeResultOrderDto,
+            testResultList.add(testMapper.fromModel(testResult, testItem, testTubeResultOrderDto,
                     dictService.findTestStatusById(testResult.getStatusId()).getName()));
         }
 
@@ -71,11 +64,22 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public List<TestItem> findByIds(List<Long> idList) {
-        return testItemRepository.findByIds(idList);
+    public List<TestResultDto> findByTestTubeResultId(Long testTubeResultId) {
+        List<TestResult> testResultList = testResultRepository.findByTestTubeResultId(testTubeResultId);
+
+        if (testResultList == null || testResultList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return testResultList.stream().map(
+                testResult -> testMapper.fromModel(testResult,
+                        testItemService.findById(testResult.getTestItemId()).getName(),
+                        dictService.findTestStatusById(testResult.getStatusId()).getName())
+        ).toList();
     }
 
-    private Map<Long, TestTubeResultOrderDto> convertTestTubeResultToMap(List<TestTubeResultOrderDto> testTubeResultOrderDtoList) {
+    private Map<Long, TestTubeResultOrderDto> convertTestTubeResultToMap(
+            List<TestTubeResultOrderDto> testTubeResultOrderDtoList) {
         return testTubeResultOrderDtoList.stream().
                 collect(Collectors.toMap(
                         dto -> dto.getTestTubeItem().getId(),

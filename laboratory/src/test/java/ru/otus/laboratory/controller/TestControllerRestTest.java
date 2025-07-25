@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.laboratory.dto.TestItemDto;
-import ru.otus.laboratory.service.TestService;
+import ru.otus.laboratory.service.TestItemService;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,14 +29,14 @@ public class TestControllerRestTest {
     private ObjectMapper mapper;
 
     @MockitoBean
-    private TestService testService;
+    private TestItemService testItemService;
 
     @DisplayName("должен отдать список тестов")
     @Test
     public void shouldReturnPatientByName() throws Exception {
         List<TestItemDto> returnedList = createReturnedTestItemList();
 
-        when(testService.findAll()).thenReturn(returnedList);
+        when(testItemService.findAll()).thenReturn(returnedList);
 
         mvc.perform(get("/api/testItem"))
                 .andExpect(status().isOk())
@@ -45,7 +45,7 @@ public class TestControllerRestTest {
 
     private List<TestItemDto> createReturnedTestItemList() {
         return Stream.of(
-                new TestItemDto(1L, "Test item", 100)
+                new TestItemDto(1L, "Test item", 100, 1L)
         ).toList();
     }
 }

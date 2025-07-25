@@ -6,7 +6,7 @@
     <resultMap id="TestResultMap" type="ru.otus.laboratory.model.TestResult">
         <id property="id" column="ID"/>
         <result property="price" column="price"/>
-        <result property="testTubeId" column="test_tube_id"/>
+        <result property="testItemId" column="test_item_id"/>
         <result property="orderResultId" column="order_result_id"/>
         <result property="staffId" column="staff_id"/>
         <result property="statusId" column="status_Id"/>
@@ -26,4 +26,10 @@
         SET status_id = #{statusId}
         WHERE order_result_id = #{orderId}
     </update>
+
+    <select id="findByTestTubeResultId" resultMap="TestResultMap">
+        SELECT id, test_item_id, order_result_id, status_id, staff_id, test_tube_result_id, price
+        FROM test_result
+        WHERE test_tube_result_id = #{testTubeResultId}
+    </select>
 </mapper>

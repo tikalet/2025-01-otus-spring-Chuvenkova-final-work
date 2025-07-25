@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.converter.TestTubeConverter;
+import ru.otus.laboratory.dto.TestResultDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultErrorUpdateDto;
@@ -31,17 +32,20 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
     private final TestTubeResultRepository testTubeResultRepository;
 
-    private final BarcodeService barcodeService;
+    private final TestTubeMapper testTubeMapper;
 
     private final DateTimeUtil dateTimeUtil;
 
     private final TestTubeConverter testTubeConverter;
 
+    private final BarcodeService barcodeService;
+
     private final DictService dictService;
 
     private final TestTubeItemService testTubeItemService;
 
-    private final TestTubeMapper testTubeMapper;
+    private final TestResultService testResultService;
+
 
     @Transactional
     @Override
@@ -97,14 +101,39 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
     public TestTubeResultDto findById(Long id) {
         TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
         testTubeResultSearch.setId(id);
-        return findTestTubeResultDto(testTubeResultSearch);
+        return prepareTestTubeResultDto(testTubeResultSearch);
     }
 
     @Override
     public TestTubeResultDto findByBarcode(String barcode) {
         TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
         testTubeResultSearch.setBarcode(barcode);
-        return findTestTubeResultDto(testTubeResultSearch);
+        return prepareTestTubeResultDto(testTubeResultSearch);
+    }
+
+    @Override
+    public List<TestTubeResultDto> findTestTubeResultByTimeAndStatus(String time, Long statusId) {
+        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
+        testTubeResultSearch.setTime(time);
+        testTubeResultSearch.setStatusId(statusId);
+
+        List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
+        List<TestTubeResultDto> testTubeResultDtoList = new ArrayList<>();
+
+        for (TestTubeResult testTubeResult : testTubeResultList) {
+            TestTubeError testTubeError = dictService.findTestTubeErrorById(testTubeResult.getTestTubeErrorId());
+
+            TestTubeResultDto testTubeResultDto = testTubeMapper.fromModel(testTubeResult,
+                    testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
+                    dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
+                    testTubeError != null ? testTubeError.getText() : null,
+                    testResultService.findByTestTubeResultId(testTubeResult.getId()),
+                    "");
+
+            testTubeResultDtoList.add(testTubeResultDto);
+        }
+
+        return testTubeResultDtoList;
     }
 
     @Transactional
@@ -128,27 +157,35 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
     @Override
     public TestTubeResultDto updateErrorInfo(TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto) {
+        TestTubeError testTubeError = getTestTubeError(testTubeResultErrorUpdateDto);
+
         TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
         testTubeResultSearch.setId(testTubeResultErrorUpdateDto.getId());
 
         List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
         TestTubeResult testTubeResult = testTubeResultList.get(0);
 
+        testTubeResult.setTestTubeErrorId(testTubeResultErrorUpdateDto.getErrorId());
+        testTubeResultRepository.update(testTubeResult);
+
+        List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
+
+        return testTubeMapper.fromModel(testTubeResult,
+                testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
+                dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
+                testTubeError != null ? testTubeError.getText() : null,
+                testResultDtoList,
+                "");
+    }
+
+    private TestTubeError getTestTubeError(TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto) {
         TestTubeError testTubeError = dictService.findTestTubeErrorById(testTubeResultErrorUpdateDto.getErrorId());
 
         if (testTubeResultErrorUpdateDto.getErrorId() != null && testTubeError == null) {
             throw new NotFoundException("Test tube error with id %d not found"
                     .formatted(testTubeResultErrorUpdateDto.getErrorId()));
         }
-
-        testTubeResult.setTestTubeErrorId(testTubeResultErrorUpdateDto.getErrorId());
-        testTubeResultRepository.update(testTubeResult);
-
-        return testTubeMapper.fromModel(testTubeResult,
-                testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
-                dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
-                testTubeError != null ? testTubeError.getText() : null,
-                "");
+        return testTubeError;
     }
 
 
@@ -165,16 +202,19 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         return testTubeResultList;
     }
 
-    private TestTubeResultDto findTestTubeResultDto(TestTubeResultSearch testTubeResultSearch) {
+    private TestTubeResultDto prepareTestTubeResultDto(TestTubeResultSearch testTubeResultSearch) {
         List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
         TestTubeResult testTubeResult = testTubeResultList.get(0);
 
         TestTubeError testTubeError = dictService.findTestTubeErrorById(testTubeResult.getTestTubeErrorId());
 
+        List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
+
         return testTubeMapper.fromModel(testTubeResult,
                 testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
                 dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
                 testTubeError != null ? testTubeError.getText() : null,
+                testResultDtoList,
                 "");
     }
 
@@ -191,6 +231,14 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
         if (testTubeResultSearch.getBarcode() != null && !testTubeResultSearch.getBarcode().isEmpty()) {
             stringBuilder.append(" AND barcode= #{search.barcode}");
+        }
+
+        if (testTubeResultSearch.getTime() != null && !testTubeResultSearch.getTime().isEmpty()) {
+            stringBuilder.append(" AND take_test_time LIKE #{search.time} || '%'");
+        }
+
+        if (testTubeResultSearch.getStatusId() != null) {
+            stringBuilder.append(" AND status_id= #{search.statusId}");
         }
 
         if (stringBuilder.isEmpty()) {
