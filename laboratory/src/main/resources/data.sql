@@ -71,8 +71,6 @@ VALUES
     (nextval('staff_seq'), 'Ирина', 'Петровна', 'Буравчик', 5)
 ;
 
-INSERT INTO analyzer(id, name) VALUES (1, 'Sysmex XT-4000i');
-
 INSERT INTO measurement_item (id, name, unit, min, max)
 VALUES
 (nextval('measurement_item_seq'), 'Гемоглобин (HGB)','грамм/литр',112.70,159.10),

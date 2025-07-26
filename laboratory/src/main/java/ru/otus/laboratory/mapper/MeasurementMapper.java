@@ -21,14 +21,12 @@ public class MeasurementMapper {
     }
 
     public MeasurementResultDto fromModel(MeasurementResult measurementResult,
-                                          MeasurementItemDto measurementItemDto,
-                                          String analyzer) {
+                                          MeasurementItemDto measurementItemDto) {
         MeasurementResultDto measurementResultDto = new MeasurementResultDto();
         measurementResultDto.setId(measurementResult.getId());
         measurementResultDto.setMeasurementItem(measurementItemDto);
         measurementResultDto.setMeasurTime(measurementResult.getMeasurTime());
         measurementResultDto.setTestResultId(measurementResult.getTestResultId());
-        measurementResultDto.setAnalyzer(analyzer);
         measurementResultDto.setValue(measurementResult.getValue());
         return measurementResultDto;
     }

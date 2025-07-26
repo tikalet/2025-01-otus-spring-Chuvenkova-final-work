@@ -37,8 +37,7 @@ public class MeasurementResultServiceImpl implements MeasurementResultService {
                 measurementResult.setTestResultId(testResultDto.getId());
                 measurementResult.setPatientId(patientId);
                 measurementResultRepository.create(measurementResult);
-                // TODO add anamyzer
-                measurementResultDtos.add(measurementMapper.fromModel(measurementResult, measurementItemDto, ""));
+                measurementResultDtos.add(measurementMapper.fromModel(measurementResult, measurementItemDto));
             }
         }
 

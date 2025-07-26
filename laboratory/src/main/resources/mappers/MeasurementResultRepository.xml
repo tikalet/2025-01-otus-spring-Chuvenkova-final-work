@@ -9,7 +9,6 @@
         <result property="measurementItemId" column="measurement_item_id"/>
         <result property="value" column="value"/>
         <result property="measurTime" column="measur_time"/>
-        <result property="analyzerId" column="analyzer_id"/>
         <result property="patientId" column="patient_id"/>
     </resultMap>
 
@@ -17,9 +16,28 @@
         <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
             SELECT nextval('measurement_result_seq')
         </selectKey>
-        INSERT INTO measurement_result (id, test_result_id, patient_id, measurement_item_id, value, measur_time,
-        analyzer_id)
-        VALUES(#{id}, #{testResultId}, #{patientId}, #{measurementItemId}, #{value}, #{measurTime}, #{analyzerId})
+        INSERT INTO measurement_result (id, test_result_id, patient_id, measurement_item_id, value, measur_time)
+        VALUES(#{id}, #{testResultId}, #{patientId}, #{measurementItemId}, #{value}, #{measurTime})
     </insert>
 
+    <update id="update">
+        UPDATE measurement_result
+        SET value= #{value},
+        measur_time= #{measurTime},
+        WHERE id = #{id}
+    </update>
+
+    <select id="findByTestResultId" resultMap="MeasurementResultMap">
+        SELECT id, test_result_id, patient_id, measurement_item_id, value, measur_time
+        FROM measurement_result
+        WHERE test_result_id = #{testResultId}
+    </select>
+
+    <select id="findByPatientIdAndMeasurementItemId" resultMap="MeasurementResultMap">
+        SELECT id, test_result_id, patient_id, measurement_item_id, value, measur_time
+        FROM measurement_result
+        WHERE patient_id = #{patientId}
+        AND measurement_item_id = #{measurementItemId}
+        ORDER BY measur_time DESC
+    </select>
 </mapper>

@@ -74,15 +74,6 @@ ALTER TABLE order_result ADD CONSTRAINT order_result_to_status_fk FOREIGN KEY (s
 ALTER TABLE order_result ADD CONSTRAINT order_result_to_staff_fk FOREIGN KEY (staff_id) REFERENCES staff (id);
 ALTER TABLE order_result ADD CONSTRAINT order_result_to_patient_fk FOREIGN KEY (patient_id) REFERENCES patient (id);
 -------------------------------
-CREATE TABLE analyzer(
-    id bigint,
-    name varchar
---    work smallint
-);
-
-ALTER TABLE analyzer ADD PRIMARY KEY (id);
-
--------------------------------
 CREATE TABLE test_tube_error(
     id int,
     error_text varchar,
@@ -124,8 +115,7 @@ CREATE TABLE test_tube_track(
     changed_time varchar,
     status_id_old int,
     status_id_new int,
-    test_tube_error_id int,
-    analyzer_id bigint
+    test_tube_error_id int
 );
 
 ALTER TABLE test_tube_track ADD PRIMARY KEY (id);
@@ -135,7 +125,6 @@ ALTER TABLE test_tube_track ADD CONSTRAINT test_tube_track_to_staff_fk FOREIGN K
 ALTER TABLE test_tube_track ADD CONSTRAINT test_tube_track_to_status_old_fk FOREIGN KEY (status_id_old) REFERENCES test_tube_status (id);
 ALTER TABLE test_tube_track ADD CONSTRAINT test_tube_track_to_status_new_fk FOREIGN KEY (status_id_new) REFERENCES test_tube_status (id);
 ALTER TABLE test_tube_track ADD CONSTRAINT test_tube_track_to_error_fk FOREIGN KEY (test_tube_error_id) REFERENCES test_tube_error (id);
-ALTER TABLE test_tube_track ADD CONSTRAINT test_tube_track_to_analyzer_fk FOREIGN KEY (analyzer_id) REFERENCES analyzer (id);
 -------------------------------
 CREATE TABLE test_status(
     id int,
@@ -183,8 +172,7 @@ CREATE TABLE measurement_result(
     patient_id bigint,
     measurement_item_id bigint,
     value float8,
-    measur_time varchar,
-    analyzer_id bigint
+    measur_time varchar
 );
 
 ALTER TABLE measurement_result ADD PRIMARY KEY (id);
@@ -192,7 +180,6 @@ CREATE SEQUENCE measurement_result_seq;
 ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_test_res_fk FOREIGN KEY (test_result_id) REFERENCES test_result(id);
 ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_patient_fk FOREIGN KEY (patient_id) REFERENCES patient(id);
 ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_measur_item_fk FOREIGN KEY (measurement_item_id) REFERENCES measurement_item(id);
-ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_analyzer_fk FOREIGN KEY (analyzer_id) REFERENCES analyzer(id);
 
 CREATE TABLE test_item_measurement_item_link(
     test_item_id bigint,
@@ -202,3 +189,4 @@ CREATE TABLE test_item_measurement_item_link(
 ALTER TABLE test_item_measurement_item_link ADD PRIMARY KEY (test_item_id, measurement_item_id);
 ALTER TABLE test_item_measurement_item_link ADD CONSTRAINT test_item_measurement_item_link_to_test_fk FOREIGN KEY (test_item_id) REFERENCES test_item(id);
 ALTER TABLE test_item_measurement_item_link ADD CONSTRAINT test_item_measurement_item_link_to_measur_fk FOREIGN KEY (measurement_item_id) REFERENCES measurement_item(id);
+

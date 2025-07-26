@@ -15,5 +15,4 @@ public class MeasurementResultDto {
 
     private String measurTime;
 
-    private String analyzer;
 }

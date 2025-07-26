@@ -159,7 +159,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
         List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
         measurementResultService.create(testResultDtoList, patientId);
-        // send message to analyzer
+        // TODO send message to analyzer
     }
 
     @Override

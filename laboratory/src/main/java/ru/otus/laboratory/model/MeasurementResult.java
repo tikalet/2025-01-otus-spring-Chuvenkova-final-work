@@ -15,7 +15,5 @@ public class MeasurementResult {
 
     private String measurTime;
 
-    private Long analyzerId;
-
     private long patientId;
 }
