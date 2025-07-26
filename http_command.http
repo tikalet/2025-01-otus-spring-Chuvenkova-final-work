@@ -1,0 +1,66 @@
+## Респшен
+### список тестов
+GET http://localhost:8080/api/testItem HTTP/1.1
+
+### создание пациента
+POST http://localhost:8080/api/patient HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Артем",
+    "middleName": "Антонович",
+    "lastName": "Красильников",
+    "birthday": "1989-08-11",
+    "phone" : "+7(432)-55-125-53"
+}
+
+### поиск пациента по имени
+GET http://localhost:8080/api/patient/Лапкина HTTP/1.1
+
+### создание заказа
+POST http://localhost:8080/api/order HTTP/1.1
+Content-Type: application/json
+
+{
+    "patientId": 101,
+    "staffId": 2,
+    "testItemIdList" : [3, 2]
+}
+
+
+## кабинет медсестры
+### список пациентов, ожидающих забора БМ
+GET http://localhost:8080/api/nurse/order HTTP/1.1
+
+### открыть конкретный заказ у медсестры
+GET http://localhost:8080/api/nurse/order/2 HTTP/1.1
+
+### заканчиваем забор БМ и обновляем статусы
+PUT http://localhost:8080/api/nurse/order/2 HTTP/1.1
+
+
+## лаборант
+### сканирует ШК тары при получении и обновляем статусы
+PUT http://localhost:8080/api/labAss/testTubeResult/0000000004 HTTP/1.1
+
+### информация по таре
+GET http://localhost:8080/api/testTubeResult/barcode/0000000004  HTTP/1.1
+
+### список всех ошибок при работе с тарой
+GET http://localhost:8080/api/testTubeError HTTP/1.1
+
+### обновить ошибку для тары
+PUT http://localhost:8080/api/testTubeResult/error HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 4,
+    "errorId": null
+    # "errorId": 11
+}
+
+### журнал твры по дате и статусу 
+## Транспортировка
+GET http://localhost:8080/api/testTubeResult/time/2025-07-24/status/2 HTTP/1.1
+### В лаборатории
+GET http://localhost:8080/api/testTubeResult/time/2025-07-24/status/3 HTTP/1.1

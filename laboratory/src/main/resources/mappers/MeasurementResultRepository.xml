@@ -27,10 +27,13 @@
         WHERE id = #{id}
     </update>
 
-    <select id="findByTestResultId" resultMap="MeasurementResultMap">
+    <select id="findByTestResultIdList" resultMap="MeasurementResultMap">
         SELECT id, test_result_id, patient_id, measurement_item_id, value, measur_time
         FROM measurement_result
-        WHERE test_result_id = #{testResultId}
+        WHERE test_result_id IN
+        <foreach collection="testResultId" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
     </select>
 
     <select id="findByPatientIdAndMeasurementItemId" resultMap="MeasurementResultMap">

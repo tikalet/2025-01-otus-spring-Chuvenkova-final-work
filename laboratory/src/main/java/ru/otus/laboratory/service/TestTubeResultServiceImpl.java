@@ -163,12 +163,10 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), TestTubeStatus.LABORATORY, null);
         testTubeResultRepository.updateStatus(testTubeResult.getId(), TestTubeStatus.LABORATORY);
 
-
         Long patientId = testTubeResultRepository.findPatientByBarcode(barcode);
 
         List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
         measurementResultService.create(testResultDtoList, patientId);
-        // TODO send message to analyzer
     }
 
     @Transactional

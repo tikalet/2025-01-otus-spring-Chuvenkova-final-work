@@ -1,9 +1,9 @@
-package ru.otus.laboratory.model.adapter;
+package ru.otus.laboratory.dto.adapter;
 
 import lombok.Data;
 
 @Data
-public class AdapterTaskResult {
+public class AdapterTaskResultDto {
 
     private String extcode;
 

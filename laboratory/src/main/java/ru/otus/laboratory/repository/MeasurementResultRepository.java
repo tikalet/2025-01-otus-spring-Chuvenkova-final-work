@@ -13,7 +13,7 @@ public interface MeasurementResultRepository {
 
     void update(MeasurementResult measurementResult);
 
-    List<MeasurementResult> findByTestResultId(Long testResultId);
+    List<MeasurementResult> findByTestResultIdList(List<Long> testResultId);
 
     List<MeasurementResult> findByPatientIdAndMeasurementItemId(@Param("patientId") Long patientId,
                                                                 @Param("measurementItemId") Long measurementItemId);

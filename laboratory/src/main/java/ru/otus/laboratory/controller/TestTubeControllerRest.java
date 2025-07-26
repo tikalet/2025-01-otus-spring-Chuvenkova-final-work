@@ -3,6 +3,8 @@ package ru.otus.laboratory.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultErrorUpdateDto;
+import ru.otus.laboratory.service.RabbitMqService;
 import ru.otus.laboratory.service.TestTubeErrorService;
 import ru.otus.laboratory.service.TestTubeResultService;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class TestTubeControllerRest {
@@ -25,6 +29,8 @@ public class TestTubeControllerRest {
     private final TestTubeResultService testTubeResultService;
 
     private final TestTubeErrorService testTubeErrorService;
+
+    private final RabbitMqService rabbitMqService;
 
     @GetMapping("/api/testTubeError")
     public ResponseEntity<List<TestTubeErrorDto>> getTestTubeError() {
@@ -60,6 +66,13 @@ public class TestTubeControllerRest {
     @PutMapping("/api/labAss/testTubeResult/{barcode}")
     public ResponseEntity<Void> recordArrivalTestTubeAtLaboratory(@PathVariable("barcode") String barcode) {
         testTubeResultService.recordArrivalTestTubeAtLaboratory(barcode);
+
+        try {
+            rabbitMqService.sendToAdapterMeasurementByBarcode(barcode);
+        } catch (AmqpException ex) {
+            log.error("Unable send measurement extcodes by barcode %s to Rabbit".formatted(barcode), ex);
+        }
+
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

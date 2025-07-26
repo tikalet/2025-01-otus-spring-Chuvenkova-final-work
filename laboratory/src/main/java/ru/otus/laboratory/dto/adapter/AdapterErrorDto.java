@@ -1,9 +1,9 @@
-package ru.otus.laboratory.model.adapter;
+package ru.otus.laboratory.dto.adapter;
 
 import lombok.Data;
 
 @Data
-public class AdapterError {
+public class AdapterErrorDto {
 
     private String barcode;
 
