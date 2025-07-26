@@ -49,8 +49,6 @@ CREATE TABLE staff_position(
 );
 
 ALTER TABLE staff_position ADD PRIMARY KEY (id);
-CREATE SEQUENCE staff_position_seq;
-
 ALTER TABLE staff ADD CONSTRAINT staff_position_fk FOREIGN KEY (position_id) REFERENCES staff_position (id);
 
 -------------------------------
@@ -167,3 +165,40 @@ ALTER TABLE test_result ADD CONSTRAINT test_result_to_tube_result_fk FOREIGN KEY
 -------------------------------
 CREATE SEQUENCE barcode_seq;
 -------------------------------
+CREATE TABLE measurement_item(
+    id bigint,
+    name varchar,
+    unit varchar,
+    min float8,
+    max float8,
+    extcode varchar
+);
+
+ALTER TABLE measurement_item ADD PRIMARY KEY (id);
+CREATE SEQUENCE measurement_item_seq;
+
+CREATE TABLE measurement_result(
+    id bigint,
+    test_result_id bigint,
+    patient_id bigint,
+    measurement_item_id bigint,
+    value float8,
+    measur_time varchar,
+    analyzer_id bigint
+);
+
+ALTER TABLE measurement_result ADD PRIMARY KEY (id);
+CREATE SEQUENCE measurement_result_seq;
+ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_test_res_fk FOREIGN KEY (test_result_id) REFERENCES test_result(id);
+ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_patient_fk FOREIGN KEY (patient_id) REFERENCES patient(id);
+ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_measur_item_fk FOREIGN KEY (measurement_item_id) REFERENCES measurement_item(id);
+ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_analyzer_fk FOREIGN KEY (analyzer_id) REFERENCES analyzer(id);
+
+CREATE TABLE test_item_measurement_item_link(
+    test_item_id bigint,
+    measurement_item_id bigint
+);
+
+ALTER TABLE test_item_measurement_item_link ADD PRIMARY KEY (test_item_id, measurement_item_id);
+ALTER TABLE test_item_measurement_item_link ADD CONSTRAINT test_item_measurement_item_link_to_test_fk FOREIGN KEY (test_item_id) REFERENCES test_item(id);
+ALTER TABLE test_item_measurement_item_link ADD CONSTRAINT test_item_measurement_item_link_to_measur_fk FOREIGN KEY (measurement_item_id) REFERENCES measurement_item(id);

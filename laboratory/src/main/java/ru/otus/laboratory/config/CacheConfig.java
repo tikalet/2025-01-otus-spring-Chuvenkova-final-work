@@ -20,7 +20,8 @@ public class CacheConfig {
                         new ConcurrentMapCache("testTubeStatus"),
                         new ConcurrentMapCache("testTubeError"),
                         new ConcurrentMapCache("testTubeItem"),
-                        new ConcurrentMapCache("testItem")
+                        new ConcurrentMapCache("testItem"),
+                        new ConcurrentMapCache("measurItem")
                 )
         );
         return cacheManager;

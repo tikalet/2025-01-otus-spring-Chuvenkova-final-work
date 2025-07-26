@@ -2,6 +2,7 @@ package ru.otus.laboratory.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.laboratory.converter.TestTubeConverter;
 import ru.otus.laboratory.dto.TestResultDto;
@@ -45,6 +46,8 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
     private final TestTubeItemService testTubeItemService;
 
     private final TestResultService testResultService;
+
+    private final MeasurementResultService measurementResultService;
 
 
     @Transactional
@@ -136,7 +139,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         return testTubeResultDtoList;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void recordArrivalTestTubeAtLaboratory(String barcode) {
         TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
@@ -151,7 +154,11 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         }
 
         testTubeResultRepository.updateStatus(testTubeResult.getId(), TestTubeStatus.LABORATORY);
-        // create measurement
+
+        Long patientId = testTubeResultRepository.findPatientByBarcode(barcode);
+
+        List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
+        measurementResultService.create(testResultDtoList, patientId);
         // send message to analyzer
     }
 

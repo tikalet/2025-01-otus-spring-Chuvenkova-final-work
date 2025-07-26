@@ -20,4 +20,6 @@ public interface TestTubeResultRepository {
     void updateStatus(@Param("id") long id, @Param("statusId") int statusId);
 
     void update(TestTubeResult testTubeResult);
+
+    Long findPatientByBarcode(String barcode);
 }

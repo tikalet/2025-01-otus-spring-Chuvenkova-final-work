@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.MeasurementItemRepository">
+
+    <resultMap id="MeasurementItemMap" type="ru.otus.laboratory.model.MeasurementItem">
+        <id property="id" column="ID"/>
+        <result property="name" column="name"/>
+        <result property="unit" column="unit"/>
+        <result property="min" column="min"/>
+        <result property="max" column="max"/>
+        <result property="extcode" column="extcode"/>
+    </resultMap>
+
+    <select id="findByTestItemId" resultMap="MeasurementItemMap">
+        SELECT id, name, unit, min, max, extcode
+        FROM measurement_item mi
+        INNER JOIN test_item_measurement_item_link timil ON timil.measurement_item_id = mi.id
+        WHERE timil.test_item_id = #{testItemId}
+    </select>
+
+    <select id="findById" resultMap="MeasurementItemMap">
+        SELECT id, name, unit, min, max, extcode
+        FROM measurement_item mi
+        WHERE mi.id = #{id}
+    </select>
+
+</mapper>

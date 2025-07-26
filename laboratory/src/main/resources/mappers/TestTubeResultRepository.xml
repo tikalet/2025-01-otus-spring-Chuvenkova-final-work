@@ -61,4 +61,11 @@
         disposal_time= #{disposalTime}
         WHERE id=#{id}
     </update>
+
+    <select id="findPatientByBarcode" resultType="java.lang.Long">
+        SELECT ores.patient_id
+        from test_tube_result ttr
+        inner join order_result ores on ores.id = ttr.order_result_id
+        where ttr.barcode =#{barcode}
+    </select>
 </mapper>

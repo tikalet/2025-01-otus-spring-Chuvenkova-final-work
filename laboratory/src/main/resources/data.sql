@@ -11,26 +11,11 @@ INSERT INTO test_item (id, name, price, test_tube_item_id)
 VALUES
     (nextval('test_item_seq'),'Общий анализ венозной крови [24 показателя]',320.0, 1),
     (nextval('test_item_seq'),'Скорость оседания эритроцитов (СОЭ) (ESR) венозной крови',170.0, 5),
-    (nextval('test_item_seq'),'Группа крови и резус-фактор (Blood Type + Rh factor) [система AB0]',450.0, 2),
     (nextval('test_item_seq'),'Глюкоза (Glucose)',145.0, 4),
     (nextval('test_item_seq'),'Билирубин (Bilirubin) фракции',350.0, 2),
-    (nextval('test_item_seq'),'Креатинин (Creatinine)',170.0, 2),
-    (nextval('test_item_seq'),'Мочевина (Urea)',160.0, 2),
-    (nextval('test_item_seq'),'Мочевая кислота (Uric acid)',160.0, 2),
-    (nextval('test_item_seq'),'Белок общий (Protein total)',160.0, 2),
-    (nextval('test_item_seq'),'Альбумин (Albumin)',160.0, 2),
-    (nextval('test_item_seq'),'Триглицериды (Triglycerides)',160.0, 2),
     (nextval('test_item_seq'),'Холестерин общий (Cholesterol total)',160.0, 2),
-    (nextval('test_item_seq'),'Аполипопротеины А1 и В (Apolipoproteines А1 & В)',600.0, 2),
-    (nextval('test_item_seq'),'Липопротеин (a) (Lipoprotein (a))',650.0, 2),
     (nextval('test_item_seq'),'Активированное частичное тромбопластиновое время (АЧТВ) (APTT)',240.0, 3),
-    (nextval('test_item_seq'),'Протромбин (Prothrombin)',260.0, 3),
-    (nextval('test_item_seq'),'Тромбиновое время (Thrombin time)',260.0, 3),
-    (nextval('test_item_seq'),'Фибриноген (Fibrinogen)',260.0, 3),
-    (nextval('test_item_seq'),'Волчаночный антикоагулянт (Lupus anticoagulant)',380.0, 3),
-    (nextval('test_item_seq'),'D-димер (D-dimer)',990.0, 3),
-    (nextval('test_item_seq'),'Фактор свёртывания крови VIII (Factor VIII)',880.0, 3),
-    (nextval('test_item_seq'),'Антитромбин III (Antithrombin III)',410.00, 3)
+    (nextval('test_item_seq'),'Протромбин (Prothrombin)',260.0, 3)
 ;
 -------------------------------
 INSERT INTO order_status
@@ -88,3 +73,80 @@ VALUES
 
 INSERT INTO analyzer(id, name) VALUES (1, 'Sysmex XT-4000i');
 
+INSERT INTO measurement_item (id, name, unit, min, max)
+VALUES
+(nextval('measurement_item_seq'), 'Гемоглобин (HGB)','грамм/литр',112.70,159.10),
+(nextval('measurement_item_seq'), 'Гематокрит (HCT)','%',35.54,53.54),
+(nextval('measurement_item_seq'), 'Эритроциты (RBC)','10^12/литр',3.69,5.55),
+(nextval('measurement_item_seq'), 'Средний объем эритроцитов (MCV)','фемтолитр',78.33,109.73),
+(nextval('measurement_item_seq'), 'Среднее содержание гемоглобина в эритроците (MCH)','пикограмм',25.33,36.08),
+(nextval('measurement_item_seq'), 'Средняя концентрация гемоглобина в эритроците (MCHC)','грамм/дл',27.89,34.89),
+(nextval('measurement_item_seq'), 'Ширина распределения эритроцитов по объёму (RDW-SD)','фемтолитр',35.00,46.00),
+(nextval('measurement_item_seq'), 'Ширина распределения эритроцитов по объёму (RDW-CV)','%',11.00,16.00),
+(nextval('measurement_item_seq'), 'Тромбоциты (PLT)','10^9/литр',150.00,400.00),
+(nextval('measurement_item_seq'), 'Тромбокрит (PCT)','%',0.17,0.35),
+(nextval('measurement_item_seq'), 'Средний объем тромбоцита (MPV)','фемтолитр',8.00,12.00),
+(nextval('measurement_item_seq'), 'Ширина распределения тромбоцитов (PDW)','фемтолитр',9.00,17.00),
+(nextval('measurement_item_seq'), 'Содержание крупных тромбоцитов (P-LCR)','%',15.00,35.00),
+(nextval('measurement_item_seq'), 'Лейкоциты (WBC)','10^9/литр',5.34,17.06),
+(nextval('measurement_item_seq'), 'Нейтрофилы (NEUT#)','10^9/литр',1.50,7.00),
+(nextval('measurement_item_seq'), 'Нейтрофилы (NEUT%)','%',36.00,58.10),
+(nextval('measurement_item_seq'), 'Эозинофилы (EO#)','10^9/литр',0.02,0.62),
+(nextval('measurement_item_seq'), 'Эозинофилы (EO%)','%',1.00,5.80),
+(nextval('measurement_item_seq'), 'Базофилы (BASO#)','10^9/литр',0.00,0.12),
+(nextval('measurement_item_seq'), 'Базофилы (BASO%)','%',0.00,1.20),
+(nextval('measurement_item_seq'), 'Лимфоциты (LYMPH#)','10^9/литр',1.00,3.70),
+(nextval('measurement_item_seq'), 'Лимфоциты (LYMPH%)','%',29.10,51.00),
+(nextval('measurement_item_seq'), 'Моноциты (MONO#)','10^9/литр',0.05,0.80),
+(nextval('measurement_item_seq'), 'Моноциты (MONO%)','%',3.50,11.17);
+
+INSERT INTO test_item_measurement_item_link(test_item_id, measurement_item_id)
+SELECT 1, generate_series(1, 24);
+
+--
+INSERT INTO measurement_item (id, name, unit, min, max)
+VALUES (nextval('measurement_item_seq'), 'Скорость оседания эритроцитов (СОЭ) (ESR) венозной крови','мм/час',0.00,15.50);
+
+INSERT INTO test_item_measurement_item_link(test_item_id, measurement_item_id)
+SELECT 2, 25;
+
+--
+INSERT INTO measurement_item (id, name, unit, min, max)
+VALUES (nextval('measurement_item_seq'), 'Глюкоза (Glucose)','ммоль/литр',3.53,5.39);
+
+INSERT INTO test_item_measurement_item_link(test_item_id, measurement_item_id)
+SELECT 3, 26;
+
+--
+INSERT INTO measurement_item (id, name, unit, min, max)
+VALUES
+(nextval('measurement_item_seq'), 'Билирубин общий (Bilirubin total)','мкмоль/литр',2.00,150.00),
+(nextval('measurement_item_seq'), 'Билирубин прямой/связанный (Direct bilirubin)','мкмоль/литр',0.00,5.10),
+(nextval('measurement_item_seq'), 'Билирубин непрямой/свободный (Indirect bilirubin)','мкмоль/литр',0.00,13.70);
+
+INSERT INTO test_item_measurement_item_link(test_item_id, measurement_item_id)
+SELECT 4, generate_series(27, 29);
+
+--
+INSERT INTO measurement_item (id, name, unit, min, max)
+VALUES (nextval('measurement_item_seq'), 'Холестерин общий (Cholesterol total)','ммоль/литр',1.90,5.17);
+
+INSERT INTO test_item_measurement_item_link(test_item_id, measurement_item_id)
+SELECT 5, 30;
+
+--
+INSERT INTO measurement_item (id, name, unit, min, max)
+VALUES (nextval('measurement_item_seq'), 'Активированное частичное тромбопластиновое время (АЧТВ) (APTT)','секунда',17.30,35.20);
+
+INSERT INTO test_item_measurement_item_link(test_item_id, measurement_item_id)
+SELECT 6, 31;
+
+--
+INSERT INTO measurement_item (id, name, unit, min, max)
+VALUES (nextval('measurement_item_seq'), 'Протромбин % по Квику (Prothrombin)','%',74.40,120.00);
+
+INSERT INTO test_item_measurement_item_link(test_item_id, measurement_item_id)
+SELECT 7, 32;
+
+UPDATE measurement_item
+SET extcode = 'M' || id;
