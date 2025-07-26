@@ -7,11 +7,11 @@ import ru.otus.laboratory.model.TestTubeStatus;
 
 public interface DictService {
 
-    OrderStatus findOrderStatusById(int id);
+    OrderStatus findOrderStatusById(Integer id);
 
-    TestStatus findTestStatusById(int id);
+    TestStatus findTestStatusById(Integer id);
 
-    TestTubeStatus findTestTubeStatusById(int id);
+    TestTubeStatus findTestTubeStatusById(Integer id);
 
     TestTubeError findTestTubeErrorById(Integer id);
 }

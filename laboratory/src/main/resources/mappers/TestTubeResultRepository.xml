@@ -68,4 +68,5 @@
         inner join order_result ores on ores.id = ttr.order_result_id
         where ttr.barcode =#{barcode}
     </select>
+    
 </mapper>

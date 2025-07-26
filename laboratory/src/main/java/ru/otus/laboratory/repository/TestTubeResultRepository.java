@@ -22,4 +22,5 @@ public interface TestTubeResultRepository {
     void update(TestTubeResult testTubeResult);
 
     Long findPatientByBarcode(String barcode);
+
 }

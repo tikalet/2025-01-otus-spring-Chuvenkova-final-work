@@ -18,21 +18,21 @@ public class DictServiceImpl implements DictService {
 
     private final TestTubeErrorRepository testTubeErrorRepository;
 
-    @Cacheable(cacheNames = "orderStatus", key = "#id")
+    @Cacheable(cacheNames = "orderStatus", key = "#id", condition = "#id != null")
     @Override
-    public OrderStatus findOrderStatusById(int id) {
+    public OrderStatus findOrderStatusById(Integer id) {
         return dictRepository.findOrderStatusById(id);
     }
 
-    @Cacheable(cacheNames = "testStatus", key = "#id")
+    @Cacheable(cacheNames = "testStatus", key = "#id", condition = "#id != null")
     @Override
-    public TestStatus findTestStatusById(int id) {
+    public TestStatus findTestStatusById(Integer id) {
         return dictRepository.findTestStatusById(id);
     }
 
-    @Cacheable(cacheNames = "testTubeStatus", key = "#id")
+    @Cacheable(cacheNames = "testTubeStatus", key = "#id", condition = "#id != null")
     @Override
-    public TestTubeStatus findTestTubeStatusById(int id) {
+    public TestTubeStatus findTestTubeStatusById(Integer id) {
         return dictRepository.findTestTubeStatusById(id);
     }
 

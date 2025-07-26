@@ -28,4 +28,6 @@ public class TestTubeResultDto {
     private String disposalTime;
 
     private List<TestResultDto> testResultList;
+
+    private List<TestTubeTrackDto> testTubeTrackList;
 }

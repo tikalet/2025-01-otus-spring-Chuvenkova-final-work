@@ -8,10 +8,10 @@ import ru.otus.laboratory.model.TestTubeStatus;
 @Mapper
 public interface DictRepository {
 
-    OrderStatus findOrderStatusById(int id);
+    OrderStatus findOrderStatusById(Integer id);
 
-    TestStatus findTestStatusById(int id);
+    TestStatus findTestStatusById(Integer id);
 
-    TestTubeStatus findTestTubeStatusById(int id);
+    TestTubeStatus findTestTubeStatusById(Integer id);
 
 }
