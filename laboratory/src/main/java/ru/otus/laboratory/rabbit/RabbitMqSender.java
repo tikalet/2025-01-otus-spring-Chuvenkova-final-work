@@ -1,4 +1,4 @@
-package ru.otus.laboratory.service;
+package ru.otus.laboratory.rabbit;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -8,21 +8,17 @@ import ru.otus.laboratory.mapper.AdapterMapper;
 import ru.otus.laboratory.model.MeasurementResult;
 import ru.otus.laboratory.repository.MeasurementResultRepository;
 import ru.otus.laboratory.repository.TestTubeResultRepository;
+import ru.otus.laboratory.service.MeasurementItemService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class RabbitMqService {
+public class RabbitMqSender {
 
-    private static final String LIS_EXCHANGE = "lis-exchange";
 
-    private static final String LIS_TO_ADAPTER_ROUTE_KEY = "lis-to-adapter-route-key";
-
-    private static final String ADAPTER_TO_LIS_ROUTE_KEY = "adapter-to-lis-route-key";
-
-    private static final String ADAPTER_ERROR_ROUTE_KEY = "adapter-error-route-key";
+    private static final String LIS_TO_ADAPTER_ROUTE_KEY = "lis.to.adapter.route.key";
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -35,8 +31,8 @@ public class RabbitMqService {
     private final MeasurementItemService measurementItemService;
 
     public void sendToAdapterMeasurementByBarcode(String barcode) {
-        List<Long> testResultIdList = testTubeResultRepository.findTestResultByBarcode(barcode);
-        List<MeasurementResult> measurementResultList = measurementResultRepository.findByTestResultIdList(testResultIdList);
+        var testResultIdList = testTubeResultRepository.findTestResultByBarcode(barcode);
+        var measurementResultList = measurementResultRepository.findByTestResultIdList(testResultIdList);
         List<String> extcodeList = new ArrayList<>();
 
         for (MeasurementResult measurementResult : measurementResultList) {
@@ -48,7 +44,6 @@ public class RabbitMqService {
         adapterTaskDto.setBarcode(barcode);
         adapterTaskDto.setExtcodes(extcodeList);
 
-        rabbitTemplate.setExchange(LIS_EXCHANGE);
         rabbitTemplate.convertAndSend(LIS_TO_ADAPTER_ROUTE_KEY, adapterTaskDto);
     }
 }

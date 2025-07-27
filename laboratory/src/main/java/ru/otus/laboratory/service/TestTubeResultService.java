@@ -19,9 +19,11 @@ public interface TestTubeResultService {
 
     TestTubeResultDto findByBarcode(String barcode);
 
-    List<TestTubeResultDto> findTestTubeResultByTimeAndStatus(String time, Long statusId);
+    List<TestTubeResultDto> findByTimeAndStatus(String time, Long statusId);
 
     void recordArrivalTestTubeAtLaboratory(String barcode);
 
     TestTubeResultDto updateErrorInfo(TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto);
+
+    void updateErrorInfo(String barcode, Integer errorId);
 }

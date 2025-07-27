@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultErrorUpdateDto;
-import ru.otus.laboratory.service.RabbitMqService;
+import ru.otus.laboratory.rabbit.RabbitMqSender;
 import ru.otus.laboratory.service.TestTubeErrorService;
 import ru.otus.laboratory.service.TestTubeResultService;
 
@@ -30,7 +30,7 @@ public class TestTubeControllerRest {
 
     private final TestTubeErrorService testTubeErrorService;
 
-    private final RabbitMqService rabbitMqService;
+    private final RabbitMqSender rabbitMqSender;
 
     @GetMapping("/api/testTubeError")
     public ResponseEntity<List<TestTubeErrorDto>> getTestTubeError() {
@@ -53,7 +53,7 @@ public class TestTubeControllerRest {
             @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Time parameter must be in format yyyy-MM-dd")
             String time,
             @PathVariable("status") Long statusId) {
-        return new ResponseEntity<>(testTubeResultService.findTestTubeResultByTimeAndStatus(time, statusId),
+        return new ResponseEntity<>(testTubeResultService.findByTimeAndStatus(time, statusId),
                 HttpStatus.OK);
     }
 
@@ -68,7 +68,7 @@ public class TestTubeControllerRest {
         testTubeResultService.recordArrivalTestTubeAtLaboratory(barcode);
 
         try {
-            rabbitMqService.sendToAdapterMeasurementByBarcode(barcode);
+            rabbitMqSender.sendToAdapterMeasurementByBarcode(barcode);
         } catch (AmqpException ex) {
             log.error("Unable send measurement extcodes by barcode %s to Rabbit".formatted(barcode), ex);
         }
