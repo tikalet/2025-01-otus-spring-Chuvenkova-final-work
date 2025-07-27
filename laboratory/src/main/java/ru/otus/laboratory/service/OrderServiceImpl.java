@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.updateStatus(id, OrderStatus.IN_WORK);
         testResultService.updateStatus(id, TestStatus.IN_WORK);
-        testTubeResultService.updateStatus(id, TestTubeStatus.TRANSPORTATION);
+        testTubeResultService.updateStatusByOrder(id, TestTubeStatus.TRANSPORTATION);
     }
 
     private Integer calcTotalSum(List<TestItemDto> testItemList) {

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.laboratory.config.RabbitMqConfig;
 import ru.otus.laboratory.dto.adapter.AdapterErrorDto;
 import ru.otus.laboratory.dto.adapter.AdapterTaskResponseDto;
-import ru.otus.laboratory.repository.TestTubeResultRepository;
+import ru.otus.laboratory.model.TestTubeStatus;
 import ru.otus.laboratory.service.MeasurementResultService;
 import ru.otus.laboratory.service.TestTubeResultService;
 
@@ -21,16 +21,20 @@ public class RabbitMqListener {
 
     private final TestTubeResultService testTubeResultService;
 
-    private final TestTubeResultRepository testTubeResultRepository;
-
     @RabbitListener(queues = RabbitMqConfig.ADAPTER_TO_LIS_QUEUE, ackMode = "MANUAL")
     public void processAdapterToLisMessage(AdapterTaskResponseDto adapterTaskResponseDto,
                                            Channel channel,
                                            @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
 
         try {
-            var testResultIdList = testTubeResultRepository.findTestResultByBarcode(adapterTaskResponseDto.getBarcode());
+            String barcode = adapterTaskResponseDto.getBarcode();
+
+            var testResultIdList = testTubeResultService.findTestResultByBarcode(barcode);
             measurementResultService.update(testResultIdList, adapterTaskResponseDto.getAdapterTaskResultList());
+
+            if (measurementResultService.fillAllResult(barcode)) {
+                testTubeResultService.updateStatusByBarcode(barcode, TestTubeStatus.COMPLETED);
+            }
             channel.basicAck(tag, false);
         } catch (Exception ex) {
             channel.basicNack(tag, false, false);

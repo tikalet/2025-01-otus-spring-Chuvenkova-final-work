@@ -11,4 +11,6 @@ public interface MeasurementResultService {
     List<MeasurementResultDto> create(List<TestResultDto> testResultDtoList, Long patientId);
 
     void update(List<Long> testResultIdList, List<AdapterTaskResultDto> adapterTaskResultList);
+
+    boolean fillAllResult(String barcode);
 }

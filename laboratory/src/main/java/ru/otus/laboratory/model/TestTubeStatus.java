@@ -13,11 +13,13 @@ public class TestTubeStatus {
 
     public static final int IN_WORK = 4;
 
-    public static final int ARCHIVE = 5;
+    public static final int COMPLETED = 5;
 
-    public static final int DISPOSED = 6;
+    public static final int ARCHIVE = 6;
 
-    public static final int ERROR = 7;
+    public static final int DISPOSED = 7;
+
+    public static final int ERROR = 8;
 
     private int id;
 

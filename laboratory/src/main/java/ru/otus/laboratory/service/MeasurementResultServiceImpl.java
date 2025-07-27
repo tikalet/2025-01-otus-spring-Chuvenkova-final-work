@@ -70,6 +70,11 @@ public class MeasurementResultServiceImpl implements MeasurementResultService {
         }
     }
 
+    @Override
+    public boolean fillAllResult(String barcode) {
+        return measurementResultRepository.fillAllResult(barcode);
+    }
+
     private Map<String, AdapterTaskResultDto> converToMap(List<AdapterTaskResultDto> adapterTaskResultDtos) {
         return adapterTaskResultDtos.stream().
                 collect(Collectors.toMap(

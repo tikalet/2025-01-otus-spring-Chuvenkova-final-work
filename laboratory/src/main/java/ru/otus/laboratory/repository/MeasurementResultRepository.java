@@ -17,4 +17,6 @@ public interface MeasurementResultRepository {
 
     List<MeasurementResult> findByPatientIdAndMeasurementItemId(@Param("patientId") Long patientId,
                                                                 @Param("measurementItemId") Long measurementItemId);
+
+    boolean fillAllResult(String barcode);
 }

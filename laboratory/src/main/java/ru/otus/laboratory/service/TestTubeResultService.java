@@ -13,17 +13,21 @@ public interface TestTubeResultService {
 
     List<TestTubeResultNurseDto> findByOrderId(Long orderId);
 
-    void updateStatus(long orderId, int statusId);
-
     TestTubeResultDto findById(Long id);
 
     TestTubeResultDto findByBarcode(String barcode);
 
     List<TestTubeResultDto> findByTimeAndStatus(String time, Long statusId);
 
+    void updateStatusByOrder(long orderId, int statusId);
+
+    void updateStatusByBarcode(String barcode, int statusId);
+
     void recordArrivalTestTubeAtLaboratory(String barcode);
 
     TestTubeResultDto updateErrorInfo(TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto);
 
     void updateErrorInfo(String barcode, Integer errorId);
+
+    List<Long> findTestResultByBarcode(String barcode);
 }

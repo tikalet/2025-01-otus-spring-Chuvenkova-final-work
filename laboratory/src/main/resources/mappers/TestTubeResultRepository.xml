@@ -38,16 +38,16 @@
         ORDER BY barcode
     </select>
 
-    <update id="updateStatusByOrder">
-        UPDATE test_tube_result
-        SET status_id = #{statusId}
-        WHERE order_result_id = #{orderId}
-    </update>
-
     <update id="updateStatus">
         UPDATE test_tube_result
         SET status_id = #{statusId}
         WHERE id = #{id}
+    </update>
+
+    <update id="updateStatusByBarcode">
+        UPDATE test_tube_result
+        SET status_id = #{statusId}
+        WHERE barcode=#{barcode}
     </update>
 
     <update id="update">

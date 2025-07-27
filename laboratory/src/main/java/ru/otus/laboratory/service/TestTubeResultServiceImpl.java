@@ -102,8 +102,28 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
     @Transactional
     @Override
-    public void updateStatus(long orderId, int statusId) {
-        testTubeResultRepository.updateStatusByOrder(orderId, statusId);
+    public void updateStatusByOrder(long orderId, int statusId) {
+        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
+        testTubeResultSearch.setOrderId(orderId);
+        List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
+
+        for (TestTubeResult testTubeResult : testTubeResultList) {
+            createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), statusId, null);
+            testTubeResultRepository.updateStatus(testTubeResult.getId(), statusId);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void updateStatusByBarcode(String barcode, int statusId) {
+        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
+        testTubeResultSearch.setBarcode(barcode);
+        List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
+
+        for (TestTubeResult testTubeResult : testTubeResultList) {
+            createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), statusId, null);
+            testTubeResultRepository.updateStatus(testTubeResult.getId(), statusId);
+        }
     }
 
     @Override
@@ -213,6 +233,11 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         testTubeResult.setStatusId(statusNew);
         testTubeResult.setTestTubeErrorId(errorId);
         testTubeResultRepository.update(testTubeResult);
+    }
+
+    @Override
+    public List<Long> findTestResultByBarcode(String barcode) {
+        return testTubeResultRepository.findTestResultByBarcode(barcode);
     }
 
     private TestTubeError getTestTubeError(Integer errorId) {

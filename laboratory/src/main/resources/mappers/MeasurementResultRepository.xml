@@ -43,4 +43,13 @@
         AND measurement_item_id = #{measurementItemId}
         ORDER BY measur_time DESC
     </select>
+
+    <select id="fillAllResult" resultType="java.lang.Boolean">
+        SELECT LEAST (1, count(*))
+        FROM test_tube_result ttr
+        INNER JOIN test_result tr ON tr.test_tube_result_id = ttr.id
+        INNER JOIN measurement_result mr ON mr.test_result_id = tr.id
+        WHERE ttr.barcode = #{barcode}
+        AND mr.value IS NULL
+    </select>
 </mapper>
