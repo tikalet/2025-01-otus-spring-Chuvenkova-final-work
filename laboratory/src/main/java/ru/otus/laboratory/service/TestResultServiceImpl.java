@@ -59,8 +59,14 @@ public class TestResultServiceImpl implements TestResultService {
 
     @Transactional
     @Override
-    public void updateStatus(long orderId, int statusId) {
-        testResultRepository.updateStatus(orderId, statusId);
+    public void updateStatusByOrderId(Long orderId, int statusId) {
+        testResultRepository.updateStatusByOrderId(orderId, statusId);
+    }
+
+    @Transactional
+    @Override
+    public void updateStatusByTestTubeResultId(Long testTubeResultId, int statusId) {
+        testResultRepository.updateStatusByTestTubeResultId(testTubeResultId, statusId);
     }
 
     @Override
@@ -76,6 +82,25 @@ public class TestResultServiceImpl implements TestResultService {
                         testItemService.findById(testResult.getTestItemId()),
                         dictService.findTestStatusById(testResult.getStatusId()).getName())
         ).toList();
+    }
+
+    @Override
+    public boolean allTestReady(Long orderId) {
+        List<TestResult> testResultList = testResultRepository.findByOrderId(orderId);
+
+        if (testResultList == null || testResultList.isEmpty()) {
+            return false;
+        }
+
+        boolean allReady = true;
+        for (TestResult testResult : testResultList) {
+            if (testResult.getStatusId() < TestStatus.READY) {
+                allReady = false;
+                break;
+            }
+        }
+
+        return allReady;
     }
 
     private Map<Long, TestTubeResultOrderDto> convertTestTubeResultToMap(

@@ -49,4 +49,11 @@ public class OrderControllerRest {
         orderService.updateOrderForNurse(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+
+    @PutMapping("/api/doctor/order/barcode/{barcode}")
+    public ResponseEntity<Void> signOrderDocument(@PathVariable("barcode") String barcode) {
+        orderService.signTestTubeDocument(barcode);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
 }

@@ -12,8 +12,12 @@ public interface TestResultService {
     List<TestResultOrderDto> create(Long orderId, Long staffId, List<TestItemDto> testItemList,
                                     List<TestTubeResultOrderDto> testTubeResultOrderDtoList);
 
-    void updateStatus(long orderId, int statusId);
+    void updateStatusByOrderId(Long orderId, int statusId);
+
+    void updateStatusByTestTubeResultId(Long testTubeResultId, int statusId);
 
     List<TestResultDto> findByTestTubeResultId(Long testTubeResultId);
+
+    boolean allTestReady(Long orderId);
 
 }

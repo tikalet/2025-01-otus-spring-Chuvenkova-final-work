@@ -167,11 +167,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void recordArrivalTestTubeAtLaboratory(String barcode) {
-        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
-        testTubeResultSearch.setBarcode(barcode);
-
-        List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
-        TestTubeResult testTubeResult = testTubeResultList.get(0);
+        TestTubeResult testTubeResult = findTestTubeByBarcode(barcode);
 
         if (testTubeResult.getStatusId() >= TestTubeStatus.LABORATORY) {
             throw new InvalidStatusException("The test tube with barcode %s is already registered in the system"
@@ -185,6 +181,14 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
         List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
         measurementResultService.create(testResultDtoList, patientId);
+    }
+
+    private TestTubeResult findTestTubeByBarcode(String barcode) {
+        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
+        testTubeResultSearch.setBarcode(barcode);
+
+        List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
+        return testTubeResultList.get(0);
     }
 
     @Transactional
@@ -218,16 +222,10 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
     @Transactional
     @Override
     public void updateErrorInfo(String barcode, Integer errorId) {
-        TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
-        testTubeResultSearch.setBarcode(barcode);
-
-        List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
-        TestTubeResult testTubeResult = testTubeResultList.get(0);
-
+        TestTubeResult testTubeResult = findTestTubeByBarcode(barcode);
         TestTubeError testTubeError = getTestTubeError(errorId);
 
         int statusNew = TestTubeStatus.ERROR;
-
         createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), statusNew, errorId);
 
         testTubeResult.setStatusId(statusNew);

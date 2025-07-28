@@ -10,6 +10,7 @@ import ru.otus.laboratory.dto.OrderResultNurseDto;
 import ru.otus.laboratory.dto.PatientDto;
 import ru.otus.laboratory.dto.StaffDto;
 import ru.otus.laboratory.dto.TestItemDto;
+import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
 import ru.otus.laboratory.exceptions.BadSearchParamException;
 import ru.otus.laboratory.exceptions.InvalidStatusException;
@@ -114,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderRepository.updateStatus(id, OrderStatus.IN_WORK);
-        testResultService.updateStatus(id, TestStatus.IN_WORK);
+        testResultService.updateStatusByOrderId(id, TestStatus.IN_WORK);
         testTubeResultService.updateStatusByOrder(id, TestTubeStatus.TRANSPORTATION);
     }
 
@@ -136,6 +137,18 @@ public class OrderServiceImpl implements OrderService {
                         null,
                         dictService.findOrderStatusById(orderResult.getStatusId()).getName()))
                 .toList();
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void signTestTubeDocument(String barcode) {
+        TestTubeResultDto testTubeResult = testTubeResultService.findByBarcode(barcode);
+        testResultService.updateStatusByTestTubeResultId(testTubeResult.getId(), TestStatus.READY);
+
+        if (testResultService.allTestReady(testTubeResult.getOrderResultId())) {
+            orderRepository.updateStatus(testTubeResult.getOrderResultId(), OrderStatus.COMPLETED);
+        }
     }
 
     private Integer calcTotalSum(List<TestItemDto> testItemList) {
@@ -174,19 +187,19 @@ public class OrderServiceImpl implements OrderService {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (orderSearch.getPatientId() != null) {
-            stringBuilder.append(" AND patient_id= #{search.patientId}");
+            stringBuilder.append(" AND ord.patient_id= #{search.patientId}");
         }
 
         if (orderSearch.getTime() != null && !orderSearch.getTime().isEmpty()) {
-            stringBuilder.append(" AND take_test_time LIKE #{search.time} || '%'");
+            stringBuilder.append(" AND ord.payment_time LIKE #{search.time} || '%'");
         }
 
         if (orderSearch.getStatusId() != null) {
-            stringBuilder.append(" AND status_id= #{search.statusId}");
+            stringBuilder.append(" AND ord.status_id= #{search.statusId}");
         }
 
         if (orderSearch.getId() != null) {
-            stringBuilder.append(" AND id= #{search.id}");
+            stringBuilder.append(" AND ord.id= #{search.id}");
         }
 
         if (stringBuilder.isEmpty()) {

@@ -21,10 +21,16 @@
         VALUES(#{id}, #{price}, #{testItemId}, #{orderResultId}, #{statusId}, #{staffId}, #{testTubeResultId})
     </insert>
 
-    <update id="updateStatus">
+    <update id="updateStatusByOrderId">
         UPDATE test_result
         SET status_id = #{statusId}
-        WHERE order_result_id = #{orderId}
+        WHERE order_result_id = #{orderResultId}
+    </update>
+
+    <update id="updateStatusByTestTubeResultId">
+        UPDATE test_result
+        SET status_id = #{statusId}
+        WHERE test_tube_result_id = #{testTubeResultId}
     </update>
 
     <select id="findByTestTubeResultId" resultMap="TestResultMap">
@@ -32,4 +38,11 @@
         FROM test_result
         WHERE test_tube_result_id = #{testTubeResultId}
     </select>
+
+    <select id="findByOrderId" resultMap="TestResultMap">
+        SELECT id, test_item_id, order_result_id, status_id, staff_id, test_tube_result_id, price
+        FROM test_result
+        WHERE order_result_id = #{orderId}
+    </select>
+
 </mapper>

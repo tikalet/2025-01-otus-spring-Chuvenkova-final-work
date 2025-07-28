@@ -27,6 +27,9 @@ Content-Type: application/json
     "testItemIdList" : [ 1]
 }
 
+### список заказов
+GET http://localhost:8080/api/order/patient/101 HTTP/1.1
+
 
 ## кабинет медсестры
 ### список пациентов, ожидающих забора БМ
@@ -77,3 +80,8 @@ GET http://localhost:8080/api/measurementResult/order/7 HTTP/1.1
 
 ### динамика измерения для пациента
 GET http://localhost:8080/api/measurementResult/patient/100/measurementItemId/1 HTTP/1.1
+
+
+## список измерений
+### подписание документа
+PUT http://localhost:8080/api/doctor/order/barcode/0000000011 HTTP/1.1

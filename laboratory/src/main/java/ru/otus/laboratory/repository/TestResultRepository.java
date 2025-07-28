@@ -11,7 +11,13 @@ public interface TestResultRepository {
 
     void create(TestResult testResult);
 
-    void updateStatus(@Param("orderId") long orderId, @Param("statusId") int statusId);
+    void updateStatusByOrderId(@Param("orderId") Long orderId, @Param("statusId") int statusId);
+
+    void updateStatusByTestTubeResultId(@Param("testTubeResultId") Long testTubeResultId,
+                                        @Param("statusId") int statusId);
 
     List<TestResult> findByTestTubeResultId(Long testTubeResultId);
+
+    List<TestResult> findByOrderId(Long orderId);
+
 }
