@@ -11,6 +11,7 @@ import ru.otus.laboratory.dto.PatientDto;
 import ru.otus.laboratory.dto.StaffDto;
 import ru.otus.laboratory.dto.TestItemDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
+import ru.otus.laboratory.exceptions.BadSearchParamException;
 import ru.otus.laboratory.exceptions.InvalidStatusException;
 import ru.otus.laboratory.exceptions.NotFoundException;
 import ru.otus.laboratory.mapper.OrderMapper;
@@ -19,6 +20,7 @@ import ru.otus.laboratory.model.OrderResult;
 import ru.otus.laboratory.model.OrderStatus;
 import ru.otus.laboratory.model.TestStatus;
 import ru.otus.laboratory.model.TestTubeStatus;
+import ru.otus.laboratory.model.search.OrderSearch;
 import ru.otus.laboratory.repository.OrderRepository;
 import ru.otus.laboratory.util.DateTimeUtil;
 
@@ -79,8 +81,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResultNurseDto> findOrderForNurse() {
-        List<OrderResult> orderResultList = orderRepository.findByTimeAndStatus(dateTimeUtil.nowDate(),
-                OrderStatus.CREATE);
+        OrderSearch orderSearch = new OrderSearch();
+        orderSearch.setTime(dateTimeUtil.nowDate());
+        orderSearch.setStatusId(OrderStatus.CREATE);
+
+        List<OrderResult> orderResultList = orderRepository.findByParam(orderSearch,
+                createSearchConditionForResult(orderSearch));
         return orderResultList.stream()
                 .map(orderResult -> orderMapper.fromModel(orderResult, null))
                 .toList();
@@ -112,6 +118,26 @@ public class OrderServiceImpl implements OrderService {
         testTubeResultService.updateStatusByOrder(id, TestTubeStatus.TRANSPORTATION);
     }
 
+    @Override
+    public List<OrderResultDto> findOrderByPatientId(Long patientId) {
+        OrderSearch orderSearch = new OrderSearch();
+        orderSearch.setPatientId(patientId);
+
+        List<OrderResult> orderResultList = orderRepository.findByParam(orderSearch,
+                createSearchConditionForResult(orderSearch));
+
+        if (orderResultList == null || orderResultList.isEmpty()) {
+            throw new NotFoundException("Order with patientId %d not found".formatted(patientId));
+        }
+
+        return orderResultList.stream()
+                .map(orderResult -> orderMapper.fromModel(orderResult,
+                        patientMapper.fromModel(orderResult.getPatient()),
+                        null,
+                        dictService.findOrderStatusById(orderResult.getStatusId()).getName()))
+                .toList();
+    }
+
     private Integer calcTotalSum(List<TestItemDto> testItemList) {
         return testItemList.stream().mapToInt(TestItemDto::getPrice).sum();
     }
@@ -121,8 +147,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderResult findOrderById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Order with id %d not found".formatted(id)));
+        OrderSearch orderSearch = new OrderSearch();
+        orderSearch.setId(id);
+
+        List<OrderResult> orderResultList = orderRepository.findByParam(orderSearch,
+                createSearchConditionForResult(orderSearch));
+
+        if (orderResultList == null || orderResultList.isEmpty()) {
+            throw new NotFoundException("Order with id %d not found".formatted(id));
+        }
+
+        return orderResultList.get(0);
     }
 
     private List<TestItemDto> fillTestItemForOrder(List<Long> testItemIdList) {
@@ -133,5 +168,30 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return testItemDtoList;
+    }
+
+    private String createSearchConditionForResult(OrderSearch orderSearch) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (orderSearch.getPatientId() != null) {
+            stringBuilder.append(" AND patient_id= #{search.patientId}");
+        }
+
+        if (orderSearch.getTime() != null && !orderSearch.getTime().isEmpty()) {
+            stringBuilder.append(" AND take_test_time LIKE #{search.time} || '%'");
+        }
+
+        if (orderSearch.getStatusId() != null) {
+            stringBuilder.append(" AND status_id= #{search.statusId}");
+        }
+
+        if (orderSearch.getId() != null) {
+            stringBuilder.append(" AND id= #{search.id}");
+        }
+
+        if (stringBuilder.isEmpty()) {
+            throw new BadSearchParamException("Incorrect order search data");
+        }
+        return stringBuilder.toString();
     }
 }

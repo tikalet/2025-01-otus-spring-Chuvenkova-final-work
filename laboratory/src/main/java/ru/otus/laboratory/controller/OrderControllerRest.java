@@ -23,6 +23,11 @@ public class OrderControllerRest {
 
     private final OrderService orderService;
 
+    @GetMapping("/api/order/patient/{patientId}")
+    public ResponseEntity<List<OrderResultDto>> getOrderByPatientId(@PathVariable("patientId") Long patientId) {
+        return new ResponseEntity<>(orderService.findOrderByPatientId(patientId), HttpStatus.OK);
+    }
+
     @PostMapping("/api/order")
     public ResponseEntity<OrderResultDto> createPatient(@Valid @RequestBody OrderResultCreateDto orderResultCreateDto) {
         var orderResultDto = orderService.create(orderResultCreateDto);

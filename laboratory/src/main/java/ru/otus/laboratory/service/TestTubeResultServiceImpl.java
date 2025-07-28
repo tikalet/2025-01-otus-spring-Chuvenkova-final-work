@@ -246,9 +246,9 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
 
     private List<TestTubeResult> findTestTubeResultsByParam(TestTubeResultSearch testTubeResultSearch) {
-        StringBuilder stringBuilder = createSearchConditionTestTubeResult(testTubeResultSearch);
+        String stringBuilder = createSearchConditionTestTubeResult(testTubeResultSearch);
 
-        var testTubeResultList = testTubeResultRepository.findByParam(testTubeResultSearch, stringBuilder.toString());
+        var testTubeResultList = testTubeResultRepository.findByParam(testTubeResultSearch, stringBuilder);
 
         if (testTubeResultList == null || testTubeResultList.isEmpty()) {
             throw new NotFoundException("Test tube not found with%s"
@@ -275,7 +275,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
                 testTubeError != null ? testTubeError.getText() : null, testResultDtoList, testTubeTrackDtoList);
     }
 
-    private StringBuilder createSearchConditionTestTubeResult(TestTubeResultSearch testTubeResultSearch) {
+    private String createSearchConditionTestTubeResult(TestTubeResultSearch testTubeResultSearch) {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (testTubeResultSearch.getId() != null) {
@@ -301,7 +301,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         if (stringBuilder.isEmpty()) {
             throw new BadSearchParamException("Incorrect test tube search data");
         }
-        return stringBuilder;
+        return stringBuilder.toString();
     }
 
     private void createTrack(Long testTubeResultId, Long staffId,

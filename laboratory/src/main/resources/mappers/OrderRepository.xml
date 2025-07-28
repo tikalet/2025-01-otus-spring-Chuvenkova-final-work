@@ -27,7 +27,7 @@
         WHERE id = #{id}
     </update>
 
-    <select id="findByTimeAndStatus" resultMap="OrderResultMap">
+    <select id="findByParam" resultMap="OrderResultMap">
         SELECT ord.id,
         ord.total_price,
         ord.status_id,
@@ -39,24 +39,8 @@
         pat.last_name as pat_last_name
         FROM order_result ord
         INNER JOIN patient pat ON pat.id = ord.patient_id
-        WHERE ord.payment_time LIKE (#{time} || '%')
-        AND ord.status_id = #{statusId}
-        ORDER BY ord.payment_time
-    </select>
-
-    <select id="findById" resultMap="OrderResultMap">
-        SELECT ord.id,
-        ord.total_price,
-        ord.status_id,
-        ord.payment_time,
-        ord.staff_id,
-        pat.id as pat_id,
-        pat.first_name as pat_first_name,
-        pat.mid_name as pat_mid_name,
-        pat.last_name as pat_last_name
-        FROM order_result ord
-        INNER JOIN patient pat ON pat.id = ord.patient_id
-        WHERE ord.id = #{id}
+        WHERE 1 = 1 ${searchCondition}
+        ORDER BY ord.payment_time DESC
     </select>
 
 </mapper>

@@ -15,4 +15,6 @@ public interface OrderService {
     OrderResultNurseDto findOrderForNurseById(Long id);
 
     void updateOrderForNurse(Long id);
+
+    List<OrderResultDto> findOrderByPatientId(Long patientId);
 }

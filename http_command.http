@@ -24,7 +24,7 @@ Content-Type: application/json
 {
     "patientId": 101,
     "staffId": 2,
-    "testItemIdList" : [ 7]
+    "testItemIdList" : [ 1]
 }
 
 
@@ -33,18 +33,18 @@ Content-Type: application/json
 GET http://localhost:8080/api/nurse/order HTTP/1.1
 
 ### открыть конкретный заказ у медсестры
-GET http://localhost:8080/api/nurse/order/5 HTTP/1.1
+GET http://localhost:8080/api/nurse/order/8 HTTP/1.1
 
 ### заканчиваем забор БМ и обновляем статусы
-PUT http://localhost:8080/api/nurse/order/5 HTTP/1.1
+PUT http://localhost:8080/api/nurse/order/8 HTTP/1.1
 
 
 ## лаборант
 ### сканирует ШК тары при получении и обновляем статусы
-PUT http://localhost:8080/api/labAss/testTubeResult/0000000009 HTTP/1.1
+PUT http://localhost:8080/api/labAss/testTubeResult/0000000011 HTTP/1.1
 
 ### информация по таре
-GET http://localhost:8080/api/testTubeResult/barcode/0000000006  HTTP/1.1
+GET http://localhost:8080/api/testTubeResult/barcode/0000000011  HTTP/1.1
 
 ### список всех ошибок при работе с тарой
 GET http://localhost:8080/api/testTubeError HTTP/1.1
@@ -59,10 +59,21 @@ Content-Type: application/json
     # "errorId": 11
 }
 
-### журнал тары по дате и статусу 
-## Транспортировка
+## журнал тары по дате и статусу 
+### Транспортировка
 GET http://localhost:8080/api/testTubeResult/time/2025-07-24/status/2 HTTP/1.1
 ### В лаборатории
 GET http://localhost:8080/api/testTubeResult/time/2025-07-24/status/3 HTTP/1.1
 ### для врача
-GET http://localhost:8080/api/testTubeResult/status/5 HTTP/1.1
+GET http://localhost:8080/api/testTubeResult/status/3 HTTP/1.1
+
+
+## список измерений
+### для врача по ШК
+GET http://localhost:8080/api/measurementResult/testTubeResult/0000000011 HTTP/1.1
+
+### по заказу для ресепшена и ЛК
+GET http://localhost:8080/api/measurementResult/order/7 HTTP/1.1
+
+### динамика измерения для пациента
+GET http://localhost:8080/api/measurementResult/patient/100/measurementItemId/1 HTTP/1.1
