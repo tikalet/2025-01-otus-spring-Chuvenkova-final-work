@@ -73,7 +73,7 @@ public class TestResultServiceImpl implements TestResultService {
 
         return testResultList.stream().map(
                 testResult -> testMapper.fromModel(testResult,
-                        testItemService.findById(testResult.getTestItemId()).getName(),
+                        testItemService.findById(testResult.getTestItemId()),
                         dictService.findTestStatusById(testResult.getStatusId()).getName())
         ).toList();
     }

@@ -11,6 +11,6 @@ public class TestResultDto {
 
     private String status;
 
-    private String testItem;
+    private TestItemDto testItem;
 
 }

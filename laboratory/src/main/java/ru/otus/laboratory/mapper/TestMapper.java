@@ -42,10 +42,10 @@ public class TestMapper {
         return testResultOrderDto;
     }
 
-    public TestResultDto fromModel(TestResult testResult, String testItemName, String status) {
+    public TestResultDto fromModel(TestResult testResult, TestItemDto testItemDto, String status) {
         TestResultDto testResultOrderDto = new TestResultDto();
         testResultOrderDto.setId(testResult.getId());
-        testResultOrderDto.setTestItem(testItemName);
+        testResultOrderDto.setTestItem(testItemDto);
         testResultOrderDto.setOrderResultId(testResult.getOrderResultId());
         testResultOrderDto.setStatus(status);
         return testResultOrderDto;

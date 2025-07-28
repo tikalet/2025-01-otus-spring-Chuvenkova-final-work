@@ -29,5 +29,4 @@ public interface TestTubeResultService {
 
     void updateErrorInfo(String barcode, Integer errorId);
 
-    List<Long> findTestResultByBarcode(String barcode);
 }

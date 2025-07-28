@@ -23,6 +23,4 @@ public interface TestTubeResultRepository {
 
     Long findPatientByBarcode(String barcode);
 
-    List<Long> findTestResultByBarcode(String barcode);
-
 }

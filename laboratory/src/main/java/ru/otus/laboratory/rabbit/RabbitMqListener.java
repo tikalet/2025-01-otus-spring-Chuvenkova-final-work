@@ -29,12 +29,12 @@ public class RabbitMqListener {
         try {
             String barcode = adapterTaskResponseDto.getBarcode();
 
-            var testResultIdList = testTubeResultService.findTestResultByBarcode(barcode);
-            measurementResultService.update(testResultIdList, adapterTaskResponseDto.getAdapterTaskResultList());
+            measurementResultService.update(barcode, adapterTaskResponseDto.getAdapterTaskResultList());
 
             if (measurementResultService.fillAllResult(barcode)) {
                 testTubeResultService.updateStatusByBarcode(barcode, TestTubeStatus.COMPLETED);
             }
+            
             channel.basicAck(tag, false);
         } catch (Exception ex) {
             channel.basicNack(tag, false, false);

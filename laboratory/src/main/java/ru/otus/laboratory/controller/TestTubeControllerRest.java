@@ -57,6 +57,12 @@ public class TestTubeControllerRest {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/api/testTubeResult/status/{status}")
+    public ResponseEntity<List<TestTubeResultDto>> getTestTubeResultByStatus(
+            @PathVariable("status") Long statusId) {
+        return new ResponseEntity<>(testTubeResultService.findByTimeAndStatus(null, statusId), HttpStatus.OK);
+    }
+
     @PutMapping("/api/testTubeResult/error")
     public ResponseEntity<TestTubeResultDto> updateErrorInfo(
             @Valid @RequestBody TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto) {

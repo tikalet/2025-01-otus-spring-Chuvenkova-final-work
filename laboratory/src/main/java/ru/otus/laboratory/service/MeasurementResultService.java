@@ -10,7 +10,13 @@ public interface MeasurementResultService {
 
     List<MeasurementResultDto> create(List<TestResultDto> testResultDtoList, Long patientId);
 
-    void update(List<Long> testResultIdList, List<AdapterTaskResultDto> adapterTaskResultList);
+    void update(String barcode, List<AdapterTaskResultDto> adapterTaskResultList);
 
     boolean fillAllResult(String barcode);
+
+    List<MeasurementResultDto> findByTestTubeResultBarcode(String barcode);
+
+    List<MeasurementResultDto> findByOrderId(Long id);
+
+    List<MeasurementResultDto> findByPatientIdAndMeasurementItemId(Long patientId, Long measurementItemId);
 }

@@ -189,22 +189,22 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
     @Transactional
     @Override
-    public TestTubeResultDto updateErrorInfo(TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto) {
-        TestTubeError testTubeError = getTestTubeError(testTubeResultErrorUpdateDto.getErrorId());
+    public TestTubeResultDto updateErrorInfo(TestTubeResultErrorUpdateDto errorUpdateDto) {
+        TestTubeError testTubeError = getTestTubeError(errorUpdateDto.getErrorId());
 
         TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
-        testTubeResultSearch.setId(testTubeResultErrorUpdateDto.getId());
+        testTubeResultSearch.setId(errorUpdateDto.getId());
 
         List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
         TestTubeResult testTubeResult = testTubeResultList.get(0);
 
-        int statusNew = testTubeResultErrorUpdateDto.getErrorId() == null ? TestTubeStatus.LABORATORY : TestTubeStatus.ERROR;
+        int statusNew = errorUpdateDto.getErrorId() == null ? TestTubeStatus.LABORATORY : TestTubeStatus.ERROR;
 
         createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), statusNew,
-                testTubeResultErrorUpdateDto.getErrorId());
+                errorUpdateDto.getErrorId());
 
         testTubeResult.setStatusId(statusNew);
-        testTubeResult.setTestTubeErrorId(testTubeResultErrorUpdateDto.getErrorId());
+        testTubeResult.setTestTubeErrorId(errorUpdateDto.getErrorId());
         testTubeResultRepository.update(testTubeResult);
 
         List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
@@ -235,11 +235,6 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         testTubeResultRepository.update(testTubeResult);
     }
 
-    @Override
-    public List<Long> findTestResultByBarcode(String barcode) {
-        return testTubeResultRepository.findTestResultByBarcode(barcode);
-    }
-
     private TestTubeError getTestTubeError(Integer errorId) {
         TestTubeError testTubeError = dictService.findTestTubeErrorById(errorId);
 
@@ -251,7 +246,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
 
     private List<TestTubeResult> findTestTubeResultsByParam(TestTubeResultSearch testTubeResultSearch) {
-        StringBuilder stringBuilder = createSearchConditionFroTestTubeResult(testTubeResultSearch);
+        StringBuilder stringBuilder = createSearchConditionTestTubeResult(testTubeResultSearch);
 
         var testTubeResultList = testTubeResultRepository.findByParam(testTubeResultSearch, stringBuilder.toString());
 
@@ -280,7 +275,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
                 testTubeError != null ? testTubeError.getText() : null, testResultDtoList, testTubeTrackDtoList);
     }
 
-    private StringBuilder createSearchConditionFroTestTubeResult(TestTubeResultSearch testTubeResultSearch) {
+    private StringBuilder createSearchConditionTestTubeResult(TestTubeResultSearch testTubeResultSearch) {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (testTubeResultSearch.getId() != null) {

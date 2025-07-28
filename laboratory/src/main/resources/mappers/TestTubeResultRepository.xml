@@ -69,11 +69,4 @@
         where ttr.barcode =#{barcode}
     </select>
 
-    <select id="findTestResultByBarcode" resultType="java.lang.Long">
-        SELECT tr.id
-        FROM test_tube_result ttr
-        INNER JOIN test_result tr ON tr.test_tube_result_id = ttr.id
-        WHERE ttr.barcode =#{barcode}
-    </select>
-
 </mapper>

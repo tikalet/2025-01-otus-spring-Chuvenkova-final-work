@@ -27,21 +27,18 @@
         WHERE id = #{id}
     </update>
 
-    <select id="findByTestResultIdList" resultMap="MeasurementResultMap">
-        SELECT id, test_result_id, patient_id, measurement_item_id, value, measur_time
-        FROM measurement_result
-        WHERE test_result_id IN
-        <foreach collection="testResultId" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
-    </select>
-
-    <select id="findByPatientIdAndMeasurementItemId" resultMap="MeasurementResultMap">
-        SELECT id, test_result_id, patient_id, measurement_item_id, value, measur_time
-        FROM measurement_result
-        WHERE patient_id = #{patientId}
-        AND measurement_item_id = #{measurementItemId}
-        ORDER BY measur_time DESC
+    <select id="findByParam" resultMap="MeasurementResultMap">
+        SELECT mr.id ,
+        mr.measur_time ,
+        mr.measurement_item_id ,
+        mr.patient_id ,
+        mr.test_result_id ,
+        mr.value
+        FROM test_tube_result ttr
+        INNER JOIN test_result tr ON tr.test_tube_result_id = ttr.id
+        INNER JOIN measurement_result mr ON mr.test_result_id = tr.id
+        WHERE 1 = 1 ${searchCondition}
+        ORDER BY mr.measurement_item_id, mr.measur_time DESC
     </select>
 
     <select id="fillAllResult" resultType="java.lang.Boolean">
