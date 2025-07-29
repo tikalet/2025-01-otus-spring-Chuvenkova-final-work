@@ -24,10 +24,10 @@ Content-Type: application/json
 {
     "patientId": 101,
     "staffId": 2,
-    "testItemIdList" : [ 1]
+    "testItemIdList" : [3, 5, 6]
 }
 
-### список заказов
+### список заказов пациента
 GET http://localhost:8080/api/order/patient/101 HTTP/1.1
 
 

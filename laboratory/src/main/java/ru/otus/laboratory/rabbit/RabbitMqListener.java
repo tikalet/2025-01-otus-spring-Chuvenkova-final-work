@@ -2,6 +2,7 @@ package ru.otus.laboratory.rabbit;
 
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -13,6 +14,7 @@ import ru.otus.laboratory.model.TestTubeStatus;
 import ru.otus.laboratory.service.MeasurementResultService;
 import ru.otus.laboratory.service.TestTubeResultService;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RabbitMqListener {
@@ -26,15 +28,17 @@ public class RabbitMqListener {
                                            Channel channel,
                                            @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
 
+        log.info("RECEIVED %s".formatted(adapterTaskResponseDto));
+
         try {
             String barcode = adapterTaskResponseDto.getBarcode();
 
             measurementResultService.update(barcode, adapterTaskResponseDto.getAdapterTaskResultList());
 
-            if (measurementResultService.fillAllResult(barcode)) {
+            if (!measurementResultService.hasEmptyResult(barcode)) {
                 testTubeResultService.updateStatusByBarcode(barcode, TestTubeStatus.COMPLETED);
             }
-            
+
             channel.basicAck(tag, false);
         } catch (Exception ex) {
             channel.basicNack(tag, false, false);
@@ -45,6 +49,8 @@ public class RabbitMqListener {
     public void processAdapterToLisErrorMessage(AdapterErrorDto adapterErrorDto,
                                                 Channel channel,
                                                 @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
+
+        log.info("RECEIVED %s".formatted(adapterErrorDto));
 
         try {
             testTubeResultService.updateErrorInfo(adapterErrorDto.getBarcode(), adapterErrorDto.getErrorId());

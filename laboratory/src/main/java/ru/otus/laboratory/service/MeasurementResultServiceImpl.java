@@ -80,8 +80,8 @@ public class MeasurementResultServiceImpl implements MeasurementResultService {
     }
 
     @Override
-    public boolean fillAllResult(String barcode) {
-        return measurementResultRepository.fillAllResult(barcode);
+    public boolean hasEmptyResult(String barcode) {
+        return measurementResultRepository.hasEmptyResult(barcode);
     }
 
     @Override

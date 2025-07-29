@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: adapter
+
+server:
+  port: 8085
+
+rabbitmq:
+  addresses: "localhost"

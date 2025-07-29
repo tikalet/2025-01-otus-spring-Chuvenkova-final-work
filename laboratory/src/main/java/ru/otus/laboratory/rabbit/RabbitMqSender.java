@@ -1,6 +1,7 @@
 package ru.otus.laboratory.rabbit;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import ru.otus.laboratory.dto.MeasurementResultDto;
@@ -13,6 +14,7 @@ import ru.otus.laboratory.service.TestTubeResultService;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RabbitMqSender {
@@ -43,6 +45,7 @@ public class RabbitMqSender {
         adapterTaskDto.setBarcode(barcode);
         adapterTaskDto.setExtcodes(extcodeList);
 
+        log.info("SENT %s".formatted(adapterTaskDto));
         rabbitTemplate.convertAndSend(LIS_TO_ADAPTER_ROUTE_KEY, adapterTaskDto);
 
         testTubeResultService.updateStatusByBarcode(barcode, TestTubeStatus.IN_WORK);

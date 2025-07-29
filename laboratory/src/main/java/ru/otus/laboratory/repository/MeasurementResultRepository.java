@@ -17,5 +17,5 @@ public interface MeasurementResultRepository {
     List<MeasurementResult> findByParam(@Param("search") MeasurementResultSearch measurementResultSearch,
                                         @Param("searchCondition") String searchCondition);
 
-    boolean fillAllResult(String barcode);
+    boolean hasEmptyResult(String barcode);
 }

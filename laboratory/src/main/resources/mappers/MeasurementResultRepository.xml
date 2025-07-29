@@ -23,7 +23,7 @@
     <update id="update">
         UPDATE measurement_result
         SET value= #{value},
-        measur_time= #{measurTime},
+        measur_time= #{measurTime}
         WHERE id = #{id}
     </update>
 
@@ -41,7 +41,7 @@
         ORDER BY mr.measurement_item_id, mr.measur_time DESC
     </select>
 
-    <select id="fillAllResult" resultType="java.lang.Boolean">
+    <select id="hasEmptyResult" resultType="java.lang.Boolean">
         SELECT LEAST (1, count(*))
         FROM test_tube_result ttr
         INNER JOIN test_result tr ON tr.test_tube_result_id = ttr.id

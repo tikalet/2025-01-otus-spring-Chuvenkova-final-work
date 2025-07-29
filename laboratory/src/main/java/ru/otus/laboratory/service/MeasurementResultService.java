@@ -12,7 +12,7 @@ public interface MeasurementResultService {
 
     void update(String barcode, List<AdapterTaskResultDto> adapterTaskResultList);
 
-    boolean fillAllResult(String barcode);
+    boolean hasEmptyResult(String barcode);
 
     List<MeasurementResultDto> findByTestTubeResultBarcode(String barcode);
 
