@@ -1,10 +1,29 @@
+## Security
+@authCons = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMiIsImV4cCI6MTc1Mzg0NjMyMSwiaWF0IjoxNzUzODEwMzIxLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIl19.iZNxkyEg6lRy1ySMTR79d2Hs-tozuRuNjLxQvzmL84vS7TpKmQMPM8RvoGODm1jsaoXzPqlpKOMeA2AmxCaha2b4cOihOZ3Yp6Q9qETxD6cV0r-K-yKD6S2_X_nldFQPMKjPqp7cUNAj_tSUHSe8hKTpvIhbbfBnzxRraxa_Q0bSZKaGlxdnJXTnLSVfgq7QV8WCMm8HUnoG9YpaT8A0-CHlMxvAjDP_HAN9u91dC4GdONwIh5ZBybpJERteiqWhPlIBxMTT5gvtwjQRRRiab2FWhJbewqxnNbl1tzWWvTQgaJMTqlaqLdRiPCCGECqVY-xbq0uB61jv32KBjapprg
+@authLabAss = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTc1Mzg0NjQ3MCwiaWF0IjoxNzUzODEwNDcwLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIiwiTEFCX0FTU0lTVEFOVCJdfQ.ExpuIeCVyl_p9QC7S7lNYtt_QSw5lkmsrh0o5NkDJw8iC7_Ii0w9o1y_6Y6lvM5Z7-mUXjMfD44aRrTYd4t7uQImQgnoP85S576SQkWNzxUuBnaHKbv7PfQo_ETavv9W-3wDkfvBqe_MiQK0Wqhi4_wd8IHnRPcsRty3W0nAliiTNBK88UU7N4P948-BI-hUg9PkwH1k3Cp_4u885Ueo9MOJ917i5-4gG4qdoxY61djHTjq6cnfJjx_2u8VfyCXGsxTrXs7UYKUa0bmr_ZqJOvdFEFCcXZRrBaDZ81irHHAJ3Wwi9vI3hBF7qedFwQ9gpAZfIMQuMoRO0QTsonAB4w
+@authNurse = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiNSIsImV4cCI6MTc1Mzg0NjUxMywiaWF0IjoxNzUzODEwNTEzLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIiwiTlVSU0UiXX0.tWZmO5ZKQqpOlsTn6XHJyf7lJDlFxccWtRZb4DOG2NnISjhlr1mC0nW59GOg0WlZ_W6iy1YFQsE55AJNvqG093u8wM-ZXFQhxfziFskt1QzS862BMlP0L4Zcj_Wi_RScKR0pE-XR_2lgQzAgyOqZE0I0rjmSFgTFf41tuChoVrrFVs5yRv4OExQn17TWU9AQZe2SY-4VhF6dFsesd6wRg9S1vRlEAAvYaxq8OUF3z7LjK9DMUOwo8URKmTXe6Y6d0J0YEGdWWGLbEkCZByhWqtJl-AxzQsFXeOVqaeNUJ5BfV1IJVieR1uSIKFuo34MzG0uuwUqIXS9BVnzzNb7GvQ
+@authDoc = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiNCIsImV4cCI6MTc1Mzg0NjYwNSwiaWF0IjoxNzUzODEwNjA1LCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIiwiRE9DVE9SIl19.eG4B57m27668IByJG4cKpxDg0VvgQfJA23zF7SMEFJfOD9pp_xh7roTVLQMN4gcoylNXWWs5IZhu9rSMQDyCKp7kqRa5jbTrwsVTAVn58k021cdG-9TcBF8czk6FilaZohXiXoqv93XX8qz5QO8FCoWfsGrBN8v3EF8xR87GIykLMDiVmSkS97zPrGeeu0FyId4RA4oOJjkhjhjMfQ8-w3r0OM8bOM5xXioMkTevXtKFzLohol4E0QlaYBg8-C1GqJxIWNmOB5RCNpL58tos91WS2_p8WUjvTPtK2kHJel_Q2DEZb6oghYZwUJYAcqOMuXGfhHfOe833CczDH-NL9A
+
 ## Респшен
+POST http://localhost:8080/login HTTP/1.1
+Content-Type: application/json
+
+{
+    # "login": "cons",
+    # "login": "labass",
+    # "login": "nurse",
+    "login": "doc",
+    "password": "123"
+}
+
+
 ### список тестов
 GET http://localhost:8080/api/testItem HTTP/1.1
 
 ### создание пациента
 POST http://localhost:8080/api/patient HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{authCons}}
 
 {
     "firstName": "Артем",
@@ -16,72 +35,96 @@ Content-Type: application/json
 
 ### поиск пациента по имени
 GET http://localhost:8080/api/patient/Лапкина HTTP/1.1
+Authorization: Bearer {{authCons}}
+
 
 ### создание заказа
 POST http://localhost:8080/api/order HTTP/1.1
+Authorization: Bearer {{authCons}}
 Content-Type: application/json
 
 {
-    "patientId": 101,
+    "patientId": 100,
     "staffId": 2,
     "testItemIdList" : [3, 5, 6]
 }
 
 ### список заказов пациента
-GET http://localhost:8080/api/order/patient/101 HTTP/1.1
+GET http://localhost:8080/api/order/patient/100 HTTP/1.1
+Authorization: Bearer {{authCons}}
 
 
 ## кабинет медсестры
 ### список пациентов, ожидающих забора БМ
 GET http://localhost:8080/api/nurse/order HTTP/1.1
+Authorization: Bearer {{authNurse}}
 
 ### открыть конкретный заказ у медсестры
-GET http://localhost:8080/api/nurse/order/8 HTTP/1.1
+GET http://localhost:8080/api/nurse/order/1 HTTP/1.1
+Authorization: Bearer {{authNurse}}
 
 ### заканчиваем забор БМ и обновляем статусы
-PUT http://localhost:8080/api/nurse/order/8 HTTP/1.1
+PUT http://localhost:8080/api/nurse/order/1 HTTP/1.1
+Authorization: Bearer {{authNurse}}
 
 
 ## лаборант
 ### сканирует ШК тары при получении и обновляем статусы
-PUT http://localhost:8080/api/labAss/testTubeResult/0000000011 HTTP/1.1
+PUT http://localhost:8080/api/labAss/testTubeResult/0000000002 HTTP/1.1
+Authorization: Bearer {{authLabAss}}
 
 ### информация по таре
-GET http://localhost:8080/api/testTubeResult/barcode/0000000011  HTTP/1.1
+GET http://localhost:8080/api/testTubeResult/barcode/0000000002  HTTP/1.1
+Authorization: Bearer {{authLabAss}}
 
 ### список всех ошибок при работе с тарой
 GET http://localhost:8080/api/testTubeError HTTP/1.1
+Authorization: Bearer {{authLabAss}}
 
 ### обновить ошибку для тары
 PUT http://localhost:8080/api/testTubeResult/error HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{authLabAss}}
 
 {
-    "id": 4,
-    "errorId": null
-    # "errorId": 11
+    "id": 2,
+    # "errorId": null
+    "errorId": 51
 }
 
 ## журнал тары по дате и статусу 
 ### Транспортировка
 GET http://localhost:8080/api/testTubeResult/time/2025-07-24/status/2 HTTP/1.1
-### В лаборатории
-GET http://localhost:8080/api/testTubeResult/time/2025-07-24/status/3 HTTP/1.1
+Authorization: Bearer {{authLabAss}}
+
+### в работе
+GET http://localhost:8080/api/testTubeResult/time/2025-07-29/status/4 HTTP/1.1
+Authorization: Bearer {{authLabAss}}
+
+### отработан
+GET http://localhost:8080/api/testTubeResult/time/2025-07-29/status/5 HTTP/1.1
+Authorization: Bearer {{authLabAss}}
+
 ### для врача
-GET http://localhost:8080/api/testTubeResult/status/3 HTTP/1.1
+GET http://localhost:8080/api/testTubeResult/status/4 HTTP/1.1
+Authorization: Bearer {{authDoc}}
 
 
 ## список измерений
 ### для врача по ШК
-GET http://localhost:8080/api/measurementResult/testTubeResult/0000000011 HTTP/1.1
+GET http://localhost:8080/api/measurementResult/testTubeResult/0000000002 HTTP/1.1
+Authorization: Bearer {{authDoc}}
 
 ### по заказу для ресепшена и ЛК
-GET http://localhost:8080/api/measurementResult/order/7 HTTP/1.1
+GET http://localhost:8080/api/measurementResult/order/1 HTTP/1.1
+Authorization: Bearer {{authDoc}}
 
 ### динамика измерения для пациента
-GET http://localhost:8080/api/measurementResult/patient/100/measurementItemId/1 HTTP/1.1
+GET http://localhost:8080/api/measurementResult/patient/100/measurementItemId/26 HTTP/1.1
+Authorization: Bearer {{authDoc}}
 
 
 ## список измерений
 ### подписание документа
-PUT http://localhost:8080/api/doctor/order/barcode/0000000011 HTTP/1.1
+PUT http://localhost:8080/api/doctor/order/barcode/0000000002 HTTP/1.1
+Authorization: Bearer {{authDoc}}

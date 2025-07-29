@@ -149,3 +149,32 @@ SELECT 7, 32;
 
 UPDATE measurement_item
 SET extcode = 'M' || id;
+
+-------------------------
+insert into staff_auth (staff_id, login, password)
+values
+       (1, 'labass', '$2a$13$YpNzkAhUb.7uuWxJIPBenu43vbPIdfMTC9h1kk1O9cU5kuNCWva.u'), -- лаборант
+       (2, 'cons', '$2a$13$YpNzkAhUb.7uuWxJIPBenu43vbPIdfMTC9h1kk1O9cU5kuNCWva.u'), -- консультант
+       (3, 'headdoc', '$2a$13$YpNzkAhUb.7uuWxJIPBenu43vbPIdfMTC9h1kk1O9cU5kuNCWva.u'), -- глав врач
+       (4, 'doc', '$2a$13$YpNzkAhUb.7uuWxJIPBenu43vbPIdfMTC9h1kk1O9cU5kuNCWva.u'), -- доктор
+       (5, 'nurse', '$2a$13$YpNzkAhUb.7uuWxJIPBenu43vbPIdfMTC9h1kk1O9cU5kuNCWva.u'); -- медсестра
+
+insert into authorities(authority)
+values ('LABORATORY'), -- 1
+       ('PATIENT'), -- 2
+       ('NURSE'), -- 3
+       ('DOCTOR'), -- 4
+       ('LAB_ASSISTANT'), -- 5
+       ('HEAD_DOCTOR'); -- 6
+
+insert into staff_authority_link(staff_id, authority_id)
+select id, 1
+from staff;
+
+insert into staff_authority_link(staff_id, authority_id)
+values
+       (1, 5),
+       (3, 6),
+       (3, 4),
+       (4, 4),
+       (5, 3);

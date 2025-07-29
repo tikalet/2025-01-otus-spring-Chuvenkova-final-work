@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +20,22 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorDto> handeUsernameNotFoundException(UsernameNotFoundException ex) {
+        log.error(ex.getMessage());
+
+        ErrorDto errorDto = new ErrorDto(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+        return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorDto> handeBadCredentialsException(BadCredentialsException ex) {
+        log.error(ex.getMessage());
+
+        ErrorDto errorDto = new ErrorDto(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+        return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.UNAUTHORIZED);
+    }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorDto> handeNotFoundException(NotFoundException ex) {

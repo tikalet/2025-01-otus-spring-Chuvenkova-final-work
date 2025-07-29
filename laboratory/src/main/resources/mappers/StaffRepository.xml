@@ -16,4 +16,31 @@
         WHERE id = #{id}
     </select>
 
+
+    <resultMap id="StaffAuthMap" type="ru.otus.laboratory.model.StaffAuth">
+        <id property="staffId" column="staff_id"/>
+        <result property="login" column="login"/>
+        <result property="password" column="password"/>
+        <collection property="authorityList" resultMap="AuthorityMap" ofType="ru.otus.laboratory.model.Authority"
+                    columnPrefix="au_"/>
+    </resultMap>
+
+    <resultMap id="AuthorityMap" type="ru.otus.laboratory.model.Authority">
+        <id property="id" column="ID"/>
+        <result property="authority" column="authority"/>
+    </resultMap>
+
+    <select id="findByLogin" resultMap="StaffAuthMap">
+        SELECT sa.staff_id ,
+        sa.login ,
+        sa.PASSWORD,
+        a.id AS au_id,
+        a.authority AS au_authority
+        FROM staff_auth sa
+        LEFT JOIN staff_authority_link sal ON sal.staff_id = sa.staff_id
+        LEFT JOIN authorities a ON sal.authority_id = a.id
+        WHERE sa.login = #{login}
+    </select>
+
+
 </mapper>

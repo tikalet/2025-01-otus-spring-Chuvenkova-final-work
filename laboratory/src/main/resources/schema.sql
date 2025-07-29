@@ -190,3 +190,24 @@ ALTER TABLE test_item_measurement_item_link ADD PRIMARY KEY (test_item_id, measu
 ALTER TABLE test_item_measurement_item_link ADD CONSTRAINT test_item_measurement_item_link_to_test_fk FOREIGN KEY (test_item_id) REFERENCES test_item(id);
 ALTER TABLE test_item_measurement_item_link ADD CONSTRAINT test_item_measurement_item_link_to_measur_fk FOREIGN KEY (measurement_item_id) REFERENCES measurement_item(id);
 
+---------------------------
+CREATE TABLE staff_auth(
+    staff_id bigint,
+    login varchar,
+    PASSWORD varchar
+);
+
+ALTER TABLE staff_auth ADD PRIMARY KEY (staff_id);
+ALTER TABLE staff_auth ADD CONSTRAINT staff_auth_to_staff_fk FOREIGN KEY (staff_id) REFERENCES staff(id);
+
+create table authorities (
+    id bigserial,
+	authority varchar(255) not null,
+	primary key (id)
+);
+
+create table staff_authority_link (
+    staff_id bigint references staff(id) on delete cascade,
+    authority_id bigint references authorities(id) on delete cascade
+);
+

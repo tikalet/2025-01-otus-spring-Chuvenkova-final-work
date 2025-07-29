@@ -16,3 +16,7 @@ mybatis:
 
 rabbitmq:
   addresses: "localhost"
+
+custom-security:
+  publicKey: classpath:app.pub
+  privateKey: classpath:app.key

@@ -4,17 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Staff {
+public class StaffAuth {
 
-    private Long id;
+    private long staffId;
 
-    private String firstName;
+    private String login;
 
-    private String middleName;
+    private String password;
 
-    private String lastName;
-
+    private List<Authority> authorityList;
 }
