@@ -33,7 +33,7 @@ public class TestTubeControllerRest {
     private final RabbitMqSender rabbitMqSender;
 
     @GetMapping("/api/testTubeError")
-    public ResponseEntity<List<TestTubeErrorDto>> getTestTubeError() {
+    public ResponseEntity<List<TestTubeErrorDto>> getTestTubeErrorList() {
         return new ResponseEntity<>(testTubeErrorService.findAll(), HttpStatus.OK);
     }
 

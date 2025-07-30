@@ -35,7 +35,7 @@ public class TestControllerRestTest {
 
     @DisplayName("должен отдать список тестов")
     @Test
-    public void shouldReturnPatientByName() throws Exception {
+    public void shouldReturnTestItemList() throws Exception {
         List<TestItemDto> returnedList = createReturnedTestItemList();
 
         when(testItemService.findAll()).thenReturn(returnedList);

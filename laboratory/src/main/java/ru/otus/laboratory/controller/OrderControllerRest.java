@@ -29,7 +29,7 @@ public class OrderControllerRest {
     }
 
     @PostMapping("/api/order")
-    public ResponseEntity<OrderResultDto> createPatient(@Valid @RequestBody OrderResultCreateDto orderResultCreateDto) {
+    public ResponseEntity<OrderResultDto> createOrder(@Valid @RequestBody OrderResultCreateDto orderResultCreateDto) {
         var orderResultDto = orderService.create(orderResultCreateDto);
         return new ResponseEntity<OrderResultDto>(orderResultDto, HttpStatus.CREATED);
     }

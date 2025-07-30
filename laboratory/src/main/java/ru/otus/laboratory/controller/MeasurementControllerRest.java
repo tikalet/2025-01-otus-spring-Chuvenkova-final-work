@@ -1,5 +1,6 @@
 package ru.otus.laboratory.controller;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +30,9 @@ public class MeasurementControllerRest {
     }
 
     @GetMapping("/api/measurementResult/patient/{patientId}/measurementItemId/{measurementItemId}")
-    public ResponseEntity<List<MeasurementResultDto>> getMeasurementResultByOrderId(
-            @PathVariable("patientId") Long patientId,
-            @PathVariable("measurementItemId") Long measurementItemId) {
+    public ResponseEntity<List<MeasurementResultDto>> getMeasurementResultByPatientAndItem(
+            @NotNull @PathVariable("patientId") Long patientId,
+            @NotNull @PathVariable("measurementItemId") Long measurementItemId) {
         return new ResponseEntity<>(measurementResultService
                 .findByPatientIdAndMeasurementItemId(patientId, measurementItemId),
                 HttpStatus.OK);
