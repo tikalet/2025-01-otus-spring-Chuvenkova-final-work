@@ -15,7 +15,10 @@ mybatis:
   type-aliases-package: ru.otus.laboratory.model
 
 rabbitmq:
-  addresses: "localhost"
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
 
 custom-security:
   publicKey: classpath:app.pub
