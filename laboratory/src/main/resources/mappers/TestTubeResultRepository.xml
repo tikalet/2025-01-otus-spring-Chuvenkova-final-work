@@ -44,12 +44,6 @@
         WHERE id = #{id}
     </update>
 
-    <update id="updateStatusByBarcode">
-        UPDATE test_tube_result
-        SET status_id = #{statusId}
-        WHERE barcode=#{barcode}
-    </update>
-
     <update id="update">
         UPDATE test_tube_result
         SET order_result_id=#{orderResultId},

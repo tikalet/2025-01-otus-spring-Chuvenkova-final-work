@@ -8,23 +8,23 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
-@DisplayName("Репозиторий тестов должен проверить синтаксис")
+@DisplayName("Репозиторий тары должен проверить синтаксис")
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TestItemRepositoryTest {
+public class TestTubeItemRepositoryTest {
 
     @Autowired
-    private TestItemRepository testItemRepository;
+    private TestTubeItemRepository testTubeItemRepository;
 
     @DisplayName("findAll")
     @Test
     void shouldCheckAllTestItem() {
-        assertThatCode(() -> testItemRepository.findAll()).doesNotThrowAnyException();
+        assertThatCode(() -> testTubeItemRepository.findAll()).doesNotThrowAnyException();
     }
 
     @DisplayName("findById")
     @Test
     void shouldCheckFindById() {
-        assertThatCode(() -> testItemRepository.findById(1)).doesNotThrowAnyException();
+        assertThatCode(() -> testTubeItemRepository.findById(1)).doesNotThrowAnyException();
     }
 }

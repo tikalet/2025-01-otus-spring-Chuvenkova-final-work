@@ -69,7 +69,7 @@ CREATE TABLE order_result(
 );
 
 ALTER TABLE order_result ADD PRIMARY KEY (id);
-CREATE SEQUENCE order_result_seq;
+CREATE SEQUENCE order_result_seq START WITH 100;
 ALTER TABLE order_result ADD CONSTRAINT order_result_to_status_fk FOREIGN KEY (status_id) REFERENCES order_status (id);
 ALTER TABLE order_result ADD CONSTRAINT order_result_to_staff_fk FOREIGN KEY (staff_id) REFERENCES staff (id);
 ALTER TABLE order_result ADD CONSTRAINT order_result_to_patient_fk FOREIGN KEY (patient_id) REFERENCES patient (id);
@@ -102,7 +102,7 @@ CREATE TABLE test_tube_result(
 );
 
 ALTER TABLE test_tube_result ADD PRIMARY KEY (id);
-CREATE SEQUENCE test_tube_result_seq;
+CREATE SEQUENCE test_tube_result_seq START WITH 100;
 ALTER TABLE test_tube_result ADD CONSTRAINT test_tube_result_to_item_fk FOREIGN KEY (test_tube_item_id) REFERENCES test_tube_item (id);
 ALTER TABLE test_tube_result ADD CONSTRAINT test_tube_result_to_status_fk FOREIGN KEY (status_id) REFERENCES test_tube_status (id);
 ALTER TABLE test_tube_result ADD CONSTRAINT test_tube_result_to_error_fk FOREIGN KEY (test_tube_error_id) REFERENCES test_tube_error (id);
@@ -119,7 +119,7 @@ CREATE TABLE test_tube_track(
 );
 
 ALTER TABLE test_tube_track ADD PRIMARY KEY (id);
-CREATE SEQUENCE test_tube_track_seq;
+CREATE SEQUENCE test_tube_track_seq START WITH 100;
 ALTER TABLE test_tube_track ADD CONSTRAINT test_tube_track_to_result_fk FOREIGN KEY (test_tube_result_id) REFERENCES test_tube_result (id);
 ALTER TABLE test_tube_track ADD CONSTRAINT test_tube_track_to_staff_fk FOREIGN KEY (staff_id) REFERENCES staff (id);
 ALTER TABLE test_tube_track ADD CONSTRAINT test_tube_track_to_status_old_fk FOREIGN KEY (status_id_old) REFERENCES test_tube_status (id);
@@ -144,7 +144,7 @@ CREATE TABLE test_result(
 );
 ALTER TABLE test_result ADD COLUMN price int;
 ALTER TABLE test_result ADD PRIMARY KEY (id);
-CREATE SEQUENCE test_result_seq;
+CREATE SEQUENCE test_result_seq START WITH 100;
 ALTER TABLE test_result ADD CONSTRAINT test_result_to_status_fk FOREIGN KEY (status_id) REFERENCES test_status (id);
 ALTER TABLE test_result ADD CONSTRAINT test_result_to_order_result_fk FOREIGN KEY (order_result_id) REFERENCES order_result(id);
 ALTER TABLE test_result ADD CONSTRAINT test_result_to_staff_fk FOREIGN KEY (staff_id) REFERENCES staff (id);
@@ -176,7 +176,7 @@ CREATE TABLE measurement_result(
 );
 
 ALTER TABLE measurement_result ADD PRIMARY KEY (id);
-CREATE SEQUENCE measurement_result_seq;
+CREATE SEQUENCE measurement_result_seq START WITH 100;
 ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_test_res_fk FOREIGN KEY (test_result_id) REFERENCES test_result(id);
 ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_patient_fk FOREIGN KEY (patient_id) REFERENCES patient(id);
 ALTER TABLE measurement_result ADD CONSTRAINT measur_result_to_measur_item_fk FOREIGN KEY (measurement_item_id) REFERENCES measurement_item(id);

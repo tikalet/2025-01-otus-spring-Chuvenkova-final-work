@@ -80,12 +80,14 @@ public class PatientRepositoryTest {
     @DisplayName("проверить удаление пациента")
     @Test
     void shouldDeletePatient() {
-        var beforePatient = patientRepository.findById(1L);
+        var deletedPatientId = 2L;
+
+        var beforePatient = patientRepository.findById(deletedPatientId);
         assertThat(beforePatient).isNotNull();
 
-        patientRepository.deleteById(1L);
+        patientRepository.deleteById(deletedPatientId);
 
-        var afterPatient = patientRepository.findById(1L);
+        var afterPatient = patientRepository.findById(deletedPatientId);
         assertThat(afterPatient).isEmpty();
     }
 

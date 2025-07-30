@@ -8,6 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.method.ParameterValidationResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -89,6 +90,15 @@ public class GlobalExceptionHandler {
         log.error(ex.getMessage());
 
         ErrorDto errorDto = new ErrorDto(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorDto> handeHttpRequestMethodNotSupportedException(
+            HttpRequestMethodNotSupportedException ex) {
+        log.error(ex.getMessage());
+
+        ErrorDto errorDto = new ErrorDto(HttpStatus.BAD_REQUEST.value(), "Unknown API method");
         return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
