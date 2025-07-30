@@ -4,8 +4,8 @@ networks:
 
 services:
   rabbitmq:
-    container_name: lis_rabbitmq
-    image: rabbitmq:management
+    container_name: rabbitmq
+    image: rabbitmq:4.1.2-management
     environment:
       RABBITMQ_DEFAULT_USER: "guest"
       RABBITMQ_DEFAULT_PASS: "guest"
@@ -22,25 +22,29 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.31.11:5432/lis
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/lis
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=123
+      - SPRING_DATASOURCE_PASSWORD=postgres
       - DRIVER_CLASS_NAME=org.postgresql.Driver
       - SPRING_RABBITMQ_HOST=rabbitmq  # Имя сервиса как хост
       - SPRING_RABBITMQ_PORT=5672
       - SPRING_RABBITMQ_USERNAME=guest
       - SPRING_RABBITMQ_PASSWORD=guest
+      - SPRING_DATASOURCE_INITIALIZATION_MODE=always
+      - SPRING_SQL_INIT_MODE=always
+      - SPRING_SQL_INIT_PLATFORM=postgresql
     depends_on:
       - rabbitmq
+      - postgres
 
-  #  postgres:
-  #    image: "postgres:17"
-  #    ports:
-  #      - "5432:5432"
-  #    environment:
-  #      - POSTGRES_USER=postgres
-  #      - POSTGRES_PASSWORD=postgres
-  #      - POSTGRES_DB=lis
+  postgres:
+    image: "postgres:17"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=lis
 
   adapter-service:
     container_name: adapter
