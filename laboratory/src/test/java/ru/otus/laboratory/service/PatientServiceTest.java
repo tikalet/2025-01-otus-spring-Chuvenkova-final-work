@@ -12,7 +12,7 @@ import ru.otus.laboratory.mapper.PatientMapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
-@DisplayName("Сервис пациентов должен")
+@DisplayName("Сервис пациентов")
 @MybatisTest
 @Import({PatientServiceImpl.class, PatientMapper.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

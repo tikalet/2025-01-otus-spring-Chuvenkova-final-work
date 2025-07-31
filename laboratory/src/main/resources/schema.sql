@@ -152,7 +152,7 @@ ALTER TABLE test_result ADD CONSTRAINT test_result_to_item_fk FOREIGN KEY (test_
 ALTER TABLE test_result ADD CONSTRAINT test_result_to_tube_result_fk FOREIGN KEY (test_tube_result_id) REFERENCES test_tube_result(id);
 
 -------------------------------
-CREATE SEQUENCE barcode_seq;
+CREATE SEQUENCE barcode_seq START WITH 100;
 -------------------------------
 CREATE TABLE measurement_item(
     id bigint,
