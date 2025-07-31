@@ -123,12 +123,10 @@ public class TestTubeControllerRestTest {
     @Test
     public void shouldUpdateError() throws Exception {
         TestTubeResultErrorUpdateDto errorUpdateDto = new TestTubeResultErrorUpdateDto(1L, 1);
+        String expectedDto = mapper.writeValueAsString(errorUpdateDto);
 
         TestTubeResultDto testTubeResultDto = createReturnedTestTubeList().get(0);
-
         when(testTubeResultService.updateErrorInfo(errorUpdateDto)).thenReturn(testTubeResultDto);
-
-        String expectedDto = mapper.writeValueAsString(errorUpdateDto);
 
         mvc.perform(put("/api/testTubeResult/error")
                         .contentType(APPLICATION_JSON)
@@ -136,5 +134,5 @@ public class TestTubeControllerRestTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(testTubeResultDto)));
     }
-    
+
 }

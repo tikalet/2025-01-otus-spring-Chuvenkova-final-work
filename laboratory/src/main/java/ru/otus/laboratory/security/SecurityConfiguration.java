@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/testTubeResult/**").hasAuthority("LABORATORY")
                         .requestMatchers("/api/order/**").hasAuthority("LABORATORY")
                         .requestMatchers("/api/measurementResult/**").hasAuthority("LABORATORY")
+                        .requestMatchers("/api/testTubeError/**").hasAuthority("LABORATORY")
                         .requestMatchers("/api/labAss/**").hasAuthority("LAB_ASSISTANT")
                         .requestMatchers("/api/nurse/**").hasAuthority("NURSE")
                         .requestMatchers("/api/doctor/**").hasAuthority("DOCTOR")
@@ -74,12 +75,12 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    JwtDecoder jwtDecoder() {
+    public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(jwtProperty.getPublicKey()).build();
     }
 
     @Bean
-    JwtEncoder jwtEncoder() {
+    public JwtEncoder jwtEncoder() {
         JWK jwk = new RSAKey.Builder(jwtProperty.getPublicKey()).privateKey(jwtProperty.getPrivateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
