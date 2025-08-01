@@ -1,8 +1,8 @@
 ## Security
-@authCons = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMiIsImV4cCI6MTc1Mzg0NjMyMSwiaWF0IjoxNzUzODEwMzIxLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIl19.iZNxkyEg6lRy1ySMTR79d2Hs-tozuRuNjLxQvzmL84vS7TpKmQMPM8RvoGODm1jsaoXzPqlpKOMeA2AmxCaha2b4cOihOZ3Yp6Q9qETxD6cV0r-K-yKD6S2_X_nldFQPMKjPqp7cUNAj_tSUHSe8hKTpvIhbbfBnzxRraxa_Q0bSZKaGlxdnJXTnLSVfgq7QV8WCMm8HUnoG9YpaT8A0-CHlMxvAjDP_HAN9u91dC4GdONwIh5ZBybpJERteiqWhPlIBxMTT5gvtwjQRRRiab2FWhJbewqxnNbl1tzWWvTQgaJMTqlaqLdRiPCCGECqVY-xbq0uB61jv32KBjapprg
-@authLabAss = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMSIsImV4cCI6MTc1Mzg0NjQ3MCwiaWF0IjoxNzUzODEwNDcwLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIiwiTEFCX0FTU0lTVEFOVCJdfQ.ExpuIeCVyl_p9QC7S7lNYtt_QSw5lkmsrh0o5NkDJw8iC7_Ii0w9o1y_6Y6lvM5Z7-mUXjMfD44aRrTYd4t7uQImQgnoP85S576SQkWNzxUuBnaHKbv7PfQo_ETavv9W-3wDkfvBqe_MiQK0Wqhi4_wd8IHnRPcsRty3W0nAliiTNBK88UU7N4P948-BI-hUg9PkwH1k3Cp_4u885Ueo9MOJ917i5-4gG4qdoxY61djHTjq6cnfJjx_2u8VfyCXGsxTrXs7UYKUa0bmr_ZqJOvdFEFCcXZRrBaDZ81irHHAJ3Wwi9vI3hBF7qedFwQ9gpAZfIMQuMoRO0QTsonAB4w
-@authNurse = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiNSIsImV4cCI6MTc1Mzg0NjUxMywiaWF0IjoxNzUzODEwNTEzLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIiwiTlVSU0UiXX0.tWZmO5ZKQqpOlsTn6XHJyf7lJDlFxccWtRZb4DOG2NnISjhlr1mC0nW59GOg0WlZ_W6iy1YFQsE55AJNvqG093u8wM-ZXFQhxfziFskt1QzS862BMlP0L4Zcj_Wi_RScKR0pE-XR_2lgQzAgyOqZE0I0rjmSFgTFf41tuChoVrrFVs5yRv4OExQn17TWU9AQZe2SY-4VhF6dFsesd6wRg9S1vRlEAAvYaxq8OUF3z7LjK9DMUOwo8URKmTXe6Y6d0J0YEGdWWGLbEkCZByhWqtJl-AxzQsFXeOVqaeNUJ5BfV1IJVieR1uSIKFuo34MzG0uuwUqIXS9BVnzzNb7GvQ
-@authDoc = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiNCIsImV4cCI6MTc1Mzg0NjYwNSwiaWF0IjoxNzUzODEwNjA1LCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIiwiRE9DVE9SIl19.eG4B57m27668IByJG4cKpxDg0VvgQfJA23zF7SMEFJfOD9pp_xh7roTVLQMN4gcoylNXWWs5IZhu9rSMQDyCKp7kqRa5jbTrwsVTAVn58k021cdG-9TcBF8czk6FilaZohXiXoqv93XX8qz5QO8FCoWfsGrBN8v3EF8xR87GIykLMDiVmSkS97zPrGeeu0FyId4RA4oOJjkhjhjMfQ8-w3r0OM8bOM5xXioMkTevXtKFzLohol4E0QlaYBg8-C1GqJxIWNmOB5RCNpL58tos91WS2_p8WUjvTPtK2kHJel_Q2DEZb6oghYZwUJYAcqOMuXGfhHfOe833CczDH-NL9A
+@authCons = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMiIsImV4cCI6MTc1NDA3NjAwMCwiaWF0IjoxNzU0MDQwMDAwLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIl19.PZOxfmXlFBxJU3d1pmPEhteDnut-c_Zfg1sbiuGidpzajgQ1cZWsD4ntcUc1xx-eSqoCdTy5pQxY8pz0El-cQr0O41fV4jvUWGgOSXZsYyP-za0Qk0IkkLNRtAM-GeqcwfdO-5fUeJjD2eL3wSAs5NdiTFUHcWxP8tDK9l1UP2Yx2XwKwjjHFx8eXHxW5XCYU9p_JrsnqF7hcajIaGoPt_5AdaPLTDBJ0V0AxaXhhDEeO_AqpYZuwnCSLiQnu3xxwmtTrl-EemeH3zBguUc6ksgs5i7YV0tn7_1yXaWHL2X08XCWe2HtIJnHYjcrCNoednBfPD8KEi8t7cOqBFiuuQ
+@authLabAss = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibGFiYXNzIiwiZXhwIjoxNzU0MDc5OTYyLCJpYXQiOjE3NTQwNDM5NjIsImF1dGhvcml0aWVzIjpbIkxBQk9SQVRPUlkiLCJMQUJfQVNTSVNUQU5UIl19.U3N_UKpR25cLi3Dk5AepUWJtyMxvha0pUjrIiWhN_8hZvzz96snCXmG-NOpGWXF2RoJq9lroyMuegftzE_Qm1O54P8Mf8ZD4EjTv38rKnNlNLHGHHtqY8xKdDccj9AV8dQSAgplt9ByaO9XP2b18XIkU1Gpd-CRiPpqz_br2YuSuJAKxDd_ZbU_USe3m73hU1ijaeHOtQG97LBDaUzwNnAHRamn7tDDJxOICdhlcY00XPZywEpAZk2AFJrYCyagGraObZ7pqfR3hg_cs-yWF0jXK0jDsK0a_jL0lRb9fqpiSqqgJouXVnbdtnvrR0nYDrNb_daHKtlVX03IBO31iGA
+@authNurse = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibnVyc2UiLCJleHAiOjE3NTQwNzk5MDQsImlhdCI6MTc1NDA0MzkwNCwiYXV0aG9yaXRpZXMiOlsiTEFCT1JBVE9SWSIsIk5VUlNFIl19.jdKzPf96OE2jF5EvjJWNuiUvySQGDvLQ1FuM3FmGn6CO5gvAgvSQuOJja1s3koV9vmoC4fhX1aiPeJFyyyLofhQOwj-X_8_KFl-EcVP4zL7mjOUEfEvr3GvzKis6hoC1SJdn7Xz6VvqaTQSt03g2HKwXg-wgtJxi_gD7xXfSYVLB3LEAWd7yfd-VXm0RTrjUKaTXeRoRu0q83w7Lkj2mrHprXWktsEuhgdbT7XSNShbqTy19BIo_Ww6KMzi9k39onUxmy_KkPnSdfoIDHAdPfAxeD9ftpl0kxoc8CmbmKbf_xSza64vIpA3LISgill8JoI8EjbzpwbclnJiqaM5xjA
+@authDoc = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZG9jIiwiZXhwIjoxNzU0MDgyOTgwLCJpYXQiOjE3NTQwNDY5ODAsImF1dGhvcml0aWVzIjpbIkxBQk9SQVRPUlkiLCJET0NUT1IiXX0.ahOQ1WdW66HXFIFU---Hk4YWzdjTaa7d4T1OqppcdtQyLpv5hdi6Hicipa1g-bynQJSJhaD4o46Cnp-gAx3JVRO1cobfD354dAWBruFbJ2tc5tqLs5aFm4daLeysqmRtV_U8gESzjDgKBjo7Rv0E0msN-4yCylHa0RJmgB69aIMdNGsCuF9sE9gmqz4Ox2wZ7vyS3htuyKVe0zCmqP-GZAxIk_dwDsICszDjNeTXobuFFkH5QI_t8lpJvHtZyCc4iuePENS_5IvCiNf0K8Cr9EfuyL6w_yGWpyWKv-ksZoDTA0zZ38NkTmRbxIr1pTU586nvN8SWMSEYmVLWwpGlsw
 
 ## Респшен
 POST http://localhost:8080/login HTTP/1.1
@@ -34,7 +34,7 @@ Authorization: Bearer {{authCons}}
 }
 
 ### поиск пациента по имени
-GET http://localhost:8080/api/patient/Лапкина HTTP/1.1
+GET http://localhost:8080/api/patient/Красильников HTTP/1.1
 Authorization: Bearer {{authCons}}
 
 
@@ -46,13 +46,8 @@ Content-Type: application/json
 {
     "patientId": 100,
     "staffId": 2,
-    "testItemIdList" : [3, 5, 6]
+    "testItemIdList" : [3]
 }
-
-### список заказов пациента
-GET http://localhost:8080/api/order/patient/100 HTTP/1.1
-Authorization: Bearer {{authCons}}
-
 
 ## кабинет медсестры
 ### список пациентов, ожидающих забора БМ
@@ -60,21 +55,21 @@ GET http://localhost:8080/api/nurse/order HTTP/1.1
 Authorization: Bearer {{authNurse}}
 
 ### открыть конкретный заказ у медсестры
-GET http://localhost:8080/api/nurse/order/1 HTTP/1.1
+GET http://localhost:8080/api/nurse/order/100 HTTP/1.1
 Authorization: Bearer {{authNurse}}
 
 ### заканчиваем забор БМ и обновляем статусы
-PUT http://localhost:8080/api/nurse/order/1 HTTP/1.1
+PUT http://localhost:8080/api/nurse/order/100 HTTP/1.1
 Authorization: Bearer {{authNurse}}
 
 
 ## лаборант
 ### сканирует ШК тары при получении и обновляем статусы
-PUT http://localhost:8080/api/labAss/testTubeResult/0000000002 HTTP/1.1
+PUT http://localhost:8080/api/labAss/testTubeResult/0000000100 HTTP/1.1
 Authorization: Bearer {{authLabAss}}
 
 ### информация по таре
-GET http://localhost:8080/api/testTubeResult/barcode/0000000002  HTTP/1.1
+GET http://localhost:8080/api/testTubeResult/barcode/0000000100  HTTP/1.1
 Authorization: Bearer {{authLabAss}}
 
 ### список всех ошибок при работе с тарой
@@ -87,9 +82,9 @@ Content-Type: application/json
 Authorization: Bearer {{authLabAss}}
 
 {
-    "id": 2,
-    # "errorId": null
-    "errorId": 51
+    "id": 100,
+    # "errorId": 11
+    "errorId": null
 }
 
 ## журнал тары по дате и статусу 
@@ -107,16 +102,17 @@ Authorization: Bearer {{authLabAss}}
 
 ### для врача
 GET http://localhost:8080/api/testTubeResult/status/4 HTTP/1.1
+# Authorization: Bearer {{authLabAss}}
 Authorization: Bearer {{authDoc}}
 
 
 ## список измерений
 ### для врача по ШК
-GET http://localhost:8080/api/measurementResult/testTubeResult/0000000002 HTTP/1.1
+GET http://localhost:8080/api/measurementResult/testTubeResult/0000000100 HTTP/1.1
 Authorization: Bearer {{authDoc}}
 
 ### по заказу для ресепшена и ЛК
-GET http://localhost:8080/api/measurementResult/order/1 HTTP/1.1
+GET http://localhost:8080/api/measurementResult/order/100 HTTP/1.1
 Authorization: Bearer {{authDoc}}
 
 ### динамика измерения для пациента
@@ -126,5 +122,10 @@ Authorization: Bearer {{authDoc}}
 
 ## список измерений
 ### подписание документа
-PUT http://localhost:8080/api/doctor/order/barcode/0000000002 HTTP/1.1
+PUT http://localhost:8080/api/doctor/order/barcode/0000000100 HTTP/1.1
 Authorization: Bearer {{authDoc}}
+
+
+### список заказов пациента
+GET http://localhost:8080/api/order/patient/100 HTTP/1.1
+Authorization: Bearer {{authCons}}
