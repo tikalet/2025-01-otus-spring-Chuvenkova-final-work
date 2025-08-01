@@ -6,12 +6,17 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import ru.otus.laboratory.config.PostgresTestContainerInitializer;
 import ru.otus.laboratory.dto.PatientCreateDto;
 import ru.otus.laboratory.dto.PatientUpdateDto;
 import ru.otus.laboratory.mapper.PatientMapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+@ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
+@TestPropertySource(properties = "my.property=value1")
 @DisplayName("Сервис пациентов")
 @MybatisTest
 @Import({PatientServiceImpl.class, PatientMapper.class})

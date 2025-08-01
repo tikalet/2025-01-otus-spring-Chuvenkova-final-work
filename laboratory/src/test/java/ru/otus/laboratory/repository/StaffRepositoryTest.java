@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.ContextConfiguration;
+import ru.otus.laboratory.config.PostgresTestContainerInitializer;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+@ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 @DisplayName("Репозиторий сотрудников должен проверить синтаксис")
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

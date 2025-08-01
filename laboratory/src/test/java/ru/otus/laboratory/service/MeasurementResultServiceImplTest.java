@@ -6,6 +6,8 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
+import ru.otus.laboratory.config.PostgresTestContainerInitializer;
 import ru.otus.laboratory.converter.MeasurementConverter;
 import ru.otus.laboratory.dto.TestItemDto;
 import ru.otus.laboratory.dto.TestResultDto;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+@ContextConfiguration(initializers = {PostgresTestContainerInitializer.class})
 @DisplayName("Сервис измерений должен")
 @MybatisTest
 @Import({MeasurementResultServiceImpl.class, MeasurementItemServiceImpl.class, MeasurementMapper.class,
