@@ -4,6 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.otus.laboratory.dto.OrderResultCreateDto;
 import ru.otus.laboratory.dto.OrderResultDto;
 import ru.otus.laboratory.dto.OrderResultNurseDto;
+import ru.otus.laboratory.security.CustomUserDetails;
+import ru.otus.laboratory.security.CustomUserDetailsService;
 import ru.otus.laboratory.service.OrderService;
 
 import java.util.List;
@@ -22,6 +27,8 @@ import java.util.List;
 public class OrderControllerRest {
 
     private final OrderService orderService;
+
+    private final CustomUserDetailsService userDetailsService;
 
     @GetMapping("/api/order/patient/{patientId}")
     public ResponseEntity<List<OrderResultDto>> getOrderByPatientId(@PathVariable("patientId") Long patientId) {
@@ -46,7 +53,7 @@ public class OrderControllerRest {
 
     @PutMapping("/api/nurse/order/{id}")
     public ResponseEntity<Void> updateOrderForNurse(@PathVariable("id") Long id) {
-        orderService.updateOrderForNurse(id);
+        orderService.updateOrderForNurse(id, getStaffIdFromSecurityContext());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
@@ -56,4 +63,19 @@ public class OrderControllerRest {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    private Long getStaffIdFromSecurityContext() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        if (securityContext == null || securityContext.getAuthentication() == null) {
+            return null;
+        }
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(securityContext.getAuthentication().getName());
+
+        if (!(userDetails instanceof CustomUserDetails staffAuth)) {
+            return null;
+        }
+
+        return staffAuth.getStaffId();
+    }
 }

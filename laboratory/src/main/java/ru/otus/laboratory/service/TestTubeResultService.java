@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TestTubeResultService {
 
-    List<TestTubeResultOrderDto> create(Long orderResultId, List<Long> testTubeItemIdList);
+    List<TestTubeResultOrderDto> create(Long orderResultId, Long staffId, List<Long> testTubeItemIdList);
 
     List<TestTubeResultNurseDto> findByOrderId(Long orderId);
 
@@ -19,14 +19,14 @@ public interface TestTubeResultService {
 
     List<TestTubeResultDto> findByTimeAndStatus(String time, Long statusId);
 
-    void updateStatusByOrder(long orderId, int statusId);
+    void updateStatusByOrder(long orderId, Long staffId, int statusId);
 
-    void updateStatusByBarcode(String barcode, int statusId);
+    void updateStatusByBarcode(String barcode, Long staffId, int statusId);
 
-    void recordArrivalTestTubeAtLaboratory(String barcode);
+    void recordArrivalTestTubeAtLaboratory(String barcode, Long staffId);
 
     TestTubeResultDto updateErrorInfo(TestTubeResultErrorUpdateDto testTubeResultErrorUpdateDto);
 
-    void updateErrorInfo(String barcode, Integer errorId);
+    void updateErrorInfo(String barcode, Integer errorId, Long staffId);
 
 }

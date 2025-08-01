@@ -48,6 +48,6 @@ public class RabbitMqSender {
         log.info("SENT %s".formatted(adapterTaskDto));
         rabbitTemplate.convertAndSend(LIS_TO_ADAPTER_ROUTE_KEY, adapterTaskDto);
 
-        testTubeResultService.updateStatusByBarcode(barcode, TestTubeStatus.IN_WORK);
+        testTubeResultService.updateStatusByBarcode(barcode, null, TestTubeStatus.IN_WORK);
     }
 }

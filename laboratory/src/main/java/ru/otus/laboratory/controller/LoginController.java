@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.laboratory.dto.LoginDto;
-import ru.otus.laboratory.security.CustomUserDetails;
 import ru.otus.laboratory.security.CustomUserDetailsService;
 
 import java.time.Instant;
@@ -54,8 +53,6 @@ public class LoginController {
         Instant now = Instant.now();
         long expiry = 36000L;
 
-        CustomUserDetails staffAuth = (CustomUserDetails) userDetails;
-
         List<String> authorities = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
@@ -64,7 +61,7 @@ public class LoginController {
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
-                .subject(String.valueOf(staffAuth.getStaffId()))
+                .subject(userDetails.getUsername())
                 .claim("authorities", authorities)
                 .build();
     }

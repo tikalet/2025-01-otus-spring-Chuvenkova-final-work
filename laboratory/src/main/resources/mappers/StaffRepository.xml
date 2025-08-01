@@ -8,12 +8,21 @@
         <result property="firstName" column="first_name"/>
         <result property="middleName" column="mid_name"/>
         <result property="lastName" column="last_name"/>
+        <association property="position" resultMap="StaffPositionMap" columnPrefix="pos_"/>
+    </resultMap>
+
+    <resultMap id="StaffPositionMap" type="ru.otus.laboratory.model.StaffPosition">
+        <id property="id" column="ID"/>
+        <result property="name" column="name"/>
     </resultMap>
 
     <select id="findById" resultMap="StaffMap">
-        SELECT id, first_name, mid_name, last_name
-        FROM staff
-        WHERE id = #{id}
+        SELECT st.id, st.first_name, st.mid_name, st.last_name,
+        pos.id as pos_id,
+        pos.name as pos_name
+        FROM staff st
+        LEFT JOIN staff_position pos ON pos.id = st.position_id
+        WHERE st.id = #{id}
     </select>
 
 

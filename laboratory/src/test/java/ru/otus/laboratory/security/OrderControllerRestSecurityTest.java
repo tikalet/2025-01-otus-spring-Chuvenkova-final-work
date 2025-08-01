@@ -25,6 +25,9 @@ public class OrderControllerRestSecurityTest extends ControllerRestSecurityTest 
     @MockitoBean
     private OrderService orderService;
 
+    @MockitoBean
+    private CustomUserDetailsService userDetailsService;
+
     public static Stream<Arguments> createTestDataForOrderByPatient() {
         return Stream.of(
                 Arguments.of(null, null, 401),

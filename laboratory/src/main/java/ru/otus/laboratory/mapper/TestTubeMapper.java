@@ -2,6 +2,7 @@ package ru.otus.laboratory.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.otus.laboratory.dto.StaffDto;
 import ru.otus.laboratory.dto.TestResultDto;
 import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeItemDto;
@@ -52,7 +53,6 @@ public class TestTubeMapper {
         return testTubeResultNurseDto;
     }
 
-    // TODO add track
     public TestTubeResultDto fromModel(TestTubeResult testTubeResult,
                                        String testTubeItem,
                                        String status,
@@ -81,12 +81,11 @@ public class TestTubeMapper {
         return testTubeErrorDto;
     }
 
-    public TestTubeTrackDto fromModel(TestTubeTrack testTubeTrack) {
+    public TestTubeTrackDto fromModel(TestTubeTrack testTubeTrack, StaffDto staffDto) {
         TestTubeError error = dictService.findTestTubeErrorById(testTubeTrack.getTestTubeErrorId());
         TestTubeStatus statusOld = dictService.findTestTubeStatusById(testTubeTrack.getStatusIdOlId());
         TestTubeStatus statusNew = dictService.findTestTubeStatusById(testTubeTrack.getStatusIdNewId());
 
-        // TODO add staff
         TestTubeTrackDto testTubeTrackDto = new TestTubeTrackDto();
         testTubeTrackDto.setTestTubeResultId(testTubeTrack.getTestTubeResultId());
         testTubeTrackDto.setId(testTubeTrack.getId());
@@ -94,6 +93,7 @@ public class TestTubeMapper {
         testTubeTrackDto.setChangedTime(testTubeTrack.getChangedTime());
         testTubeTrackDto.setStatusOld(statusOld != null ? statusOld.getName() : null);
         testTubeTrackDto.setStatusNew(statusNew != null ? statusNew.getName() : null);
+        testTubeTrackDto.setStaff(staffDto);
         return testTubeTrackDto;
     }
 }

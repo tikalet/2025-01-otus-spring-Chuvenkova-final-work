@@ -36,7 +36,7 @@ public class RabbitMqListener {
             measurementResultService.update(barcode, adapterTaskResponseDto.getAdapterTaskResultList());
 
             if (!measurementResultService.hasEmptyResult(barcode)) {
-                testTubeResultService.updateStatusByBarcode(barcode, TestTubeStatus.COMPLETED);
+                testTubeResultService.updateStatusByBarcode(barcode, null, TestTubeStatus.COMPLETED);
             }
 
             channel.basicAck(tag, false);
@@ -53,7 +53,7 @@ public class RabbitMqListener {
         log.info("RECEIVED %s".formatted(adapterErrorDto));
 
         try {
-            testTubeResultService.updateErrorInfo(adapterErrorDto.getBarcode(), adapterErrorDto.getErrorId());
+            testTubeResultService.updateErrorInfo(adapterErrorDto.getBarcode(), adapterErrorDto.getErrorId(), null);
             channel.basicAck(tag, false);
         } catch (Exception ex) {
             channel.basicNack(tag, false, false);

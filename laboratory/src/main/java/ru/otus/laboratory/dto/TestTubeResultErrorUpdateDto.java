@@ -14,4 +14,6 @@ public class TestTubeResultErrorUpdateDto {
     private Long id;
 
     private Integer errorId;
+
+    private Long staffId;
 }

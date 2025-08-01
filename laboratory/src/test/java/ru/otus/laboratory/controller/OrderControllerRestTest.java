@@ -14,6 +14,7 @@ import ru.otus.laboratory.dto.OrderResultNurseDto;
 import ru.otus.laboratory.dto.PatientDto;
 import ru.otus.laboratory.dto.StaffDto;
 import ru.otus.laboratory.dto.TestTubeResultNurseDto;
+import ru.otus.laboratory.security.CustomUserDetailsService;
 import ru.otus.laboratory.service.OrderService;
 
 import java.util.List;
@@ -41,6 +42,9 @@ public class OrderControllerRestTest {
     @MockitoBean
     private OrderService orderService;
 
+    @MockitoBean
+    private CustomUserDetailsService userDetailsService;
+
     @DisplayName("должен отдать заказы для пациента")
     @Test
     public void shouldReturnOrderByPatientId() throws Exception {
@@ -58,7 +62,7 @@ public class OrderControllerRestTest {
                 new OrderResultDto(1L, 100, "Status", "2025-07-30T15:31:43.911+03:00",
                         new PatientDto(1L, "Test", "Test", "Test",
                                 "1979-01-01", "+7(900)-00-000-00", "test@test.ru"),
-                        new StaffDto(1L, "Staff", "Staff", "Staff"),
+                        new StaffDto(1L, "Staff", "Staff", "Staff", "position"),
                         null)
         ).toList();
     }
@@ -72,7 +76,7 @@ public class OrderControllerRestTest {
                 "2025-07-30T15:31:43.911+03:00",
                 new PatientDto(1L, "Test", "Test", "Test",
                         "1979-01-01", "+7(900)-00-000-00", "test@test.ru"),
-                new StaffDto(1L, "Staff", "Staff", "Staff"),
+                new StaffDto(1L, "Staff", "Staff", "Staff", "position"),
                 null);
 
         when(orderService.create(orderResultCreateDto)).thenReturn(savedOrderResultDto);

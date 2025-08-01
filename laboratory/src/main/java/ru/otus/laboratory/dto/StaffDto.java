@@ -16,4 +16,6 @@ public class StaffDto {
     private String middleName;
 
     private String lastName;
+
+    private String position;
 }

@@ -7,15 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Staff {
+public class StaffPosition {
+
 
     private Long id;
 
-    private String firstName;
-
-    private String middleName;
-
-    private String lastName;
-
-    private StaffPosition position;
+    private String name;
 }

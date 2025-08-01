@@ -12,6 +12,7 @@ import ru.otus.laboratory.dto.TestTubeErrorDto;
 import ru.otus.laboratory.dto.TestTubeResultDto;
 import ru.otus.laboratory.dto.TestTubeResultErrorUpdateDto;
 import ru.otus.laboratory.rabbit.RabbitMqSender;
+import ru.otus.laboratory.security.CustomUserDetailsService;
 import ru.otus.laboratory.service.TestTubeErrorService;
 import ru.otus.laboratory.service.TestTubeResultService;
 
@@ -44,6 +45,9 @@ public class TestTubeControllerRestTest {
 
     @MockitoBean
     private RabbitMqSender rabbitMqSender;
+
+    @MockitoBean
+    private CustomUserDetailsService userDetailsService;
 
     @DisplayName("должен список ошибок тары")
     @Test
@@ -122,7 +126,7 @@ public class TestTubeControllerRestTest {
     @DisplayName("должен обновить ошибку тары")
     @Test
     public void shouldUpdateError() throws Exception {
-        TestTubeResultErrorUpdateDto errorUpdateDto = new TestTubeResultErrorUpdateDto(1L, 1);
+        TestTubeResultErrorUpdateDto errorUpdateDto = new TestTubeResultErrorUpdateDto(1L, 1, null);
         String expectedDto = mapper.writeValueAsString(errorUpdateDto);
 
         TestTubeResultDto testTubeResultDto = createReturnedTestTubeList().get(0);

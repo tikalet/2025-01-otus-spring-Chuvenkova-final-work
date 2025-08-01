@@ -27,6 +27,7 @@
         SELECT id, test_tube_result_id, staff_id, changed_time, status_id_old, status_id_new, test_tube_error_id
         FROM test_tube_track
         WHERE test_tube_result_id = #{testTubeResultId}
+        ORDER BY changed_time DESC
     </select>
 
 </mapper>

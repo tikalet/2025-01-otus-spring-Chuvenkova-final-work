@@ -33,6 +33,9 @@ public class TestTubeControllerRestSecurityTest extends ControllerRestSecurityTe
     @MockitoBean
     private RabbitMqSender rabbitMqSender;
 
+    @MockitoBean
+    private CustomUserDetailsService userDetailsService;
+
     public static Stream<Arguments> createTestDataForError() {
         return Stream.of(
                 Arguments.of(null, null, 401),
@@ -113,7 +116,7 @@ public class TestTubeControllerRestSecurityTest extends ControllerRestSecurityTe
     @ParameterizedTest(name = "{2} для пользователя {0} с правами {1}")
     @MethodSource("createTestDataForTestTubeResultBy")
     void shouldUpdateTestTubeResultError(String user, List<GrantedAuthority> authorityList, int status) throws Exception {
-        TestTubeResultErrorUpdateDto errorUpdateDto = new TestTubeResultErrorUpdateDto(1L, 1);
+        TestTubeResultErrorUpdateDto errorUpdateDto = new TestTubeResultErrorUpdateDto(1L, 1, 1L);
         String expectedDto = mapper.writeValueAsString(errorUpdateDto);
 
         var request = MockMvcRequestBuilders.put("/api/testTubeResult/error")

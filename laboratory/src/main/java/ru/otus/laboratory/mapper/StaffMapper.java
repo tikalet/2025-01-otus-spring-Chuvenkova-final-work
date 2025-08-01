@@ -13,6 +13,7 @@ public class StaffMapper {
         staffDto.setLastName(staff.getLastName());
         staffDto.setFirstName(staff.getFirstName());
         staffDto.setMiddleName(staff.getMiddleName());
+        staffDto.setPosition(staff.getPosition().getName());
         return staffDto;
     }
 

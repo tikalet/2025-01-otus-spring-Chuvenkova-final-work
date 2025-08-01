@@ -22,7 +22,7 @@ public class StaffServiceImpl implements StaffService {
         return staffMapper.fromModel(getStaff(id));
     }
 
-    private Staff getStaff(long id) {
+    private Staff getStaff(Long id) {
         return staffRepository.findById(id).
                 orElseThrow(() -> new NotFoundException("Staff with id %d not found".formatted(id)));
     }

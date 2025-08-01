@@ -93,7 +93,6 @@ public class SecurityConfiguration {
         return jwtConverter;
     }
 
-    // Custom authority converter
     private Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter() {
         return jwt -> {
             Collection<String> authorities = jwt.getClaim("authorities");

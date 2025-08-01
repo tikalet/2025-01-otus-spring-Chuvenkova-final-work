@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
         orderResult.setPaymentTime(dateTimeUtil.now());
         orderRepository.create(orderResult);
 
-        var testTubeResultDtoList = testTubeResultService.create(orderResult.getId(),
+        var testTubeResultDtoList = testTubeResultService.create(orderResult.getId(), orderResultCreateDto.getStaffId(),
                 calcTestTubeItemIdList(testItemList));
         var testResultDtoList = testResultService.create(orderResult.getId(), orderResult.getStaffId(), testItemList,
                 testTubeResultDtoList);
@@ -107,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void updateOrderForNurse(Long id) {
+    public void updateOrderForNurse(Long id, Long staffId) {
         OrderResult orderResult = findOrderById(id);
 
         if (orderResult.getStatusId() > OrderStatus.CREATE) {
@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.updateStatus(id, OrderStatus.IN_WORK);
         testResultService.updateStatusByOrderId(id, TestStatus.IN_WORK);
-        testTubeResultService.updateStatusByOrder(id, TestTubeStatus.TRANSPORTATION);
+        testTubeResultService.updateStatusByOrder(id, staffId, TestTubeStatus.TRANSPORTATION);
     }
 
     @Override

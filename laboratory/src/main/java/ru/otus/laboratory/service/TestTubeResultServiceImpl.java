@@ -54,10 +54,11 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
     private final TestTubeTrackRepository testTubeTrackRepository;
 
+    private final StaffService staffService;
 
     @Transactional
     @Override
-    public List<TestTubeResultOrderDto> create(Long orderResultId, List<Long> testTubeItemIdList) {
+    public List<TestTubeResultOrderDto> create(Long orderResultId, Long staffId, List<Long> testTubeItemIdList) {
         List<TestTubeResultOrderDto> testTubeResultOrderDtoList = new ArrayList<>();
 
         for (Long tubeItemId : testTubeItemIdList) {
@@ -77,7 +78,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
                     dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(), null);
             testTubeResultOrderDtoList.add(testTubeResultOrderDto);
 
-            createTrack(testTubeResult.getId(), null, null, testTubeResult.getStatusId(), null);
+            createTrack(testTubeResult.getId(), staffId, null, testTubeResult.getStatusId(), null);
         }
 
         return testTubeResultOrderDtoList;
@@ -102,26 +103,26 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
     @Transactional
     @Override
-    public void updateStatusByOrder(long orderId, int statusId) {
+    public void updateStatusByOrder(long orderId, Long staffId, int statusId) {
         TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
         testTubeResultSearch.setOrderId(orderId);
         List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
 
         for (TestTubeResult testTubeResult : testTubeResultList) {
-            createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), statusId, null);
+            createTrack(testTubeResult.getId(), staffId, testTubeResult.getStatusId(), statusId, null);
             testTubeResultRepository.updateStatus(testTubeResult.getId(), statusId);
         }
     }
 
     @Transactional
     @Override
-    public void updateStatusByBarcode(String barcode, int statusId) {
+    public void updateStatusByBarcode(String barcode, Long staffId, int statusId) {
         TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
         testTubeResultSearch.setBarcode(barcode);
         List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
 
         for (TestTubeResult testTubeResult : testTubeResultList) {
-            createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), statusId, null);
+            createTrack(testTubeResult.getId(), staffId, testTubeResult.getStatusId(), statusId, null);
             testTubeResultRepository.updateStatus(testTubeResult.getId(), statusId);
         }
     }
@@ -166,7 +167,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void recordArrivalTestTubeAtLaboratory(String barcode) {
+    public void recordArrivalTestTubeAtLaboratory(String barcode, Long staffId) {
         TestTubeResult testTubeResult = findTestTubeByBarcode(barcode);
 
         if (testTubeResult.getStatusId() >= TestTubeStatus.LABORATORY) {
@@ -174,7 +175,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
                     .formatted(barcode));
         }
 
-        createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), TestTubeStatus.LABORATORY, null);
+        createTrack(testTubeResult.getId(), staffId, testTubeResult.getStatusId(), TestTubeStatus.LABORATORY, null);
         testTubeResultRepository.updateStatus(testTubeResult.getId(), TestTubeStatus.LABORATORY);
 
         Long patientId = testTubeResultRepository.findPatientByBarcode(barcode);
@@ -198,13 +199,13 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
         TestTubeResultSearch testTubeResultSearch = new TestTubeResultSearch();
         testTubeResultSearch.setId(errorUpdateDto.getId());
-
         List<TestTubeResult> testTubeResultList = findTestTubeResultsByParam(testTubeResultSearch);
         TestTubeResult testTubeResult = testTubeResultList.get(0);
 
-        int statusNew = errorUpdateDto.getErrorId() == null ? TestTubeStatus.LABORATORY : TestTubeStatus.ERROR;
+        int statusNew = errorUpdateDto.getErrorId() == null ?
+                caclPreviousNoErrorStatus(testTubeResult.getId()) : TestTubeStatus.ERROR;
 
-        createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), statusNew,
+        createTrack(testTubeResult.getId(), errorUpdateDto.getStaffId(), testTubeResult.getStatusId(), statusNew,
                 errorUpdateDto.getErrorId());
 
         testTubeResult.setStatusId(statusNew);
@@ -212,7 +213,6 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         testTubeResultRepository.update(testTubeResult);
 
         List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
-
         return testTubeMapper.fromModel(testTubeResult,
                 testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
                 dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
@@ -221,12 +221,12 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
 
     @Transactional
     @Override
-    public void updateErrorInfo(String barcode, Integer errorId) {
+    public void updateErrorInfo(String barcode, Integer errorId, Long staffId) {
         TestTubeResult testTubeResult = findTestTubeByBarcode(barcode);
         TestTubeError testTubeError = getTestTubeError(errorId);
 
         int statusNew = TestTubeStatus.ERROR;
-        createTrack(testTubeResult.getId(), null, testTubeResult.getStatusId(), statusNew, errorId);
+        createTrack(testTubeResult.getId(), staffId, testTubeResult.getStatusId(), statusNew, errorId);
 
         testTubeResult.setStatusId(statusNew);
         testTubeResult.setTestTubeErrorId(errorId);
@@ -265,7 +265,11 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         List<TestResultDto> testResultDtoList = testResultService.findByTestTubeResultId(testTubeResult.getId());
 
         List<TestTubeTrack> tubeTrackList = testTubeTrackRepository.findByTestTubeResultId(testTubeResult.getId());
-        List<TestTubeTrackDto> testTubeTrackDtoList = tubeTrackList.stream().map(testTubeMapper::fromModel).toList();
+        List<TestTubeTrackDto> testTubeTrackDtoList = tubeTrackList.stream()
+                .map(testTubeTrack -> testTubeMapper.fromModel(testTubeTrack,
+                        testTubeTrack.getStaffId() != null ? staffService.findById(testTubeTrack.getStaffId()) : null)
+                )
+                .toList();
 
         return testTubeMapper.fromModel(testTubeResult,
                 testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
@@ -279,19 +283,15 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         if (testTubeResultSearch.getId() != null) {
             stringBuilder.append(" AND id= #{search.id}");
         }
-
         if (testTubeResultSearch.getOrderId() != null) {
             stringBuilder.append(" AND order_result_id= #{search.orderId}");
         }
-
         if (testTubeResultSearch.getBarcode() != null && !testTubeResultSearch.getBarcode().isEmpty()) {
             stringBuilder.append(" AND barcode= #{search.barcode}");
         }
-
         if (testTubeResultSearch.getTime() != null && !testTubeResultSearch.getTime().isEmpty()) {
             stringBuilder.append(" AND take_test_time LIKE #{search.time} || '%'");
         }
-
         if (testTubeResultSearch.getStatusId() != null) {
             stringBuilder.append(" AND status_id= #{search.statusId}");
         }
@@ -313,5 +313,22 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         testTubeTrack.setStaffId(staffId);
 
         testTubeTrackRepository.create(testTubeTrack);
+    }
+
+    private int caclPreviousNoErrorStatus(Long testTubeResultId) {
+        List<TestTubeTrack> tubeTrackList = testTubeTrackRepository.findByTestTubeResultId(testTubeResultId);
+
+        if (tubeTrackList == null || tubeTrackList.isEmpty()) {
+            return TestTubeStatus.ERROR;
+        }
+
+        for (TestTubeTrack testTubeTrack : tubeTrackList) {
+            if (testTubeTrack.getStatusIdOlId() != TestTubeStatus.ERROR
+                    && testTubeTrack.getStatusIdNewId() == TestTubeStatus.ERROR) {
+                return testTubeTrack.getStatusIdOlId();
+            }
+        }
+
+        return TestTubeStatus.ERROR;
     }
 }
