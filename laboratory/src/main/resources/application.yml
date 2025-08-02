@@ -5,9 +5,9 @@ spring:
   application:
     name: lis
   datasource:
-    url: jdbc:postgresql://localhost:5432/lis
+    url: jdbc:postgresql://localhost:5432/lis_db
     username: postgres
-    password: 123
+    password: postgres
     driver-class-name: org.postgresql.Driver
   sql:
     init:

@@ -1,8 +1,8 @@
 ## Security
-@authCons = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiMiIsImV4cCI6MTc1NDA3NjAwMCwiaWF0IjoxNzU0MDQwMDAwLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIl19.PZOxfmXlFBxJU3d1pmPEhteDnut-c_Zfg1sbiuGidpzajgQ1cZWsD4ntcUc1xx-eSqoCdTy5pQxY8pz0El-cQr0O41fV4jvUWGgOSXZsYyP-za0Qk0IkkLNRtAM-GeqcwfdO-5fUeJjD2eL3wSAs5NdiTFUHcWxP8tDK9l1UP2Yx2XwKwjjHFx8eXHxW5XCYU9p_JrsnqF7hcajIaGoPt_5AdaPLTDBJ0V0AxaXhhDEeO_AqpYZuwnCSLiQnu3xxwmtTrl-EemeH3zBguUc6ksgs5i7YV0tn7_1yXaWHL2X08XCWe2HtIJnHYjcrCNoednBfPD8KEi8t7cOqBFiuuQ
-@authLabAss = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibGFiYXNzIiwiZXhwIjoxNzU0MDc5OTYyLCJpYXQiOjE3NTQwNDM5NjIsImF1dGhvcml0aWVzIjpbIkxBQk9SQVRPUlkiLCJMQUJfQVNTSVNUQU5UIl19.U3N_UKpR25cLi3Dk5AepUWJtyMxvha0pUjrIiWhN_8hZvzz96snCXmG-NOpGWXF2RoJq9lroyMuegftzE_Qm1O54P8Mf8ZD4EjTv38rKnNlNLHGHHtqY8xKdDccj9AV8dQSAgplt9ByaO9XP2b18XIkU1Gpd-CRiPpqz_br2YuSuJAKxDd_ZbU_USe3m73hU1ijaeHOtQG97LBDaUzwNnAHRamn7tDDJxOICdhlcY00XPZywEpAZk2AFJrYCyagGraObZ7pqfR3hg_cs-yWF0jXK0jDsK0a_jL0lRb9fqpiSqqgJouXVnbdtnvrR0nYDrNb_daHKtlVX03IBO31iGA
-@authNurse = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibnVyc2UiLCJleHAiOjE3NTQwNzk5MDQsImlhdCI6MTc1NDA0MzkwNCwiYXV0aG9yaXRpZXMiOlsiTEFCT1JBVE9SWSIsIk5VUlNFIl19.jdKzPf96OE2jF5EvjJWNuiUvySQGDvLQ1FuM3FmGn6CO5gvAgvSQuOJja1s3koV9vmoC4fhX1aiPeJFyyyLofhQOwj-X_8_KFl-EcVP4zL7mjOUEfEvr3GvzKis6hoC1SJdn7Xz6VvqaTQSt03g2HKwXg-wgtJxi_gD7xXfSYVLB3LEAWd7yfd-VXm0RTrjUKaTXeRoRu0q83w7Lkj2mrHprXWktsEuhgdbT7XSNShbqTy19BIo_Ww6KMzi9k39onUxmy_KkPnSdfoIDHAdPfAxeD9ftpl0kxoc8CmbmKbf_xSza64vIpA3LISgill8JoI8EjbzpwbclnJiqaM5xjA
-@authDoc = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZG9jIiwiZXhwIjoxNzU0MDgyOTgwLCJpYXQiOjE3NTQwNDY5ODAsImF1dGhvcml0aWVzIjpbIkxBQk9SQVRPUlkiLCJET0NUT1IiXX0.ahOQ1WdW66HXFIFU---Hk4YWzdjTaa7d4T1OqppcdtQyLpv5hdi6Hicipa1g-bynQJSJhaD4o46Cnp-gAx3JVRO1cobfD354dAWBruFbJ2tc5tqLs5aFm4daLeysqmRtV_U8gESzjDgKBjo7Rv0E0msN-4yCylHa0RJmgB69aIMdNGsCuF9sE9gmqz4Ox2wZ7vyS3htuyKVe0zCmqP-GZAxIk_dwDsICszDjNeTXobuFFkH5QI_t8lpJvHtZyCc4iuePENS_5IvCiNf0K8Cr9EfuyL6w_yGWpyWKv-ksZoDTA0zZ38NkTmRbxIr1pTU586nvN8SWMSEYmVLWwpGlsw
+@authCons = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiY29ucyIsImV4cCI6MTc1NDE1NDI5MywiaWF0IjoxNzU0MTE4MjkzLCJhdXRob3JpdGllcyI6WyJMQUJPUkFUT1JZIl19.Z3yX7xqPbv3c3z1vCvhpAEOJ9iCchweWeldODwpUpFqz62Z5_OOgjeQmfNko6k0CgMP9-VQv0zfU4krDr2H3SzQ78TVtxFvRFeeWFVTmWLgCupmvX9uBGpkPrpJ7CdKb-ggw8Gj5ElXvX-6aFOQb0WazIZj9C4kP0_dNuP0rf2g9fI9P4XcpaLOddNKU-eveIr7-9vJOoAfO7Fv9AV-kXBeEjXfeZFlk7ml8sG_rnUk9WtDvI3E6_jH17mAew_SUxzSZCFuqdK72yHM2Oj83wuAadEQSfY1_-KCjczw-ZXxXOxomIFp0KobAzyJz3-HhE0EN5E6Oh8ZtuPCt01LeQQ
+@authLabAss = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibGFiYXNzIiwiZXhwIjoxNzU0MTU0NTM2LCJpYXQiOjE3NTQxMTg1MzYsImF1dGhvcml0aWVzIjpbIkxBQk9SQVRPUlkiLCJMQUJfQVNTSVNUQU5UIl19.H-ZMl4_Z4XZaWI0cm4g99HywAtLO0oOp6SltTzwuyAgSAUBEVqf1xEEa1KSZQ8K5aqWGAQuWtZZ6ECPSMJM6xv6qXpVfrMGmPsdpCBVoG5HthcsUF8tqsS7zWsXoWkwvGoHcZKc4KAdPWOKhaIJ5IkYFqoHF73emKEk1OTCK7b02b3CCvmfnSQY9y7HZu-DCNX4JXcIDEpmk8eTlQIUDTfORpZUm5XId78qZ1ne20q6wF9-Ls7FgMyEn5ojm5nkj45FJrZrwFdYV_hP2h5WDw2QrjD9Ay-t9UV0B1YNHCZSi6P7W5Sp_otWH76RarR0XNKTLbb9sNjCX2spNyYl9Fw
+@authNurse = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibnVyc2UiLCJleHAiOjE3NTQxNTQ0NjEsImlhdCI6MTc1NDExODQ2MSwiYXV0aG9yaXRpZXMiOlsiTEFCT1JBVE9SWSIsIk5VUlNFIl19.PdtMOL58Po72pruUhGv_VJZfdiLHl_502yQtBq0o9R7ii2hyViqXQYCuqcpqLVBw47zMNNho5fr3HvHaGF8jkOdQIInPxTPM3xp4q2w3awNEsqThIP9C7S5jKIL1Hw9_rhZaLSpl-fY9m15N18cjhsfjh_YAKc7v47geeIJ9wCyy1ppcRwOQFUytswCpCF-tJurO6k3UKV0SFo3vPTjdNxM_0ccO4btl-7cL-NIzBMzuvkxGUdj1qLU7j2LMrs7zRy8pcYpgHZcLo-VvbQHU12p_H7akYjfHOb0SmUOAkbnqdcxXnA43XDlK3o_Xr5oeiMub-aWU_FjfcUDxgfegIA
+@authDoc = eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZG9jIiwiZXhwIjoxNzU0MTU0ODI5LCJpYXQiOjE3NTQxMTg4MjksImF1dGhvcml0aWVzIjpbIkxBQk9SQVRPUlkiLCJET0NUT1IiXX0.DRPH37DtLMUN38uTryMAh5ye-L0nvp53q-yH-RnRV2zNn_KdbtM4dJ2Zf-ku1djJ4AzbCZpvEQAEYnxlT6epC1CMVFNKQyJD_Synwpu07bwypBG39p6LvuOln4XuDIIxzN_L1M87GjR7j_YPytFVIyn4O7akqhuLinUdOXFromdVFWfuN1nI-7qBe6HPclCSdCsd8B_JpILV7vqecd4nWqr1udlrcCF2fsTJ3Kco7evKqNpWUfR9reocXqX8Yu7hMpu9QAbJ9b1MUH9sT36GzYdHDMUxamlTUV877WVuV2biDN-PHVedXUdmGtM8rHuGbmUxFPW90U4HZf_F3iNkpg
 
 ## Респшен
 POST http://localhost:8080/login HTTP/1.1
@@ -30,11 +30,11 @@ Authorization: Bearer {{authCons}}
     "middleName": "Антонович",
     "lastName": "Красильников",
     "birthday": "1989-08-11",
-    "phone" : "+7(432)-55-125-53"
+    "phone" : "+7(000)-00-000-00"
 }
 
 ### поиск пациента по имени
-GET http://localhost:8080/api/patient/Красильников HTTP/1.1
+GET http://localhost:8080/api/patient/Пирог HTTP/1.1
 Authorization: Bearer {{authCons}}
 
 
@@ -46,7 +46,7 @@ Content-Type: application/json
 {
     "patientId": 100,
     "staffId": 2,
-    "testItemIdList" : [3]
+    "testItemIdList" : [3, 4]
 }
 
 ## кабинет медсестры
@@ -70,7 +70,7 @@ Authorization: Bearer {{authLabAss}}
 
 ### информация по таре
 GET http://localhost:8080/api/testTubeResult/barcode/0000000100  HTTP/1.1
-Authorization: Bearer {{authLabAss}}
+Authorization: Bearer {{authNurse}}
 
 ### список всех ошибок при работе с тарой
 GET http://localhost:8080/api/testTubeError HTTP/1.1
@@ -83,21 +83,25 @@ Authorization: Bearer {{authLabAss}}
 
 {
     "id": 100,
-    # "errorId": 11
-    "errorId": null
+    "errorId": 51
+    # "errorId": null
 }
 
 ## журнал тары по дате и статусу 
 ### Транспортировка
-GET http://localhost:8080/api/testTubeResult/time/2025-07-24/status/2 HTTP/1.1
+GET http://localhost:8080/api/testTubeResult/time/2025-08-02/status/2 HTTP/1.1
 Authorization: Bearer {{authLabAss}}
 
 ### в работе
-GET http://localhost:8080/api/testTubeResult/time/2025-07-29/status/4 HTTP/1.1
+GET http://localhost:8080/api/testTubeResult/time/2025-08-02/status/4 HTTP/1.1
 Authorization: Bearer {{authLabAss}}
 
 ### отработан
-GET http://localhost:8080/api/testTubeResult/time/2025-07-29/status/5 HTTP/1.1
+GET http://localhost:8080/api/testTubeResult/time/2025-08-02/status/5 HTTP/1.1
+Authorization: Bearer {{authLabAss}}
+
+### ошибки
+GET http://localhost:8080/api/testTubeResult/status/8 HTTP/1.1
 Authorization: Bearer {{authLabAss}}
 
 ### для врача

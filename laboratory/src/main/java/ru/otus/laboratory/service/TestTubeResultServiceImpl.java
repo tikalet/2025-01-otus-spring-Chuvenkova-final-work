@@ -315,7 +315,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         testTubeTrackRepository.create(testTubeTrack);
     }
 
-    private int caclPreviousNoErrorStatus(Long testTubeResultId) {
+    private Integer caclPreviousNoErrorStatus(Long testTubeResultId) {
         List<TestTubeTrack> tubeTrackList = testTubeTrackRepository.findByTestTubeResultId(testTubeResultId);
 
         if (tubeTrackList == null || tubeTrackList.isEmpty()) {
@@ -323,6 +323,10 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         }
 
         for (TestTubeTrack testTubeTrack : tubeTrackList) {
+            if (testTubeTrack.getStatusIdOlId() == null || testTubeTrack.getStatusIdNewId() == null) {
+                continue;
+            }
+
             if (testTubeTrack.getStatusIdOlId() != TestTubeStatus.ERROR
                     && testTubeTrack.getStatusIdNewId() == TestTubeStatus.ERROR) {
                 return testTubeTrack.getStatusIdOlId();
