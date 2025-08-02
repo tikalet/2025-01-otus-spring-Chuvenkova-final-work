@@ -157,7 +157,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
                     testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
                     dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
                     testTubeError != null ? testTubeError.getText() : null,
-                    testResultService.findByTestTubeResultId(testTubeResult.getId()), null);
+                    testResultService.findByTestTubeResultId(testTubeResult.getId()));
 
             testTubeResultDtoList.add(testTubeResultDto);
         }
@@ -216,7 +216,7 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
         return testTubeMapper.fromModel(testTubeResult,
                 testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
                 dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
-                testTubeError != null ? testTubeError.getText() : null, testResultDtoList, null);
+                testTubeError != null ? testTubeError.getText() : null, testResultDtoList);
     }
 
     @Transactional
@@ -271,10 +271,12 @@ public class TestTubeResultServiceImpl implements TestTubeResultService {
                 )
                 .toList();
 
-        return testTubeMapper.fromModel(testTubeResult,
+        TestTubeResultDto testTubeResultDto = testTubeMapper.fromModel(testTubeResult,
                 testTubeItemService.findById(testTubeResult.getTestTubeItemId()).getName(),
                 dictService.findTestTubeStatusById(testTubeResult.getStatusId()).getName(),
-                testTubeError != null ? testTubeError.getText() : null, testResultDtoList, testTubeTrackDtoList);
+                testTubeError != null ? testTubeError.getText() : null, testResultDtoList);
+        testTubeResultDto.setTestTubeTrackList(testTubeTrackDtoList);
+        return testTubeResultDto;
     }
 
     private String createSearchConditionTestTubeResult(TestTubeResultSearch testTubeResultSearch) {

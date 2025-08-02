@@ -57,8 +57,7 @@ public class TestTubeMapper {
                                        String testTubeItem,
                                        String status,
                                        String error,
-                                       List<TestResultDto> testResultList,
-                                       List<TestTubeTrackDto> testTubeTrackDtos) {
+                                       List<TestResultDto> testResultList) {
 
         TestTubeResultDto testTubeResultDto = new TestTubeResultDto();
         testTubeResultDto.setTestTubeItem(testTubeItem);
@@ -70,7 +69,6 @@ public class TestTubeMapper {
         testTubeResultDto.setDisposalTime(testTubeResult.getDisposalTime());
         testTubeResultDto.setOrderResultId(testTubeResult.getOrderResultId());
         testTubeResultDto.setTestResultList(testResultList);
-        testTubeResultDto.setTestTubeTrackList(testTubeTrackDtos);
         return testTubeResultDto;
     }
 
