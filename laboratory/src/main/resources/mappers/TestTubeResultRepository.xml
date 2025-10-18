@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.TestTubeResultRepository">
+
+    <resultMap id="TestTubeResultMap" type="ru.otus.laboratory.model.TestTubeResult">
+        <id property="id" column="ID"/>
+        <result property="barcode" column="barcode"/>
+        <result property="statusId" column="status_Id"/>
+        <result property="testTubeItemId" column="test_tube_item_id"/>
+        <result property="testTubeErrorId" column="test_tube_error_id"/>
+        <result property="orderResultId" column="order_result_id"/>
+        <result property="takeTestTime" column="take_test_time"/>
+        <result property="disposalTime" column="disposal_time"/>
+    </resultMap>
+
+    <insert id="create" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.TestTubeResult">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('test_tube_result_seq')
+        </selectKey>
+        INSERT INTO test_tube_result (id, order_result_id, barcode, test_tube_item_id, status_id, test_tube_error_id,
+        take_test_time, disposal_time)
+        VALUES(#{id}, #{orderResultId}, #{barcode}, #{testTubeItemId}, #{statusId}, #{testTubeErrorId},
+        #{takeTestTime}, #{disposalTime})
+    </insert>
+
+    <select id="findByParam" resultMap="TestTubeResultMap">
+        select id,
+        order_result_id,
+        barcode,
+        test_tube_item_id,
+        status_id,
+        test_tube_error_id,
+        take_test_time,
+        disposal_time
+        from test_tube_result
+        WHERE 1=1 ${searchCondition}
+        ORDER BY barcode
+    </select>
+
+    <update id="updateStatus">
+        UPDATE test_tube_result
+        SET status_id = #{statusId}
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE test_tube_result
+        SET order_result_id=#{orderResultId},
+        barcode=#{barcode},
+        test_tube_item_id=#{testTubeItemId},
+        status_id=#{statusId},
+        test_tube_error_id=#{testTubeErrorId},
+        take_test_time=#{takeTestTime},
+        disposal_time= #{disposalTime}
+        WHERE id=#{id}
+    </update>
+
+    <select id="findPatientByBarcode" resultType="java.lang.Long">
+        SELECT ores.patient_id
+        from test_tube_result ttr
+        inner join order_result ores on ores.id = ttr.order_result_id
+        where ttr.barcode =#{barcode}
+    </select>
+
+</mapper>

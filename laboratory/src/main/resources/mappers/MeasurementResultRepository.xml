@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.MeasurementResultRepository">
+
+    <resultMap id="MeasurementResultMap" type="ru.otus.laboratory.model.MeasurementResult">
+        <id property="id" column="ID"/>
+        <result property="testResultId" column="test_result_id"/>
+        <result property="measurementItemId" column="measurement_item_id"/>
+        <result property="value" column="value"/>
+        <result property="measurTime" column="measur_time"/>
+        <result property="patientId" column="patient_id"/>
+    </resultMap>
+
+    <insert id="create" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.MeasurementResult">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('measurement_result_seq')
+        </selectKey>
+        INSERT INTO measurement_result (id, test_result_id, patient_id, measurement_item_id, value, measur_time)
+        VALUES(#{id}, #{testResultId}, #{patientId}, #{measurementItemId}, #{value}, #{measurTime})
+    </insert>
+
+    <update id="update">
+        UPDATE measurement_result
+        SET value= #{value},
+        measur_time= #{measurTime}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findByParam" resultMap="MeasurementResultMap">
+        SELECT mr.id ,
+        mr.measur_time ,
+        mr.measurement_item_id ,
+        mr.patient_id ,
+        mr.test_result_id ,
+        mr.value
+        FROM test_tube_result ttr
+        INNER JOIN test_result tr ON tr.test_tube_result_id = ttr.id
+        INNER JOIN measurement_result mr ON mr.test_result_id = tr.id
+        WHERE 1 = 1 ${searchCondition}
+        ORDER BY mr.measurement_item_id, mr.measur_time DESC
+    </select>
+
+    <select id="hasEmptyResult" resultType="java.lang.Boolean">
+        SELECT LEAST (1, count(*))
+        FROM test_tube_result ttr
+        INNER JOIN test_result tr ON tr.test_tube_result_id = ttr.id
+        INNER JOIN measurement_result mr ON mr.test_result_id = tr.id
+        WHERE ttr.barcode = #{barcode}
+        AND mr.value IS NULL
+    </select>
+</mapper>

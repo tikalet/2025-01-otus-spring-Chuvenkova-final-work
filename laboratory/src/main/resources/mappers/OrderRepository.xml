@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.OrderRepository">
+
+    <resultMap id="OrderResultMap" type="ru.otus.laboratory.model.OrderResult">
+        <id property="id" column="ID"/>
+        <result property="price" column="price"/>
+        <result property="statusId" column="status_Id"/>
+        <result property="paymentTime" column="payment_time"/>
+        <result property="staffId" column="staff_id"/>
+        <association property="patient" resultMap="ru.otus.laboratory.repository.PatientRepository.PatientMap"
+                     columnPrefix="pat_"/>
+    </resultMap>
+
+    <insert id="create" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.OrderResult">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('order_result_seq')
+        </selectKey>
+        INSERT INTO order_result (id, total_price, status_id, payment_time, staff_id, patient_id)
+        VALUES(#{id}, #{price}, #{statusId}, #{paymentTime}, #{staffId}, #{patient.id})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE order_result
+        SET status_id = #{statusId}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findByParam" resultMap="OrderResultMap">
+        SELECT ord.id,
+        ord.total_price,
+        ord.status_id,
+        ord.payment_time,
+        ord.staff_id,
+        pat.id as pat_id,
+        pat.first_name as pat_first_name,
+        pat.mid_name as pat_mid_name,
+        pat.last_name as pat_last_name
+        FROM order_result ord
+        INNER JOIN patient pat ON pat.id = ord.patient_id
+        WHERE 1 = 1 ${searchCondition}
+        ORDER BY ord.payment_time DESC
+    </select>
+
+</mapper>

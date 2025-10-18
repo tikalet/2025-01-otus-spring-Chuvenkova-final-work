@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.TestTubeErrorRepository">
+
+    <resultMap id="TestTubeErrorMap" type="ru.otus.laboratory.model.TestTubeError">
+        <id property="id" column="ID"/>
+        <result property="text" column="error_text"/>
+        <result property="needNotifyPatient" column="need_notify_patient"/>
+    </resultMap>
+
+    <select id="findById" resultMap="TestTubeErrorMap">
+        SELECT id, error_text, need_notify_patient
+        FROM test_tube_error
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="TestTubeErrorMap">
+        SELECT id, error_text
+        FROM test_tube_error
+    </select>
+
+</mapper>

@@ -1,0 +1,64 @@
+networks:
+  app_net:
+    driver: bridge
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:4.1.2-management
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+
+  lis-service:
+    container_name: lis
+    build:
+      context: /laboratory
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/lis_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_RABBITMQ_HOST=rabbitmq  # Имя сервиса как хост
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+      - SPRING_DATASOURCE_INITIALIZATION_MODE=always
+      - SPRING_SQL_INIT_MODE=always
+      - SPRING_SQL_INIT_PLATFORM=postgresql
+    depends_on:
+      - rabbitmq
+      - postgres
+
+  postgres:
+    image: "postgres:17"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=lis_db
+
+  adapter-service:
+    container_name: adapter
+    build:
+      context: /adapter
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq  # Имя сервиса как хост
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+    depends_on:
+      - rabbitmq
+
+

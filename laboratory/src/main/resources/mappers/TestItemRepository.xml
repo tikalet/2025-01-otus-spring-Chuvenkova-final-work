@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.TestItemRepository">
+
+    <resultMap id="TestItemMap" type="ru.otus.laboratory.model.TestItem">
+        <id property="id" column="ID"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+        <result property="testTubeId" column="test_tube_item_id"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="TestItemMap">
+        SELECT id, name, price
+        FROM test_item
+    </select>
+
+    <select id="findById" resultMap="TestItemMap">
+        SELECT ti.id,
+        ti.name,
+        ti.price,
+        ti.test_tube_item_id
+        FROM test_item ti
+        WHERE id = #{id}
+    </select>
+
+</mapper>

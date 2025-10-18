@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.TestResultRepository">
+
+    <resultMap id="TestResultMap" type="ru.otus.laboratory.model.TestResult">
+        <id property="id" column="ID"/>
+        <result property="price" column="price"/>
+        <result property="testItemId" column="test_item_id"/>
+        <result property="orderResultId" column="order_result_id"/>
+        <result property="staffId" column="staff_id"/>
+        <result property="statusId" column="status_Id"/>
+        <result property="testTubeResultId" column="test_tube_result_id"/>
+    </resultMap>
+
+    <insert id="create" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.TestResult">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('test_result_seq')
+        </selectKey>
+        INSERT INTO test_result (id, price, test_item_id, order_result_id, status_id, staff_id, test_tube_result_id)
+        VALUES(#{id}, #{price}, #{testItemId}, #{orderResultId}, #{statusId}, #{staffId}, #{testTubeResultId})
+    </insert>
+
+    <update id="updateStatusByOrderId">
+        UPDATE test_result
+        SET status_id = #{statusId}
+        WHERE order_result_id = #{orderResultId}
+    </update>
+
+    <update id="updateStatusByTestTubeResultId">
+        UPDATE test_result
+        SET status_id = #{statusId}
+        WHERE test_tube_result_id = #{testTubeResultId}
+    </update>
+
+    <select id="findByTestTubeResultId" resultMap="TestResultMap">
+        SELECT id, test_item_id, order_result_id, status_id, staff_id, test_tube_result_id, price
+        FROM test_result
+        WHERE test_tube_result_id = #{testTubeResultId}
+    </select>
+
+    <select id="findByOrderId" resultMap="TestResultMap">
+        SELECT id, test_item_id, order_result_id, status_id, staff_id, test_tube_result_id, price
+        FROM test_result
+        WHERE order_result_id = #{orderId}
+    </select>
+
+</mapper>

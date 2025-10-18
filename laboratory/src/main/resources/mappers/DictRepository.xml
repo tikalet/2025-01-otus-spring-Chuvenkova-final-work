@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.DictRepository">
+
+    <resultMap id="OrderStatusMap" type="ru.otus.laboratory.model.OrderStatus">
+        <id property="id" column="ID"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="findOrderStatusById" resultMap="OrderStatusMap">
+        SELECT id, name
+        FROM order_status
+        WHERE id = #{id}
+    </select>
+
+    <resultMap id="TestStatusMap" type="ru.otus.laboratory.model.TestStatus">
+        <id property="id" column="ID"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="findTestStatusById" resultMap="TestStatusMap">
+        SELECT id, name
+        FROM test_status
+        WHERE id = #{id}
+    </select>
+
+    <resultMap id="TestTubeStatusMap" type="ru.otus.laboratory.model.TestTubeStatus">
+        <id property="id" column="ID"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="findTestTubeStatusById" resultMap="TestTubeStatusMap">
+        SELECT id, name
+        FROM test_tube_status
+        WHERE id = #{id}
+    </select>
+
+</mapper>

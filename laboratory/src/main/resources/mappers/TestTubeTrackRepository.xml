@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.TestTubeTrackRepository">
+
+    <resultMap id="TestTubeTrackMap" type="ru.otus.laboratory.model.TestTubeTrack">
+        <id property="id" column="ID"/>
+        <result property="testTubeResultId" column="test_tube_result_id"/>
+        <result property="staffId" column="staff_id"/>
+        <result property="statusIdOlId" column="status_id_old"/>
+        <result property="statusIdNewId" column="status_id_new"/>
+        <result property="testTubeErrorId" column="test_tube_error_id"/>
+        <result property="changedTime" column="changed_time"/>
+    </resultMap>
+
+    <insert id="create" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.TestTubeTrack">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('test_tube_track_seq')
+        </selectKey>
+        INSERT INTO test_tube_track (id, test_tube_result_id, staff_id, changed_time, status_id_old, status_id_new,
+        test_tube_error_id)
+        VALUES(#{id}, #{testTubeResultId}, #{staffId}, #{changedTime}, #{statusIdOlId}, #{statusIdNewId},
+        #{testTubeErrorId})
+    </insert>
+
+    <select id="findByTestTubeResultId" resultMap="TestTubeTrackMap">
+        SELECT id, test_tube_result_id, staff_id, changed_time, status_id_old, status_id_new, test_tube_error_id
+        FROM test_tube_track
+        WHERE test_tube_result_id = #{testTubeResultId}
+        ORDER BY changed_time DESC
+    </select>
+
+</mapper>

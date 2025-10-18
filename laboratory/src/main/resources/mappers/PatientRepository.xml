@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ru.otus.laboratory.repository.PatientRepository">
+
+    <resultMap id="PatientMap" type="ru.otus.laboratory.model.Patient">
+        <id property="id" column="ID"/>
+        <result property="firstName" column="first_name"/>
+        <result property="middleName" column="mid_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="birthday" column="birthday"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="searchPattern" column="search_pattern"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="PatientMap">
+        SELECT id, first_name, mid_name, last_name, birthday, phone, email
+        FROM patient
+    </select>
+
+    <select id="findByName" resultMap="PatientMap">
+        SELECT id, first_name, mid_name, last_name, birthday, phone, email, search_pattern
+        FROM patient
+        WHERE search_pattern like '%' || upper(#{searchPattern}) || '%'
+    </select>
+
+    <select id="findById" resultMap="PatientMap">
+        SELECT id, first_name, mid_name, last_name, birthday, phone, email, search_pattern
+        FROM patient
+        WHERE id = #{id}
+    </select>
+
+    <insert id="create" keyColumn="id" keyProperty="id" parameterType="ru.otus.laboratory.model.Patient">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT nextval('patient_seq')
+        </selectKey>
+        INSERT INTO patient (id, first_name, mid_name, last_name, birthday, phone, email, search_pattern)
+        VALUES (#{id}, #{firstName}, #{middleName}, #{lastName}, #{birthday}, #{phone}, #{email}, #{searchPattern})
+    </insert>
+
+    <update id="update">
+        UPDATE patient
+        SET first_name= #{firstName},
+        mid_name= #{middleName},
+        last_name= #{lastName},
+        birthday=#{birthday},
+        phone= #{phone},
+        email= #{email},
+        search_pattern= #{searchPattern}
+        WHERE id= #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM patient
+        WHERE id= #{id}
+    </delete>
+
+</mapper>
